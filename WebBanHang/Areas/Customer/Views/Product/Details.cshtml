@@ -76,6 +76,13 @@
                         <p class="mb-4">@Model.Description</p>
                         <div class="mt-auto">
                             <div class="d-flex gap-2">
+                                <form asp-area="" asp-controller="Borrow" asp-action="BorrowBook" method="post" class="d-inline-flex">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="bookId" value="@Model.Id" />
+                                    <button type="submit" class="btn btn-success" @(Model.Stock <= 0 ? "disabled" : null)>
+                                        <i class="bi bi-journal-check me-2"></i>Muon sach
+                                    </button>
+                                </form>
                                 <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="AddToCart" 
                                    asp-route-productId="@Model.Id" asp-route-quantity="1" 
                                    class="btn btn-primary flex-grow-1">

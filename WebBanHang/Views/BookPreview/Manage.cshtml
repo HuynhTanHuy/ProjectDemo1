@@ -1,0 +1,95 @@
+@model WebBanHang.Models.ViewModels.BookPreviewViewModel
+
+@{
+    ViewData["Title"] = "Manage Book Preview";
+    var isEdit = Model.Id.HasValue;
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">@(isEdit ? "Update" : "Create") Book Preview</h4>
+        </div>
+        <div class="card-body">
+            <form asp-controller="BookPreview" asp-action="@(isEdit ? "Update" : "Create")" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input asp-for="Id" type="hidden" />
+                <input asp-for="ExistingFilePath" type="hidden" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="BookId" class="form-label"></label>
+                    <select asp-for="BookId" asp-items="Model.Books" class="form-select"></select>
+                    <span asp-validation-for="BookId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="PreviewType" class="form-label"></label>
+                    <select asp-for="PreviewType" asp-items="Html.GetEnumSelectList<WebBanHang.Models.PreviewType>()" class="form-select" id="previewTypeSelect"></select>
+                    <span asp-validation-for="PreviewType" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3" id="pdfInput">
+                    <label asp-for="File" class="form-label"></label>
+                    <input asp-for="File" class="form-control" accept="application/pdf" />
+                    @if (!string.IsNullOrWhiteSpace(Model.ExistingFilePath))
+                    {
+                        <small class="text-muted d-block mt-1">Current file: @Model.ExistingFilePath</small>
+                    }
+                    <span asp-validation-for="File" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3" id="textInput">
+                    <label asp-for="Content" class="form-label"></label>
+                    <textarea asp-for="Content" class="form-control" rows="8"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="TotalPages" class="form-label"></label>
+                        <input asp-for="TotalPages" class="form-control" />
+                        <span asp-validation-for="TotalPages" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="PreviewPages" class="form-label"></label>
+                        <input asp-for="PreviewPages" class="form-control" />
+                        <span asp-validation-for="PreviewPages" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input asp-for="AllowDownload" class="form-check-input" />
+                    <label asp-for="AllowDownload" class="form-check-label"></label>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">@(isEdit ? "Update" : "Create")</button>
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary">Back to Products</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const typeSelect = document.getElementById("previewTypeSelect");
+            const pdfInput = document.getElementById("pdfInput");
+            const textInput = document.getElementById("textInput");
+
+            const updateVisibility = () => {
+                const selectedType = parseInt(typeSelect.value);
+                const isPdf = selectedType === 1;
+                pdfInput.style.display = isPdf ? "block" : "none";
+                textInput.style.display = isPdf ? "none" : "block";
+            };
+
+            updateVisibility();
+            typeSelect.addEventListener("change", updateVisibility);
+        })();
+    </script>
+}

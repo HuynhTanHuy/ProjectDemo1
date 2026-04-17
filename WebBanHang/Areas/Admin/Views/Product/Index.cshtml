@@ -37,6 +37,8 @@
                         <div class="w-75 btn-group" role="group">
                             <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id"
                                class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i> Edit</a>
+                            <a asp-area="" asp-controller="BookPreview" asp-action="Manage" asp-route-bookId="@obj.Id"
+                               class="btn btn-info mx-2"><i class="bi bi-book-half"></i> Preview</a>
                             <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id"
                                class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i> Delete</a>
                         </div>

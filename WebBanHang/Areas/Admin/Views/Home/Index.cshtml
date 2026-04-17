@@ -1,175 +1,306 @@
+@model DashboardViewModel
+@using System.Globalization
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Dashboard";
+    var vi = new CultureInfo("vi-VN");
 }
 
-<div class="container mt-4">
-    <div class="row mb-4">
-        <div class="col-12">
-            <h2 class="text-primary">
-                <i class="bi bi-speedometer2 me-2"></i>Admin Dashboard
-            </h2>
-            <p class="text-muted">Quản lý hệ thống BookShop</p>
+<div class="admin-dashboard">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <h1 class="dashboard-title mb-1">Tổng quan thư viện</h1>
+            <p class="dashboard-subtitle mb-0">Thống kê nhanh, mượn trả và phạt</p>
+        </div>
+        <div class="text-muted small">
+            <i class="bi bi-calendar3 me-1"></i>@DateTime.Now.ToString("dddd, dd MMMM yyyy", vi)
         </div>
     </div>
 
     <div class="row g-4 mb-4">
-        <div class="col-md-6 col-lg-3">
-            <div class="card text-white bg-primary h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-subtitle mb-2">Sản phẩm</h6>
-                            <h3 class="mb-0">@ViewBag.TotalProducts</h3>
-                        </div>
-                        <i class="bi bi-box fs-1 opacity-50"></i>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="dash-card dash-card--blue">
+                <div class="dash-card__accent"></div>
+                <div class="dash-card__body">
+                    <span class="dash-card__label">Tổng đầu sách</span>
+                    <div class="dash-card__row">
+                        <span class="dash-card__value">@Model.TotalBooks</span>
+                        <div class="dash-card__icon"><i class="bi bi-book-half"></i></div>
                     </div>
-                </div>
-                <div class="card-footer bg-transparent border-0">
-                    <a asp-controller="Product" asp-action="Index" class="text-white text-decoration-none">
-                        Xem chi tiết <i class="bi bi-arrow-right"></i>
-                    </a>
+                    <div class="dash-card__progress mt-3">
+                        <div class="dash-card__progress-bar" style="width: 100%;"></div>
+                    </div>
+                    <p class="dash-card__hint mb-0">Danh mục sách trong hệ thống</p>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card text-white bg-success h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-subtitle mb-2">Danh mục</h6>
-                            <h3 class="mb-0">@ViewBag.TotalCategories</h3>
-                        </div>
-                        <i class="bi bi-grid fs-1 opacity-50"></i>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="dash-card dash-card--green">
+                <div class="dash-card__accent"></div>
+                <div class="dash-card__body">
+                    <span class="dash-card__label">Còn sẵn</span>
+                    <div class="dash-card__row">
+                        <span class="dash-card__value">@Model.AvailableBooks</span>
+                        <div class="dash-card__icon"><i class="bi bi-check2-circle"></i></div>
                     </div>
-                </div>
-                <div class="card-footer bg-transparent border-0">
-                    <a asp-controller="Categories" asp-action="Index" class="text-white text-decoration-none">
-                        Xem chi tiết <i class="bi bi-arrow-right"></i>
-                    </a>
+                    <div class="dash-card__progress mt-3">
+                        <div class="dash-card__progress-bar dash-card__progress-bar--green" style="width: @(Model.AvailabilityPercent)%;"></div>
+                    </div>
+                    <p class="dash-card__hint mb-0">@Model.AvailabilityPercent% đầu sách còn tồn</p>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card text-white bg-info h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-subtitle mb-2">Tác giả</h6>
-                            <h3 class="mb-0">@ViewBag.TotalAuthors</h3>
-                        </div>
-                        <i class="bi bi-people fs-1 opacity-50"></i>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="dash-card dash-card--orange">
+                <div class="dash-card__accent"></div>
+                <div class="dash-card__body">
+                    <span class="dash-card__label">Đang mượn</span>
+                    <div class="dash-card__row">
+                        <span class="dash-card__value">@Model.BorrowedBooks</span>
+                        <div class="dash-card__icon"><i class="bi bi-journal-arrow-up"></i></div>
                     </div>
-                </div>
-                <div class="card-footer bg-transparent border-0">
-                    <a asp-controller="Authors" asp-action="Index" class="text-white text-decoration-none">
-                        Xem chi tiết <i class="bi bi-arrow-right"></i>
-                    </a>
+                    <div class="dash-card__progress mt-3">
+                        <div class="dash-card__progress-bar dash-card__progress-bar--orange" style="width: @(Model.BorrowedPercent)%;"></div>
+                    </div>
+                    <p class="dash-card__hint mb-0">So với tổng đầu sách</p>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card text-white bg-warning h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-subtitle mb-2">Thể loại</h6>
-                            <h3 class="mb-0">@ViewBag.TotalGenres</h3>
-                        </div>
-                        <i class="bi bi-tags fs-1 opacity-50"></i>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="dash-card dash-card--red">
+                <div class="dash-card__accent"></div>
+                <div class="dash-card__body">
+                    <span class="dash-card__label">Quá hạn</span>
+                    <div class="dash-card__row">
+                        <span class="dash-card__value">@Model.OverdueBooks</span>
+                        <div class="dash-card__icon"><i class="bi bi-exclamation-octagon"></i></div>
                     </div>
-                </div>
-                <div class="card-footer bg-transparent border-0">
-                    <a asp-controller="Genres" asp-action="Index" class="text-white text-decoration-none">
-                        Xem chi tiết <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card text-white bg-secondary h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-subtitle mb-2">Nhà xuất bản</h6>
-                            <h3 class="mb-0">@ViewBag.TotalPublishers</h3>
-                        </div>
-                        <i class="bi bi-building fs-1 opacity-50"></i>
+                    <div class="dash-card__progress mt-3">
+                        @{
+                            var overduePct = Model.BorrowedBooks > 0
+                                ? Math.Min(100, (int)Math.Round(100.0 * Model.OverdueBooks / Model.BorrowedBooks))
+                                : 0;
+                        }
+                        <div class="dash-card__progress-bar dash-card__progress-bar--red" style="width: @(overduePct)%;"></div>
                     </div>
-                </div>
-                <div class="card-footer bg-transparent border-0">
-                    <a asp-controller="Publishers" asp-action="Index" class="text-white text-decoration-none">
-                        Xem chi tiết <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card text-white bg-danger h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-subtitle mb-2">Đơn hàng</h6>
-                            <h3 class="mb-0">@ViewBag.TotalOrders</h3>
-                        </div>
-                        <i class="bi bi-cart-check fs-1 opacity-50"></i>
-                    </div>
-                </div>
-                <div class="card-footer bg-transparent border-0">
-                    <a asp-controller="Orders" asp-action="Index" class="text-white text-decoration-none">
-                        Xem chi tiết <i class="bi bi-arrow-right"></i>
-                    </a>
+                    <p class="dash-card__hint mb-0">Trong số phiếu đang mượn</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>Quản lý nhanh</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-6 col-lg-3">
-                            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary w-100">
-                                <i class="bi bi-box me-2"></i>Quản lý Sản phẩm
-                            </a>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <a asp-controller="Categories" asp-action="Index" class="btn btn-outline-success w-100">
-                                <i class="bi bi-grid me-2"></i>Quản lý Danh mục
-                            </a>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <a asp-controller="Authors" asp-action="Index" class="btn btn-outline-info w-100">
-                                <i class="bi bi-people me-2"></i>Quản lý Tác giả
-                            </a>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <a asp-controller="Genres" asp-action="Index" class="btn btn-outline-warning w-100">
-                                <i class="bi bi-tags me-2"></i>Quản lý Thể loại
-                            </a>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <a asp-controller="Publishers" asp-action="Index" class="btn btn-outline-secondary w-100">
-                                <i class="bi bi-building me-2"></i>Quản lý Nhà XB
-                            </a>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <a asp-controller="Orders" asp-action="Index" class="btn btn-outline-danger w-100">
-                                <i class="bi bi-cart-check me-2"></i>Quản lý Đơn hàng
-                            </a>
-                        </div>
+    <div class="row g-4 mb-4">
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="dash-card dash-card--purple">
+                <div class="dash-card__accent"></div>
+                <div class="dash-card__body">
+                    <span class="dash-card__label">Người dùng</span>
+                    <div class="dash-card__row">
+                        <span class="dash-card__value">@Model.TotalUsers</span>
+                        <div class="dash-card__icon"><i class="bi bi-people"></i></div>
                     </div>
+                    <p class="dash-card__hint mb-0 mt-3">Tài khoản trong hệ thống</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="dash-card dash-card--teal">
+                <div class="dash-card__accent"></div>
+                <div class="dash-card__body">
+                    <span class="dash-card__label">Phiếu phạt</span>
+                    <div class="dash-card__row">
+                        <span class="dash-card__value">@Model.TotalPenalties</span>
+                        <div class="dash-card__icon"><i class="bi bi-receipt-cutoff"></i></div>
+                    </div>
+                    <p class="dash-card__hint mb-0 mt-3">Tổng số bản ghi phạt</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="dash-card dash-card--amber">
+                <div class="dash-card__accent"></div>
+                <div class="dash-card__body">
+                    <span class="dash-card__label">Chưa thanh toán</span>
+                    <div class="dash-card__row">
+                        <span class="dash-card__value">@Model.UnpaidPenalties</span>
+                        <div class="dash-card__icon"><i class="bi bi-wallet2"></i></div>
+                    </div>
+                    <p class="dash-card__hint mb-0 mt-3 text-danger fw-semibold">@Model.UnpaidPenaltyAmount.ToString("c", vi)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="dash-card dash-card--slate">
+                <div class="dash-card__accent"></div>
+                <div class="dash-card__body">
+                    <span class="dash-card__label">Liên kết nhanh</span>
+                    <div class="d-grid gap-2 mt-2">
+                        <a asp-area="Admin" asp-controller="Borrows" asp-action="Index" class="btn btn-sm btn-light rounded-pill text-start"><i class="bi bi-journal-check me-2"></i>Quản lý mượn</a>
+                        <a asp-area="Admin" asp-controller="Penalties" asp-action="Index" class="btn btn-sm btn-outline-light rounded-pill text-start"><i class="bi bi-exclamation-triangle me-2"></i>Phạt</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="chart-panel">
+                <div class="chart-panel__header">
+                    <h5 class="mb-0">Mượn theo danh mục</h5>
+                    <span class="badge bg-primary bg-opacity-10 text-primary">Đang mượn</span>
+                </div>
+                <div class="chart-panel__body">
+                    <canvas id="chartBorrowByCategory" height="280"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="chart-panel">
+                <div class="chart-panel__header">
+                    <h5 class="mb-0">Xu hướng mượn sách</h5>
+                    <span class="badge bg-success bg-opacity-10 text-success">6 tháng gần nhất</span>
+                </div>
+                <div class="chart-panel__body">
+                    <canvas id="chartBorrowTrend" height="280"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    .admin-dashboard {
+        --dash-bg: #f5f6fa;
+        --dash-radius: 14px;
+        --dash-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+        --dash-shadow-hover: 0 16px 48px rgba(15, 23, 42, 0.12);
+        background: var(--dash-bg);
+        margin: -1rem -1.5rem;
+        padding: 1.5rem 1.75rem 2rem;
+        border-radius: 0;
+    }
+    .dashboard-title { font-size: 1.65rem; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; }
+    .dashboard-subtitle { color: #64748b; font-size: 0.95rem; }
+    .dash-card {
+        position: relative;
+        border-radius: var(--dash-radius);
+        background: #fff;
+        box-shadow: var(--dash-shadow);
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        height: 100%;
+    }
+    .dash-card:hover { transform: translateY(-4px); box-shadow: var(--dash-shadow-hover); }
+    .dash-card__accent {
+        position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .dash-card--blue .dash-card__accent { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+    .dash-card--green .dash-card__accent { background: linear-gradient(90deg, #10b981, #34d399); }
+    .dash-card--orange .dash-card__accent { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .dash-card--red .dash-card__accent { background: linear-gradient(90deg, #ef4444, #f87171); }
+    .dash-card--purple .dash-card__accent { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+    .dash-card--teal .dash-card__accent { background: linear-gradient(90deg, #14b8a6, #2dd4bf); }
+    .dash-card--amber .dash-card__accent { background: linear-gradient(90deg, #d97706, #fbbf24); }
+    .dash-card--slate .dash-card__accent { background: linear-gradient(90deg, #475569, #64748b); }
+    .dash-card--slate { background: linear-gradient(135deg, #334155 0%, #1e293b 100%); color: #f8fafc; }
+    .dash-card--slate .dash-card__label { color: #cbd5e1 !important; }
+    .dash-card--slate .dash-card__value { color: #fff !important; }
+    .dash-card__body { padding: 1.25rem 1.35rem 1.35rem; }
+    .dash-card__label {
+        font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+        color: #94a3b8;
+    }
+    .dash-card__row { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; }
+    .dash-card__value { font-size: 2.1rem; font-weight: 800; line-height: 1.1; color: #0f172a; }
+    .dash-card__icon {
+        width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+        font-size: 1.35rem; flex-shrink: 0;
+    }
+    .dash-card--blue .dash-card__icon { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+    .dash-card--green .dash-card__icon { background: rgba(16, 185, 129, 0.12); color: #059669; }
+    .dash-card--orange .dash-card__icon { background: rgba(245, 158, 11, 0.15); color: #d97706; }
+    .dash-card--red .dash-card__icon { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
+    .dash-card--purple .dash-card__icon { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
+    .dash-card--teal .dash-card__icon { background: rgba(20, 184, 166, 0.12); color: #0d9488; }
+    .dash-card--amber .dash-card__icon { background: rgba(217, 119, 6, 0.12); color: #b45309; }
+    .dash-card__progress { height: 6px; border-radius: 999px; background: #e2e8f0; overflow: hidden; }
+    .dash-card__progress-bar { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #3b82f6, #60a5fa); transition: width 0.4s ease; }
+    .dash-card__progress-bar--green { background: linear-gradient(90deg, #10b981, #34d399); }
+    .dash-card__progress-bar--orange { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .dash-card__progress-bar--red { background: linear-gradient(90deg, #ef4444, #f87171); }
+    .dash-card__hint { font-size: 0.8rem; color: #94a3b8; }
+    .chart-panel {
+        background: #fff; border-radius: var(--dash-radius); box-shadow: var(--dash-shadow);
+        overflow: hidden; height: 100%;
+    }
+    .chart-panel__header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 1rem 1.25rem; border-bottom: 1px solid #e2e8f0;
+    }
+    .chart-panel__header h5 { font-weight: 700; color: #0f172a; }
+    .chart-panel__body { padding: 1rem 1.25rem 1.5rem; }
+</style>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        const categoryLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.BorrowByCategoryLabels));
+        const categoryData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.BorrowByCategoryValues));
+        const trendLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.BorrowTrendMonthLabels));
+        const trendData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.BorrowTrendValues));
+
+        const commonOpts = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } }
+        };
+
+        new Chart(document.getElementById('chartBorrowByCategory'), {
+            type: 'bar',
+            data: {
+                labels: categoryLabels.length ? categoryLabels : ['Không có dữ liệu'],
+                datasets: [{
+                    label: 'Đang mượn',
+                    data: categoryLabels.length ? categoryData : [0],
+                    borderRadius: 8,
+                    maxBarThickness: 36,
+                    backgroundColor: categoryLabels.length
+                        ? categoryData.map((_, i) => `hsla(${220 + i * 25}, 70%, 55%, 0.85)`)
+                        : ['#cbd5e1']
+                }]
+            },
+            options: {
+                ...commonOpts,
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f1f5f9' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('chartBorrowTrend'), {
+            type: 'line',
+            data: {
+                labels: trendLabels,
+                datasets: [{
+                    label: 'Số lượt mượn',
+                    data: trendData,
+                    fill: true,
+                    tension: 0.35,
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.12)',
+                    pointRadius: 4,
+                    pointBackgroundColor: '#10b981'
+                }]
+            },
+            options: {
+                ...commonOpts,
+                plugins: { legend: { display: true, position: 'top' } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+}

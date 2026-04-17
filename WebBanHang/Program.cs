@@ -46,6 +46,19 @@ builder.Services.AddMvc().AddRazorPagesOptions(options => {
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { SD.Role_Admin, SD.Role_User, SD.Role_Customer };
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
+
 // ✅ Cấu hình Middleware trong Pipeline
 if (!app.Environment.IsDevelopment())
 {
@@ -64,6 +77,8 @@ app.UseAuthorization();
 // ✅ Cấu hình Endpoint cho Areas & Controllers
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapControllers();
+
     endpoints.MapControllerRoute(
         name: "Admin",
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

@@ -79,6 +79,7 @@ wwwroot\lib\jquery\dist\jquery.slim.js
 wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\uploads\previews\afa7d873-d0d4-4577-99a0-f405af2da5db.pdf
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\wwwroot\css\site.css
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\wwwroot\favicon.ico
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\wwwroot\js\product.js

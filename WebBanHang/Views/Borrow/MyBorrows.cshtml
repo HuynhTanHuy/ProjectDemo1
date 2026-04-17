@@ -1,0 +1,53 @@
+@model IEnumerable<WebBanHang.Models.Borrow>
+@{
+    ViewData["Title"] = "My Borrows";
+}
+
+<div class="container mt-4">
+    <h3 class="mb-3">My Borrowed Books</h3>
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Borrow Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Book?.Name</td>
+                        <td>@item.BorrowDate.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                        <td>@item.DueDate.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                        <td>
+                            @if (item.Status == WebBanHang.Models.BorrowStatus.Borrowing)
+                            {
+                                <span class="badge bg-warning text-dark">Borrowing</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Returned</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            @if (item.Status == WebBanHang.Models.BorrowStatus.Borrowing)
+                            {
+                                <form asp-action="ReturnBook" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="borrowId" value="@item.Id" />
+                                    <button class="btn btn-sm btn-primary rounded-pill">Return</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

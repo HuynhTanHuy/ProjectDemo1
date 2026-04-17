@@ -1,0 +1,60 @@
+@model IEnumerable<WebBanHang.Models.ViewModels.BorrowListItemViewModel>
+@{
+    ViewData["Title"] = "Borrow Management";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Borrows</h4>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>User</th>
+                    <th>Book</th>
+                    <th>Borrow Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td>@item.BookTitle</td>
+                        <td>@item.BorrowDate.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                        <td>@item.DueDate.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                        <td>
+                            @if (item.Status == WebBanHang.Models.BorrowStatus.Returned)
+                            {
+                                <span class="badge bg-success">Returned</span>
+                            }
+                            else if (item.IsOverdue)
+                            {
+                                <span class="badge bg-danger">Overdue</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-primary">Borrowing</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            @if (item.Status == WebBanHang.Models.BorrowStatus.Borrowing)
+                            {
+                                <form asp-action="MarkReturned" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="borrowId" value="@item.BorrowId" />
+                                    <button class="btn btn-sm btn-outline-primary rounded-pill">Mark Returned</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

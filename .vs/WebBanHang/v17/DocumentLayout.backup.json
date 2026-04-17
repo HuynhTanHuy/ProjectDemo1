@@ -3,6 +3,38 @@
   "WorkspaceRootPath": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\areas\\customer\\controllers\\shoppingcartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\areas\\customer\\controllers\\shoppingcartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\webbanhang.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\webbanhang.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\areas\\customer\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\areas\\customer\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\views\\categories\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\views\\categories\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\views\\categories\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\views\\categories\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\views\\categories\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\views\\categories\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\views\\categories\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\views\\categories\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\areas\\customer\\views\\product\\_productcard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -49,14 +77,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\areas\\customer\\views\\shoppingcart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\areas\\customer\\views\\shoppingcart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\areas\\customer\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\areas\\customer\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\areas\\customer\\controllers\\shoppingcartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\areas\\customer\\controllers\\shoppingcartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -127,10 +147,6 @@
       "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\views\\shared\\_loginpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|c:\\users\\yangtv\\onedrive\\desktop\\webbanhang\\webbanhang\\areas\\admin\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AF49A37-6BE1-4294-8C3B-7E616EA2FB33}|WebBanHang\\WebBanHang.csproj|solutionrelative:webbanhang\\areas\\admin\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -162,8 +178,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_AdminLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml*",
+              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml*",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAvwBAAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T14:49:50.43Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -174,32 +203,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Program.cs",
-              "RelativeDocumentMoniker": "WebBanHang\\Program.cs",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Program.cs",
-              "RelativeToolTip": "WebBanHang\\Program.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAAwEAAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T06:59:32.108Z",
+              "DocumentIndex": 2,
+              "Title": "WebBanHang",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\WebBanHang.csproj",
+              "RelativeDocumentMoniker": "WebBanHang\\WebBanHang.csproj",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\WebBanHang.csproj",
+              "RelativeToolTip": "WebBanHang\\WebBanHang.csproj",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-04-17T14:29:00.594Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Product\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Views\\Product\\Index.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Product\\Index.cshtml",
-              "RelativeToolTip": "WebBanHang\\Views\\Product\\Index.cshtml",
-              "ViewState": "AgIAABYAAAAAAAAAAAAgwBQAAABrAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-19T14:04:21.422Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 10,
               "Title": "Display.cshtml",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Categories\\Display.cshtml",
               "RelativeDocumentMoniker": "WebBanHang\\Views\\Categories\\Display.cshtml",
@@ -211,19 +228,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Categories\\Delete.cshtml",
               "RelativeDocumentMoniker": "WebBanHang\\Views\\Categories\\Delete.cshtml",
               "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Categories\\Delete.cshtml",
               "RelativeToolTip": "WebBanHang\\Views\\Categories\\Delete.cshtml",
-              "ViewState": "AgIAAB4AAAAAAAAAAAASwC0AAABwAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAAASwC0AAABwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-11-19T14:03:56.494Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "_ProductCard.cshtml",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Product\\_ProductCard.cshtml",
               "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Product\\_ProductCard.cshtml",
@@ -235,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 14,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Product\\Index.cshtml",
               "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Product\\Index.cshtml",
@@ -247,7 +264,70 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ShoppingCartController.cs",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\ShoppingCartController.cs",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Controllers\\ShoppingCartController.cs",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\ShoppingCartController.cs",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Controllers\\ShoppingCartController.cs",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAawJgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T14:44:39.687Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 8,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Program.cs",
+              "RelativeDocumentMoniker": "WebBanHang\\Program.cs",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Program.cs",
+              "RelativeToolTip": "WebBanHang\\Program.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAwEYAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T06:59:32.108Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Categories\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Views\\Categories\\Index.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Categories\\Index.cshtml",
+              "RelativeToolTip": "WebBanHang\\Views\\Categories\\Index.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA8AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T13:34:18.807Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAJ0BAAAAAAAAAAAAwKgBAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T13:44:12.579Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "WebBanHang\\Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T13:34:04.468Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Orders\\Index.cshtml",
               "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Orders\\Index.cshtml",
@@ -259,295 +339,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Orders\\Details.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Orders\\Details.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Orders\\Details.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Views\\Orders\\Details.cshtml",
-              "ViewState": "AgIAADgAAAAAAAAAAAASwEcAAABlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-19T14:02:05.518Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Delete.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Orders\\Delete.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Orders\\Delete.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Orders\\Delete.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Views\\Orders\\Delete.cshtml",
-              "ViewState": "AgIAABgAAAAAAAAAAAASwCcAAACBAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-19T14:01:23.018Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\ShoppingCart\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\ShoppingCart\\Index.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\ShoppingCart\\Index.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\ShoppingCart\\Index.cshtml",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAqwFcAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T15:00:19.305Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Home\\Details.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Home\\Details.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Home\\Details.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Home\\Details.cshtml",
-              "ViewState": "AgIAAAcAAAAAAAAAAAASwBYAAAB0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T14:44:53.057Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Product\\Details.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Product\\Details.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Product\\Details.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Product\\Details.cshtml",
-              "ViewState": "AgIAAIEAAAAAAAAAAAASwJAAAABgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-05T13:58:28.302Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ShoppingCartController.cs",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\ShoppingCartController.cs",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Controllers\\ShoppingCartController.cs",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\ShoppingCartController.cs",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Controllers\\ShoppingCartController.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAmwCYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-09T14:44:39.687Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Product.cs",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Models\\Product.cs",
-              "RelativeDocumentMoniker": "WebBanHang\\Models\\Product.cs",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Models\\Product.cs",
-              "RelativeToolTip": "WebBanHang\\Models\\Product.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAywBcAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T13:52:27.329Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAIIAAAAAAAAAAAAiwJYAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T13:44:12.579Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-09T15:34:18.747Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "ProductController.cs",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Controllers\\ProductController.cs",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Controllers\\ProductController.cs",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Controllers\\ProductController.cs",
-              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Controllers\\ProductController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T12:17:33.313Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Authors\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Authors\\Index.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Authors\\Index.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Views\\Authors\\Index.cshtml",
-              "ViewState": "AgIAADMAAAAAAAAAAAAAAEkAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-19T12:21:42.607Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "WebBanHang\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAMwAAAAAAAAAAAAAAP8AAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-19T12:39:23.552Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "ProductController.cs",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\ProductController.cs",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Controllers\\ProductController.cs",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\ProductController.cs",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Controllers\\ProductController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAmwCMAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-09T15:32:25.135Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T16:23:03.076Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Publishers\\Details.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Publishers\\Details.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Publishers\\Details.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Publishers\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T16:14:28.425Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "AuthorsController.cs",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\AuthorsController.cs",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Controllers\\AuthorsController.cs",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\AuthorsController.cs",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Controllers\\AuthorsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T11:19:15.436Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "ApplicationUser.cs",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Models\\ApplicationUser.cs",
-              "RelativeDocumentMoniker": "WebBanHang\\Models\\ApplicationUser.cs",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Models\\ApplicationUser.cs",
-              "RelativeToolTip": "WebBanHang\\Models\\ApplicationUser.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T11:20:35.806Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Authors\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Authors\\Index.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Authors\\Index.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Authors\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T16:02:05.283Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Genres\\Details.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Genres\\Details.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Genres\\Details.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Genres\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAByAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T16:15:53.028Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Genres\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Genres\\Index.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Genres\\Index.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Genres\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAB2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T16:01:56.413Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Publishers\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Publishers\\Index.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Publishers\\Index.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Publishers\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T15:34:13.053Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "_Pagination.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Shared\\_Pagination.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Shared\\_Pagination.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Shared\\_Pagination.cshtml",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Shared\\_Pagination.cshtml",
-              "ViewState": "AgIAAHwAAAAAAAAAAAAewIgAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T15:33:38.684Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "PublishersController.cs",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\PublishersController.cs",
-              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Controllers\\PublishersController.cs",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\PublishersController.cs",
-              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Controllers\\PublishersController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-09T15:34:16.343Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "_LoginPartial.cshtml",
-              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Shared\\_LoginPartial.cshtml",
-              "RelativeDocumentMoniker": "WebBanHang\\Views\\Shared\\_LoginPartial.cshtml",
-              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Shared\\_LoginPartial.cshtml",
-              "RelativeToolTip": "WebBanHang\\Views\\Shared\\_LoginPartial.cshtml",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAcwBgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-09T14:56:24.391Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "WebBanHang\\Views\\Home\\Index.cshtml",
@@ -559,7 +351,283 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Product\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Views\\Product\\Index.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Product\\Index.cshtml",
+              "RelativeToolTip": "WebBanHang\\Views\\Product\\Index.cshtml",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwBQAAABrAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-19T14:04:21.422Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Orders\\Details.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Orders\\Details.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Orders\\Details.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Views\\Orders\\Details.cshtml",
+              "ViewState": "AgIAADgAAAAAAAAAAAASwEcAAABlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-19T14:02:05.518Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Orders\\Delete.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Orders\\Delete.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Orders\\Delete.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Views\\Orders\\Delete.cshtml",
+              "ViewState": "AgIAABgAAAAAAAAAAAASwCcAAACBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-19T14:01:23.018Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\ShoppingCart\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\ShoppingCart\\Index.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\ShoppingCart\\Index.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\ShoppingCart\\Index.cshtml",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAqwFcAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T15:00:19.305Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Home\\Details.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Home\\Details.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Home\\Details.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Home\\Details.cshtml",
+              "ViewState": "AgIAAAcAAAAAAAAAAAASwBYAAAB0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T14:44:53.057Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Product\\Details.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Product\\Details.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Product\\Details.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Product\\Details.cshtml",
+              "ViewState": "AgIAAIEAAAAAAAAAAAASwJAAAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-05T13:58:28.302Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "WebBanHang\\Models\\Product.cs",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Models\\Product.cs",
+              "RelativeToolTip": "WebBanHang\\Models\\Product.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAywBcAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T13:52:27.329Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T15:34:18.747Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-11T12:17:33.313Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Authors\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Authors\\Index.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Authors\\Index.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Views\\Authors\\Index.cshtml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEkAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-19T12:21:42.607Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "WebBanHang\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAMwAAAAAAAAAAAAAAP8AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-19T12:39:23.552Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAmwCMAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T15:32:25.135Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Admin\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T16:23:03.076Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Publishers\\Details.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Publishers\\Details.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Publishers\\Details.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Publishers\\Details.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T16:14:28.425Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "AuthorsController.cs",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\AuthorsController.cs",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Controllers\\AuthorsController.cs",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\AuthorsController.cs",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Controllers\\AuthorsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-11T11:19:15.436Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Models\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "WebBanHang\\Models\\ApplicationUser.cs",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Models\\ApplicationUser.cs",
+              "RelativeToolTip": "WebBanHang\\Models\\ApplicationUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-11T11:20:35.806Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Authors\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Authors\\Index.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Authors\\Index.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Authors\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T16:02:05.283Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Genres\\Details.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Genres\\Details.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Genres\\Details.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Genres\\Details.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAByAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T16:15:53.028Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Genres\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Genres\\Index.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Genres\\Index.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Genres\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAB2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T16:01:56.413Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 32,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Publishers\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Publishers\\Index.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Publishers\\Index.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Publishers\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T15:34:13.053Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "_Pagination.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Shared\\_Pagination.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Views\\Shared\\_Pagination.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Views\\Shared\\_Pagination.cshtml",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Views\\Shared\\_Pagination.cshtml",
+              "ViewState": "AgIAAHwAAAAAAAAAAAAewIgAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T15:33:38.684Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "PublishersController.cs",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\PublishersController.cs",
+              "RelativeDocumentMoniker": "WebBanHang\\Areas\\Customer\\Controllers\\PublishersController.cs",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Customer\\Controllers\\PublishersController.cs",
+              "RelativeToolTip": "WebBanHang\\Areas\\Customer\\Controllers\\PublishersController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T15:34:16.343Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "_LoginPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Shared\\_LoginPartial.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang\\Views\\Shared\\_LoginPartial.cshtml",
+              "ToolTip": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Views\\Shared\\_LoginPartial.cshtml",
+              "RelativeToolTip": "WebBanHang\\Views\\Shared\\_LoginPartial.cshtml",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAcwBgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-09T14:56:24.391Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
               "Title": "CategoriesController.cs",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Controllers\\CategoriesController.cs",
               "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Controllers\\CategoriesController.cs",
@@ -571,7 +639,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 37,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Admin\\Views\\Categories\\Create.cshtml",
               "RelativeDocumentMoniker": "WebBanHang\\Areas\\Admin\\Views\\Categories\\Create.cshtml",
@@ -583,7 +651,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 38,
               "Title": "Author.cs",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Models\\Author.cs",
               "RelativeDocumentMoniker": "WebBanHang\\Models\\Author.cs",
@@ -595,7 +663,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 39,
               "Title": "Login.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
               "RelativeDocumentMoniker": "WebBanHang\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
@@ -607,7 +675,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 41,
               "Title": "20251105124108_InitialCreate.cs",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Migrations\\20251105124108_InitialCreate.cs",
               "RelativeDocumentMoniker": "WebBanHang\\Migrations\\20251105124108_InitialCreate.cs",
@@ -619,7 +687,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 40,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\YangTV\\OneDrive\\Desktop\\WebBanHang\\WebBanHang\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "WebBanHang\\Properties\\launchSettings.json",

@@ -21,6 +21,11 @@
                         <p class="mb-4">@Model.Description</p>
                         <div class="mt-auto">
                             <h4 class="text-danger mb-4">Price: @Model.Price.ToString("c", new CultureInfo("vi-VN"))</h4>
+                            <a asp-area=""
+                               asp-controller="BookPreview"
+                               asp-action="View"
+                               asp-route-bookId="@Model.Id"
+                               class="btn btn-primary me-2">Read Preview</a>
                             <a asp-area="Customer" asp-controller="Home" asp-action="Index" 
                                class="btn btn-outline-primary">Back to List</a>
                         </div>
