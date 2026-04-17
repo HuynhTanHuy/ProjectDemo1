@@ -1,0 +1,105 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="text-primary mb-2">
+                            <i class="bi bi-person-plus me-2"></i>Đăng ký tài khoản
+                        </h2>
+                        <p class="text-muted">Tạo tài khoản mới để bắt đầu mua sắm</p>
+                    </div>
+
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Input.FullName" class="form-label">
+                                    <i class="bi bi-person me-1"></i>Họ và tên <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="Input.FullName" class="form-control form-control-lg" autocomplete="fullname" aria-required="true" placeholder="Nguyễn Văn A" />
+                                <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Input.Email" class="form-label">
+                                    <i class="bi bi-envelope me-1"></i>Email <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="Input.Email" class="form-control form-control-lg" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Input.Password" class="form-label">
+                                    <i class="bi bi-lock me-1"></i>Mật khẩu <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="Input.Password" class="form-control form-control-lg" autocomplete="new-password" aria-required="true" placeholder="Mật khẩu (tối thiểu 6 ký tự)" />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Input.ConfirmPassword" class="form-label">
+                                    <i class="bi bi-lock-fill me-1"></i>Xác nhận mật khẩu <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="Input.ConfirmPassword" class="form-control form-control-lg" autocomplete="new-password" aria-required="true" placeholder="Nhập lại mật khẩu" />
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Input.Role" class="form-label">
+                                <i class="bi bi-person-badge me-1"></i>Loại tài khoản
+                            </label>
+                            <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select form-select-lg">
+                                <option disabled selected value="">-- Chọn loại tài khoản --</option>
+                            </select>
+                            <small class="form-text text-muted">Để trống nếu bạn là khách hàng</small>
+                        </div>
+                        
+                        <div class="d-grid mb-3">
+                            <button id="registerSubmit" type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-person-plus me-2"></i>Đăng ký
+                            </button>
+                        </div>
+                        
+                        <div class="text-center">
+                            <hr class="my-3" />
+                            <p class="mb-0">
+                                Đã có tài khoản? 
+                                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="text-primary fw-bold text-decoration-none">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập ngay
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+    }
+    .form-control-lg, .form-select-lg {
+        border-radius: 10px;
+    }
+    .btn-lg {
+        border-radius: 10px;
+        padding: 12px;
+    }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

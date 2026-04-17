@@ -1,0 +1,78 @@
+@model IEnumerable<WebBanHang.Models.Publisher>
+
+<div class="container mt-4">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">
+                <i class="bi bi-building me-2"></i>Quản lý Nhà xuất bản
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Publishers" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Thêm Nhà xuất bản
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Logo</th>
+                                <th>Tên nhà xuất bản</th>
+                                <th>Website</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var obj in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(obj.LogoUrl))
+                                        {
+                                            <img src="@obj.LogoUrl" alt="@obj.Name" style="width: 50px; height: 50px; object-fit: contain;" />
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-building fs-3 text-muted"></i>
+                                        }
+                                    </td>
+                                    <td>@obj.Name</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(obj.Website))
+                                        {
+                                            <a href="@obj.Website" target="_blank" class="text-decoration-none">
+                                                @obj.Website <i class="bi bi-box-arrow-up-right"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Chưa có</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-controller="Publishers" asp-action="Edit" asp-route-id="@obj.Id"
+                                               class="btn btn-primary btn-sm">
+                                                <i class="bi bi-pencil-square"></i> Sửa
+                                            </a>
+                                            <a asp-controller="Publishers" asp-action="Delete" asp-route-id="@obj.Id"
+                                               class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash-fill"></i> Xóa
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,40 @@
+﻿@using System.Globalization
+@model IEnumerable<WebBanHang.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Products</h2>
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                    {
+                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 200px; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <img src="/images/no-image.jpg" class="card-img-top" alt="No Image" style="height: 200px; object-fit: cover;">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">
+                            <strong>Price:</strong> @product.Price.ToString("c", new CultureInfo("vi-VN"))<br>
+                            <strong>Category:</strong> @product.Category?.Name
+                        </p>
+                        <p class="card-text">@product.Description</p>
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Display" asp-route-id="@product.Id" class="btn btn-info">View</a>
+                            <a asp-action="Update" asp-route-id="@product.Id" class="btn btn-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

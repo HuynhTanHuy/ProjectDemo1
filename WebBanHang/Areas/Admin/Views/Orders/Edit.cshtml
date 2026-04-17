@@ -1,0 +1,87 @@
+@model WebBanHang.Models.Order
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-pencil-square me-2"></i>Chỉnh sửa Đơn hàng #@Model.Id
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <input asp-for="Id" hidden />
+                        <input asp-for="UserId" hidden />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Người đặt</label>
+                                <input type="text" value="@Model.ApplicationUser?.UserName" disabled class="form-control" />
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="OrderDate" class="form-label">Ngày đặt</label>
+                                <input asp-for="OrderDate" class="form-control" type="datetime-local" />
+                                <span asp-validation-for="OrderDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="TotalPrice" class="form-label">Tổng tiền</label>
+                                <input asp-for="TotalPrice" class="form-control" type="number" step="0.01" />
+                                <span asp-validation-for="TotalPrice" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ShippingAddress" class="form-label">Địa chỉ giao hàng</label>
+                                <input asp-for="ShippingAddress" class="form-control" />
+                                <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Notes" class="form-label">Ghi chú</label>
+                            <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Lưu ý:</strong> Để chỉnh sửa chi tiết sản phẩm trong đơn hàng, vui lòng xóa đơn hàng và tạo lại hoặc liên hệ với bộ phận kỹ thuật.
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-1"></i>Cập nhật
+                            </button>
+                            <a asp-controller="Orders" asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Quay lại
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        // Convert DateTime to local datetime-local format
+        document.addEventListener('DOMContentLoaded', function() {
+            var orderDateInput = document.querySelector('input[type="datetime-local"]');
+            if (orderDateInput && orderDateInput.value) {
+                var date = new Date('@Model.OrderDate.ToString("yyyy-MM-ddTHH:mm:ss")');
+                var localDateTime = new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+                orderDateInput.value = localDateTime;
+            }
+        });
+    </script>
+}
+

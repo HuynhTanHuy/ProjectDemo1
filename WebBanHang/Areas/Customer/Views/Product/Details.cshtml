@@ -1,0 +1,228 @@
+@using System.Globalization
+@model WebBanHang.Models.Product
+
+<div class="container mt-4">
+    <div class="mb-3">
+        <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="products" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Quay lại danh sách sản phẩm
+        </a>
+    </div>
+    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="products" class="text-decoration-none">Sản phẩm</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow border-0">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="position-relative">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <img src="@Model.ImageUrl" class="img-fluid rounded" alt="@Model.Name" style="width: 100%; max-height: 500px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <img src="/images/no-image.jpg" class="img-fluid rounded" alt="No Image" style="width: 100%; max-height: 500px; object-fit: cover;">
+                        }
+                        <div class="position-absolute top-0 end-0 m-3 d-flex gap-2">
+                            <span class="badge bg-primary">@Model.Category?.Name</span>
+                            @if (!string.IsNullOrEmpty(Model.Language))
+                            {
+                                <span class="badge bg-secondary">@Model.Language</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex flex-column h-100">
+                        <h2 class="mb-1">@Model.Name</h2>
+                        <div class="text-secondary mb-3">@Model.Author?.Name @if (!string.IsNullOrEmpty(Model.Isbn)) {<text>· ISBN: @Model.Isbn</text>}</div>
+                        <div class="mb-4">
+                            @if (@Model.Stock > 0)
+                            {
+                                <span class="badge bg-success me-2">Còn hàng</span>                        
+                            }
+                            else{
+                                <span class="badge bg-warning me-2">hết hàng</span>
+                            }
+                            <span class="text-muted">Mã SP: #@Model.Id</span>
+                        </div>
+                        <div>
+                            @if (@Model.DiscountPercent > 0)
+                            {
+                                var oldPrice = @Model.Price;
+                                var newPrice = @Model.Price * (100 - @Model.DiscountPercent) / 100;
+
+                                <span class="text-muted text-decoration-line-through me-2" style="font-size: 26px">
+                                    @oldPrice.ToString("c", new CultureInfo("vi-VN"))
+                                </span>
+
+                                <span class="text-danger fw-bold" style="font-size: 26px">
+                                    @newPrice?.ToString("c", new CultureInfo("vi-VN"))
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-danger fw-bold" style="font-size: 26px">
+                                    @Model.Price.ToString("c", new CultureInfo("vi-VN"))
+                                </span>
+                            }
+                        </div>
+                        <div class="mb-4 small text-secondary">@Model.Publisher?.Name @if (Model.PublicationDate.HasValue) {<text>· @Model.PublicationDate.Value.ToString("dd/MM/yyyy")</text>} @if (Model.PageCount.HasValue) {<text>· @Model.PageCount trang</text>}</div>
+                        <p class="mb-4">@Model.Description</p>
+                        <div class="mt-auto">
+                            <div class="d-flex gap-2">
+                                <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="AddToCart" 
+                                   asp-route-productId="@Model.Id" asp-route-quantity="1" 
+                                   class="btn btn-primary flex-grow-1">
+                                    <i class="bi bi-cart-plus me-2"></i>Thêm vào giỏ hàng
+                                </a>
+                                <button class="btn btn-outline-primary" id="btn-heart">
+                                    <i class="bi bi-heart" id="icon-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">
+                                <i class="bi bi-info-circle me-2"></i>Mô tả
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="specs-tab" data-bs-toggle="tab" data-bs-target="#specs" type="button" role="tab">
+                                <i class="bi bi-gear me-2"></i>Thông số kỹ thuật
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">
+                                <i class="bi bi-star me-2"></i>Đánh giá
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3" id="productTabsContent">
+                        <div class="tab-pane fade show active" id="description" role="tabpanel">
+                            <p>@Model.Description</p>
+                        </div>
+                        <div class="tab-pane fade" id="specs" role="tabpanel">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th>Danh mục</th>
+                                        <td>@Model.Category?.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tác giả</th>
+                                        <td>@Model.Author?.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Thể loại</th>
+                                        <td>@Model.Genre?.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nhà xuất bản</th>
+                                        <td>@Model.Publisher?.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>ISBN</th>
+                                        <td>@Model.Isbn</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Giá</th>
+                                        <td>@Model.Price.ToString("c", new CultureInfo("vi-VN"))</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ngôn ngữ</th>
+                                        <td>@Model.Language</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Số trang</th>
+                                        <td>@Model.PageCount</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="reviews" role="tabpanel">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <form asp-action="AddReview" method="post" class="mb-4">
+                                    <input type="hidden" name="productId" value="@Model.Id" />
+                                    <div class="row g-2 align-items-center">
+                                        <div class="col-12 col-md-2">
+                                            <select name="rating" class="form-select">
+                                                <option value="5">5 ★</option>
+                                                <option value="4">4 ★</option>
+                                                <option value="3">3 ★</option>
+                                                <option value="2">2 ★</option>
+                                                <option value="1">1 ★</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-8">
+                                            <input type="text" name="comment" class="form-control" placeholder="Viết nhận xét..." />
+                                        </div>
+                                        <div class="col-12 col-md-2">
+                                            <button class="btn btn-primary w-100" type="submit">Gửi</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            }
+
+                            @if (Model.Reviews != null && Model.Reviews.Any())
+                            {
+                                foreach (var r in Model.Reviews.OrderByDescending(x => x.CreatedAt))
+                                {
+                                    <div class="border rounded p-3 mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>@(r.User?.UserName ?? "Ẩn danh")</strong>
+                                            <span class="text-warning">@(new string('★', r.Rating))@(new string('☆', 5 - r.Rating))</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(r.Comment))
+                                        {
+                                            <div class="mt-2">@r.Comment</div>
+                                        }
+                                        <div class="text-muted small mt-2">@r.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="text-center text-muted">Chưa có đánh giá</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Add smooth scrolling to tabs
+        document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.dataset.bsTarget);
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        document.getElementById("btn-heart").addEventListener("click", function () {
+            const icon = document.getElementById("icon-heart");
+            icon.classList.toggle("bi-heart");
+            icon.classList.toggle("bi-heart-fill");
+        });
+    </script>
+} 

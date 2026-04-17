@@ -1,0 +1,72 @@
+@using System.Globalization
+@model WebBanHang.Models.Category
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-danger">Delete Category</h2>
+                    <div class="alert alert-warning">
+                        <h4>Are you sure you want to delete this category?</h4>
+                        <p>This action cannot be undone. All products in this category will be affected.</p>
+                    </div>
+                    <dl class="row">
+                        <dt class="col-sm-3">Name</dt>
+                        <dd class="col-sm-9">@Model.Name</dd>
+                        <dt class="col-sm-3">Products Count</dt>
+                        <dd class="col-sm-9">@(Model.Products?.Count ?? 0)</dd>
+                    </dl>
+                </div>
+            </div>
+
+            @if (Model.Products != null && Model.Products.Any())
+            {
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h3>Products in this Category</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var product in Model.Products)
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100">
+                                        @if (!string.IsNullOrEmpty(product.ImageUrl))
+                                        {
+                                            <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 150px; object-fit: cover;">
+                                        }
+                                        <div class="card-body">
+                                            <h5 class="card-title">@product.Name</h5>
+                                            <p class="card-text">
+                                                <strong>Price:</strong> @product.Price.ToString("c", new CultureInfo("vi-VN"))
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Actions</h5>
+                    <form asp-action="DeleteConfirmed">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

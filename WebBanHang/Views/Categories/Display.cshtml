@@ -1,0 +1,64 @@
+@using System.Globalization
+@model WebBanHang.Models.Category
+
+@{
+    ViewData["Title"] = "Category Details";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">@Model.Name</h2>
+                    <p class="card-text">
+                        <strong>Products Count:</strong> @(Model.Products?.Count ?? 0)
+                    </p>
+                </div>
+            </div>
+
+            @if (Model.Products != null && Model.Products.Any())
+            {
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h3>Products in this Category</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var product in Model.Products)
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100">
+                                        @if (!string.IsNullOrEmpty(product.ImageUrl))
+                                        {
+                                            <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 150px; object-fit: cover;">
+                                        }
+                                        <div class="card-body">
+                                            <h5 class="card-title">@product.Name</h5>
+                                            <p class="card-text">
+                                                <strong>Price:</strong> @product.Price.ToString("c", new CultureInfo("vi-VN"))<br>
+                                                <strong>Description:</strong> @product.Description
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Actions</h5>
+                    <div class="d-grid gap-2">
+                        <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning">Edit Category</a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete Category</a>
+                        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

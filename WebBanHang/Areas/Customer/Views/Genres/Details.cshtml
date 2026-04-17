@@ -1,0 +1,29 @@
+@model WebBanHang.Models.Genre
+
+<div class="container mt-4">
+    <div class="mb-3">
+        <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="genres" asp-route-page="1" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Quay lại danh sách thể loại
+        </a>
+    </div>
+    
+    <h3 class="mb-4">@Model.Name</h3>
+    <div class="row">
+        @if (Model.Products != null && Model.Products.Any())
+        {
+            foreach (var p in Model.Products)
+            {
+                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                    @await Html.PartialAsync("~/Areas/Customer/Views/Product/_ProductCard.cshtml", p)
+                </div>
+            }
+        }
+        else
+        {
+            <div class="text-muted">Chưa có sách.</div>
+        }
+    </div>
+</div>
+
+
+

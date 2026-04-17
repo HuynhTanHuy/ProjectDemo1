@@ -1,0 +1,66 @@
+@using System.Globalization
+@model IEnumerable<WebBanHang.Models.Order>
+
+<div class="container mt-4">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">
+                <i class="bi bi-cart-check me-2"></i>Quản lý Đơn hàng
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Người đặt</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Địa chỉ giao hàng</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var obj in Model)
+                            {
+                                <tr>
+                                    <td>@obj.Id</td>
+                                    <td>@obj.ApplicationUser?.UserName</td>
+                                    <td>@obj.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@obj.TotalPrice.ToString("c", new CultureInfo("vi-VN"))</td>
+                                    <td>
+                                        <span class="text-truncate d-inline-block" style="max-width: 200px;" title="@obj.ShippingAddress">
+                                            @obj.ShippingAddress
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-controller="Orders" asp-action="Details" asp-route-id="@obj.Id"
+                                               class="btn btn-info btn-sm">
+                                                <i class="bi bi-eye"></i> Chi tiết
+                                            </a>
+                                            <a asp-controller="Orders" asp-action="Edit" asp-route-id="@obj.Id"
+                                               class="btn btn-primary btn-sm">
+                                                <i class="bi bi-pencil-square"></i> Sửa
+                                            </a>
+                                            <a asp-controller="Orders" asp-action="Delete" asp-route-id="@obj.Id"
+                                               class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash-fill"></i> Xóa
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

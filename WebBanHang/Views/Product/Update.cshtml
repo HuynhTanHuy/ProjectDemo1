@@ -1,0 +1,69 @@
+﻿@model WebBanHang.Models.Product
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+ ViewData["Title"] = "Edit Product";
+}
+
+<div class="container mt-4">
+	<h2>Edit Product</h2>
+	<div class="row">
+		<div class="col-md-6">
+			<form asp-action="Update" method="post" enctype="multipart/form-data">
+				<input type="hidden" asp-for="Id" />
+				<div class="form-group mb-3">
+					<label asp-for="Name"></label>
+					<input asp-for="Name" class="form-control" />
+					<span asp-validation-for="Name" class="text-danger"></span>
+				</div>
+				<div class="form-group mb-3">
+					<label asp-for="Price"></label>
+					<input asp-for="Price" class="form-control" />
+					<span asp-validation-for="Price" class="text-danger"></span>
+				</div>
+				<div class="form-group mb-3">
+					<label asp-for="Description"></label>
+					<textarea asp-for="Description" class="form-control"></textarea>
+					<span asp-validation-for="Description" class="text-danger"></span>
+				</div>
+				<div class="form-group mb-3">
+					<label asp-for="CategoryId">Category</label>
+					<select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-control"></select>
+				</div>
+				<div class="form-group mb-3">
+					<label asp-for="ImageUrl">Product Image</label>
+					<input type="file" asp-for="ImageUrl" class="form-control" id="imageInput" />
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary">Update</button>
+					<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">Current Image</h5>
+					<img src="@Model.ImageUrl" alt="Product Image" style="max-width: 200px;" id="previewImage" class="img-fluid" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		document.querySelectorAll('input[type="file"]').forEach(input => {
+			input.addEventListener('change', function (event) {
+				const file = event.target.files[0];
+				if (file) {
+					const reader = new FileReader();
+					reader.onload = function (e) {
+						const img = document.getElementById("previewImage");
+						img.src = e.target.result;
+					};
+					reader.readAsDataURL(file);
+				}
+			});
+		});
+	</script>
+}

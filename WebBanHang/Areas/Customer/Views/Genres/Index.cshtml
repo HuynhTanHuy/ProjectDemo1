@@ -1,0 +1,45 @@
+@model IEnumerable<WebBanHang.Models.Genre>
+
+<div class="container mt-4">
+    <div class="row align-items-end mb-4">
+        <div class="col-12 col-lg-8 mb-3 mb-lg-0">
+            <h2 class="text-primary mb-0">
+                <i class="bi bi-tags me-2"></i>Thể loại
+            </h2>
+        </div>
+        <div class="col-12 col-lg-4 text-end">
+            <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="genres" asp-route-page="1" 
+               class="btn btn-outline-secondary" title="Làm mới và quay về trang chủ">
+                <i class="bi bi-arrow-clockwise"></i> Làm mới
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var g in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3 mb-3">
+                    <a asp-action="Details" asp-route-id="@g.Id" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-tag me-2"></i>@g.Name
+                    </a>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-info-circle me-2"></i>Không có thể loại nào.
+                </div>
+            </div>
+        }
+    </div>
+    
+    <div class="mt-4">
+        @await Html.PartialAsync("_Pagination")
+    </div>
+</div>
+
+
+

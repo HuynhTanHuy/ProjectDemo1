@@ -1,0 +1,32 @@
+@using System.Globalization
+@model WebBanHang.Models.Product
+
+<div class="container">
+    <div class="card shadow border-0 mt-4 mb-4">
+        <div class="card-header bg-primary bg-gradient text-light py-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3 class="text-white">@Model.Name</h3>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="@Model.ImageUrl" width="100%" class="rounded" />
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex flex-column h-100">
+                        <h4 class="text-muted mb-3">Category: @Model.Category.Name</h4>
+                        <p class="mb-4">@Model.Description</p>
+                        <div class="mt-auto">
+                            <h4 class="text-danger mb-4">Price: @Model.Price.ToString("c", new CultureInfo("vi-VN"))</h4>
+                            <a asp-area="Customer" asp-controller="Home" asp-action="Index" 
+                               class="btn btn-outline-primary">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

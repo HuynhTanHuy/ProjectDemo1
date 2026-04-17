@@ -1,0 +1,175 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary">
+                <i class="bi bi-speedometer2 me-2"></i>Admin Dashboard
+            </h2>
+            <p class="text-muted">Quản lý hệ thống BookShop</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-primary h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-subtitle mb-2">Sản phẩm</h6>
+                            <h3 class="mb-0">@ViewBag.TotalProducts</h3>
+                        </div>
+                        <i class="bi bi-box fs-1 opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-controller="Product" asp-action="Index" class="text-white text-decoration-none">
+                        Xem chi tiết <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-success h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-subtitle mb-2">Danh mục</h6>
+                            <h3 class="mb-0">@ViewBag.TotalCategories</h3>
+                        </div>
+                        <i class="bi bi-grid fs-1 opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-controller="Categories" asp-action="Index" class="text-white text-decoration-none">
+                        Xem chi tiết <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-info h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-subtitle mb-2">Tác giả</h6>
+                            <h3 class="mb-0">@ViewBag.TotalAuthors</h3>
+                        </div>
+                        <i class="bi bi-people fs-1 opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-controller="Authors" asp-action="Index" class="text-white text-decoration-none">
+                        Xem chi tiết <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-warning h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-subtitle mb-2">Thể loại</h6>
+                            <h3 class="mb-0">@ViewBag.TotalGenres</h3>
+                        </div>
+                        <i class="bi bi-tags fs-1 opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-controller="Genres" asp-action="Index" class="text-white text-decoration-none">
+                        Xem chi tiết <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-secondary h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-subtitle mb-2">Nhà xuất bản</h6>
+                            <h3 class="mb-0">@ViewBag.TotalPublishers</h3>
+                        </div>
+                        <i class="bi bi-building fs-1 opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-controller="Publishers" asp-action="Index" class="text-white text-decoration-none">
+                        Xem chi tiết <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-danger h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-subtitle mb-2">Đơn hàng</h6>
+                            <h3 class="mb-0">@ViewBag.TotalOrders</h3>
+                        </div>
+                        <i class="bi bi-cart-check fs-1 opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-controller="Orders" asp-action="Index" class="text-white text-decoration-none">
+                        Xem chi tiết <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>Quản lý nhanh</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6 col-lg-3">
+                            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary w-100">
+                                <i class="bi bi-box me-2"></i>Quản lý Sản phẩm
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <a asp-controller="Categories" asp-action="Index" class="btn btn-outline-success w-100">
+                                <i class="bi bi-grid me-2"></i>Quản lý Danh mục
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <a asp-controller="Authors" asp-action="Index" class="btn btn-outline-info w-100">
+                                <i class="bi bi-people me-2"></i>Quản lý Tác giả
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <a asp-controller="Genres" asp-action="Index" class="btn btn-outline-warning w-100">
+                                <i class="bi bi-tags me-2"></i>Quản lý Thể loại
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <a asp-controller="Publishers" asp-action="Index" class="btn btn-outline-secondary w-100">
+                                <i class="bi bi-building me-2"></i>Quản lý Nhà XB
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <a asp-controller="Orders" asp-action="Index" class="btn btn-outline-danger w-100">
+                                <i class="bi bi-cart-check me-2"></i>Quản lý Đơn hàng
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,78 @@
+@model IEnumerable<WebBanHang.Models.Author>
+
+<div class="container mt-4">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">
+                <i class="bi bi-people me-2"></i>Quản lý Tác giả
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Authors" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Thêm Tác giả
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>Tên tác giả</th>
+                                <th>Tiểu sử</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var obj in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(obj.PhotoUrl))
+                                        {
+                                            <img src="@obj.PhotoUrl" alt="@obj.Name" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" />
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-person-circle fs-3 text-muted"></i>
+                                        }
+                                    </td>
+                                    <td>@obj.Name</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(obj.Biography))
+                                        {
+                                            <span class="text-truncate d-inline-block" style="max-width: 300px;" title="@obj.Biography">
+                                                @(obj.Biography.Length > 50 ? obj.Biography.Substring(0, 50) + "..." : obj.Biography)
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Chưa có</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-controller="Authors" asp-action="Edit" asp-route-id="@obj.Id"
+                                               class="btn btn-primary btn-sm">
+                                                <i class="bi bi-pencil-square"></i> Sửa
+                                            </a>
+                                            <a asp-controller="Authors" asp-action="Delete" asp-route-id="@obj.Id"
+                                               class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash-fill"></i> Xóa
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

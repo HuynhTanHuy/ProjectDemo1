@@ -1,0 +1,43 @@
+@model WebBanHang.Models.Author
+
+<div class="container mt-4">
+    <div class="mb-3">
+        <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="authors" asp-route-page="1" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Quay lại danh sách tác giả
+        </a>
+    </div>
+    
+    <div class="d-flex align-items-center mb-4">
+        @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+        {
+            <img src="@Model.PhotoUrl" alt="@Model.Name" class="rounded me-3" style="width:80px;height:80px;object-fit:cover;">
+        }
+        <div>
+            <h3 class="mb-1">@Model.Name</h3>
+            @if (!string.IsNullOrEmpty(Model.Biography))
+            {
+                <div class="text-muted">@Model.Biography</div>
+            }
+        </div>
+    </div>
+
+    <h5 class="mb-3">Sách của tác giả</h5>
+    <div class="row">
+        @if (Model.Products != null && Model.Products.Any())
+        {
+            foreach (var p in Model.Products)
+            {
+                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                    @await Html.PartialAsync("~/Areas/Customer/Views/Product/_ProductCard.cshtml", p)
+                </div>
+            }
+        }
+        else
+        {
+            <div class="text-muted">Chưa có sách.</div>
+        }
+    </div>
+</div>
+
+
+

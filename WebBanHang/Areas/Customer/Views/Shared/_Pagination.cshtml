@@ -1,0 +1,144 @@
+@{
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+    int totalItems = ViewBag.TotalItems ?? 0;
+    string? query = ViewBag.Query;
+    int? categoryId = ViewBag.SelectedCategoryId;
+    int? authorId = ViewBag.SelectedAuthorId;
+    int? genreId = ViewBag.SelectedGenreId;
+    int? publisherId = ViewBag.SelectedPublisherId;
+    string? tab = ViewBag.Tab;
+    string controllerName = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    string actionName = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+}
+
+@if (totalPages > 1)
+{
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @if (currentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action(actionName, controllerName, new { 
+                        area = "Customer", 
+                        page = currentPage - 1, 
+                        tab = tab,
+                        q = (controllerName == "Product" || controllerName == "Home") ? query : null, 
+                        categoryId = (controllerName == "Product" || controllerName == "Home") ? categoryId : null, 
+                        authorId = (controllerName == "Product" || controllerName == "Home") ? authorId : null, 
+                        genreId = (controllerName == "Product" || controllerName == "Home") ? genreId : null, 
+                        publisherId = (controllerName == "Product" || controllerName == "Home") ? publisherId : null 
+                    })">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+                </li>
+            }
+
+            @{
+                int startPage = Math.Max(1, currentPage - 2);
+                int endPage = Math.Min(totalPages, currentPage + 2);
+            }
+
+            @if (startPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action(actionName, controllerName, new { 
+                        area = "Customer", 
+                        page = 1, 
+                        tab = tab,
+                        q = (controllerName == "Product" || controllerName == "Home") ? query : null, 
+                        categoryId = (controllerName == "Product" || controllerName == "Home") ? categoryId : null, 
+                        authorId = (controllerName == "Product" || controllerName == "Home") ? authorId : null, 
+                        genreId = (controllerName == "Product" || controllerName == "Home") ? genreId : null, 
+                        publisherId = (controllerName == "Product" || controllerName == "Home") ? publisherId : null 
+                    })">1</a>
+                </li>
+                @if (startPage > 2)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                }
+            }
+
+            @for (int i = startPage; i <= endPage; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action(actionName, controllerName, new { 
+                        area = "Customer", 
+                        page = i, 
+                        tab = tab,
+                        q = (controllerName == "Product" || controllerName == "Home") ? query : null, 
+                        categoryId = (controllerName == "Product" || controllerName == "Home") ? categoryId : null, 
+                        authorId = (controllerName == "Product" || controllerName == "Home") ? authorId : null, 
+                        genreId = (controllerName == "Product" || controllerName == "Home") ? genreId : null, 
+                        publisherId = (controllerName == "Product" || controllerName == "Home") ? publisherId : null 
+                    })">@i</a>
+                </li>
+            }
+
+            @if (endPage < totalPages)
+            {
+                @if (endPage < totalPages - 1)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                }
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action(actionName, controllerName, new { 
+                        area = "Customer", 
+                        page = totalPages, 
+                        tab = tab,
+                        q = (controllerName == "Product" || controllerName == "Home") ? query : null, 
+                        categoryId = (controllerName == "Product" || controllerName == "Home") ? categoryId : null, 
+                        authorId = (controllerName == "Product" || controllerName == "Home") ? authorId : null, 
+                        genreId = (controllerName == "Product" || controllerName == "Home") ? genreId : null, 
+                        publisherId = (controllerName == "Product" || controllerName == "Home") ? publisherId : null 
+                    })">@totalPages</a>
+                </li>
+            }
+
+            @if (currentPage < totalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action(actionName, controllerName, new { 
+                        area = "Customer", 
+                        page = currentPage + 1, 
+                        tab = tab,
+                        q = (controllerName == "Product" || controllerName == "Home") ? query : null, 
+                        categoryId = (controllerName == "Product" || controllerName == "Home") ? categoryId : null, 
+                        authorId = (controllerName == "Product" || controllerName == "Home") ? authorId : null, 
+                        genreId = (controllerName == "Product" || controllerName == "Home") ? genreId : null, 
+                        publisherId = (controllerName == "Product" || controllerName == "Home") ? publisherId : null 
+                    })">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+                </li>
+            }
+        </ul>
+    </nav>
+    
+    <div class="row mt-3">
+        <div class="col-12 text-center">
+            <div class="text-muted">
+                @{
+                    int pageSize = (controllerName.ToLower() == "product" || controllerName.ToLower() == "home") ? 10 : 12;
+                }
+            </div>
+        </div>
+    </div>
+}
+
