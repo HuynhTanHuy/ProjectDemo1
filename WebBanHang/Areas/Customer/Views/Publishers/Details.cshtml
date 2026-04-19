@@ -1,43 +1,41 @@
 @model WebBanHang.Models.Publisher
+@await Html.PartialAsync("_CustomerSubnav", "publishers")
 
-<div class="container mt-4">
-    <div class="mb-3">
-        <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="publishers" asp-route-page="1" class="btn btn-outline-secondary">
+<div class="c-browse-page">
+    <div class="c-toolbar mb-3" style="justify-content: flex-start;">
+        <a class="c-btn-ghost" href="@Url.RouteUrl("customerPublisherBrowser", new { action = "Index" })">
             <i class="bi bi-arrow-left me-1"></i>Quay lại danh sách nhà xuất bản
         </a>
     </div>
-    
-    <div class="d-flex align-items-center mb-4">
+
+    <header class="c-page-head c-page-head--row">
         @if (!string.IsNullOrEmpty(Model.LogoUrl))
         {
-            <img src="@Model.LogoUrl" alt="@Model.Name" class="me-3" style="max-height:60px;object-fit:contain;">
+            <img src="@Model.LogoUrl" alt="" class="c-page-head__logo" />
         }
         <div>
-            <h3 class="mb-1">@Model.Name</h3>
+            <h1 class="c-page-head__title">@Model.Name</h1>
             @if (!string.IsNullOrEmpty(Model.Website))
             {
-                <a href="@Model.Website" target="_blank">Website</a>
+                <p class="c-page-head__sub mb-0"><a href="@Model.Website" target="_blank" rel="noopener">Website NXB</a></p>
             }
         </div>
-    </div>
+    </header>
 
-    <h5 class="mb-3">Sách của nhà xuất bản</h5>
-    <div class="row">
+    <h2 class="c-section-title">Sách của nhà xuất bản</h2>
+    <div class="row g-3">
         @if (Model.Products != null && Model.Products.Any())
         {
             foreach (var p in Model.Products)
             {
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                <div class="col-6 col-md-4 col-lg-3">
                     @await Html.PartialAsync("~/Areas/Customer/Views/Product/_ProductCard.cshtml", p)
                 </div>
             }
         }
         else
         {
-            <div class="text-muted">Chưa có sách.</div>
+            <div class="col-12 c-empty">Chưa có sách.</div>
         }
     </div>
 </div>
-
-
-

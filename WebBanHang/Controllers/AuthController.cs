@@ -8,6 +8,12 @@ namespace WebBanHang.Controllers
 {
     public class AuthController : Controller
     {
+        private static readonly string[] AllowedRegisterRoles =
+        {
+            SD.Role_Customer,
+            SD.Role_User
+        };
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
@@ -29,42 +35,68 @@ namespace WebBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            if (!model.AcceptTerms)
+            {
+                ModelState.AddModelError(nameof(model.AcceptTerms), "You must accept the terms and conditions.");
+            }
+
+            if (!AllowedRegisterRoles.Contains(model.Role, StringComparer.Ordinal))
+            {
+                ModelState.AddModelError(nameof(model.Role), "Invalid role selected.");
+                model.Role = SD.Role_Customer;
+            }
+
             if (!ModelState.IsValid)
             {
+                ViewBag.Error = FormatModelErrors();
                 return View(model);
             }
 
-            if (await _userManager.FindByNameAsync(model.UserName) != null)
+            var username = model.Username.Trim();
+            var email = model.Email.Trim();
+            var firstName = model.FirstName.Trim();
+            var lastName = model.LastName.Trim();
+            var fullName = $"{firstName} {lastName}".Trim();
+
+            if (await _userManager.FindByNameAsync(username) != null)
             {
-                ModelState.AddModelError(nameof(model.UserName), "Username already exists.");
+                ViewBag.Error = "This username is already taken.";
+                model.Username = username;
+                model.Email = email;
+                model.FirstName = firstName;
+                model.LastName = lastName;
                 return View(model);
             }
 
-            if (await _userManager.FindByEmailAsync(model.Email) != null)
+            if (await _userManager.FindByEmailAsync(email) != null)
             {
-                ModelState.AddModelError(nameof(model.Email), "Email already exists.");
+                ViewBag.Error = "This email is already registered.";
+                model.Username = username;
+                model.Email = email;
+                model.FirstName = firstName;
+                model.LastName = lastName;
                 return View(model);
             }
 
             var user = new ApplicationUser
             {
-                UserName = model.UserName,
-                Email = model.Email,
-                FullName = model.UserName
+                UserName = username,
+                Email = email,
+                FullName = fullName
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-
+                ViewBag.Error = string.Join(" ", result.Errors.Select(e => e.Description));
+                model.Username = username;
+                model.Email = email;
+                model.FirstName = firstName;
+                model.LastName = lastName;
                 return View(model);
             }
 
-            await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+            await _userManager.AddToRoleAsync(user, model.Role);
             await _signInManager.SignInAsync(user, isPersistent: false);
 
             return RedirectToAction("Index", "Home", new { area = "Customer" });
@@ -75,41 +107,62 @@ namespace WebBanHang.Controllers
         public IActionResult Login(string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View(new LoginViewModel());
+            return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
+        public async Task<IActionResult> Login([FromForm] string email, [FromForm] string password, string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            if (!ModelState.IsValid)
+            var rememberMe = string.Equals(Request.Form["rememberMe"], "true", StringComparison.OrdinalIgnoreCase);
+
+            if (string.IsNullOrWhiteSpace(email))
             {
-                return View(model);
+                ViewBag.Error = "Vui lòng nhập email hoặc tên đăng nhập.";
+                ViewBag.Email = email ?? string.Empty;
+                return View();
             }
 
-            ApplicationUser? user;
-            if (model.UserNameOrEmail.Contains('@'))
+            if (string.IsNullOrWhiteSpace(password))
             {
-                user = await _userManager.FindByEmailAsync(model.UserNameOrEmail);
+                ViewBag.Error = "Vui lòng nhập mật khẩu.";
+                ViewBag.Email = email.Trim();
+                return View();
+            }
+
+            var userNameOrEmail = email.Trim();
+            ApplicationUser? user;
+            if (userNameOrEmail.Contains('@'))
+            {
+                user = await _userManager.FindByEmailAsync(userNameOrEmail);
             }
             else
             {
-                user = await _userManager.FindByNameAsync(model.UserNameOrEmail);
+                user = await _userManager.FindByNameAsync(userNameOrEmail);
             }
 
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Invalid username/email or password.");
-                return View(model);
+                ViewBag.Error = "Email hoặc mật khẩu không đúng.";
+                ViewBag.Email = userNameOrEmail;
+                return View();
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user.UserName!, model.Password, model.RememberMe, lockoutOnFailure: true);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName!, password, rememberMe, lockoutOnFailure: true);
+            if (result.IsLockedOut)
+            {
+                ViewBag.Error = "Tài khoản đã bị khóa. Vui lòng thử lại sau.";
+                ViewBag.Email = userNameOrEmail;
+                return View();
+            }
+
             if (!result.Succeeded)
             {
-                ModelState.AddModelError(string.Empty, "Invalid username/email or password.");
-                return View(model);
+                ViewBag.Error = "Email hoặc mật khẩu không đúng.";
+                ViewBag.Email = userNameOrEmail;
+                return View();
             }
 
             if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
@@ -127,6 +180,14 @@ namespace WebBanHang.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
+        }
+
+        private string FormatModelErrors()
+        {
+            return string.Join(
+                " ",
+                ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Invalid input." : e.ErrorMessage));
         }
     }
 }

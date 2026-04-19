@@ -1,7 +1,7 @@
 @using System.Globalization
 @model WebBanHang.Models.Product
 
-<div class="card h-100">
+<div class="card h-100 c-product-card">
     <div class="position-relative">
         @if (!string.IsNullOrEmpty(Model.ImageUrl))
         {
@@ -26,13 +26,16 @@
             <div>
                 <span class="text-danger fw-bold">@Model.Price.ToString("c", new CultureInfo("vi-VN"))</span>
             </div>
-            <div class="btn-group">
+            <div class="btn-group flex-wrap" role="group">
                 <a asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-sm">
-                    <i class="bi bi-eye"></i>
+                    <i class="bi bi-eye me-1"></i>Chi tiết
                 </a>
-                <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-productId="@Model.Id" asp-route-quantity="1" class="btn btn-primary btn-sm">
-                    <i class="bi bi-cart-plus"></i>
-                </a>
+                @if (Model.Stock > 0)
+                {
+                    <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-productId="@Model.Id" asp-route-quantity="1" class="btn btn-primary btn-sm">
+                        <i class="bi bi-cart-plus me-1"></i>Giỏ
+                    </a>
+                }
             </div>
         </div>
     </div>

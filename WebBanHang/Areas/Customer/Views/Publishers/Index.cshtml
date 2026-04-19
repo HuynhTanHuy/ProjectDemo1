@@ -1,55 +1,44 @@
 @model IEnumerable<WebBanHang.Models.Publisher>
+@await Html.PartialAsync("_CustomerSubnav", "publishers")
 
-<div class="container mt-4">
-    <div class="row align-items-end mb-4">
-        <div class="col-12 col-lg-8 mb-3 mb-lg-0">
-            <h2 class="text-primary mb-0">
-                <i class="bi bi-building me-2"></i>Nhà xuất bản
-            </h2>
+<div class="c-browse-page">
+    <header class="c-page-head">
+        <div>
+            <h1 class="c-page-head__title"><i class="bi bi-building me-2"></i>Nhà xuất bản</h1>
+            <p class="c-page-head__sub">Danh sách NXB</p>
         </div>
-        <div class="col-12 col-lg-4 text-end">
-            <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="publishers" asp-route-page="1" 
-               class="btn btn-outline-secondary" title="Làm mới và quay về trang chủ">
-                <i class="bi bi-arrow-clockwise"></i> Làm mới
-            </a>
-        </div>
-    </div>
-    <div class="row">
+        <a class="c-btn-ghost" href="@Url.RouteUrl("customerPublisherBrowser", new { action = "Index" })">
+            <i class="bi bi-arrow-clockwise me-1"></i>Làm mới
+        </a>
+    </header>
+
+    <div class="c-tiles">
         @if (Model != null && Model.Any())
         {
             @foreach (var p in Model)
             {
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <a class="text-decoration-none" asp-action="Details" asp-route-id="@p.Id">
-                        <div class="card h-100 d-flex align-items-center justify-content-center p-4">
-                            @if (!string.IsNullOrEmpty(p.LogoUrl))
-                            {
-                                <img src="@p.LogoUrl" alt="@p.Name" style="max-height:60px;object-fit:contain;" />
-                            }
-                            else
-                            {
-                                <i class="bi bi-building fs-1 text-muted"></i>
-                            }
-                            <div class="mt-2 fw-semibold">@p.Name</div>
+                <a class="c-tile c-tile--center" asp-area="Customer" asp-controller="Publishers" asp-action="Details" asp-route-id="@p.Id">
+                    @if (!string.IsNullOrEmpty(p.LogoUrl))
+                    {
+                        <div class="c-tile__media c-tile__media--logo">
+                            <img src="@p.LogoUrl" alt="" loading="lazy" />
                         </div>
-                    </a>
-                </div>
+                    }
+                    else
+                    {
+                        <div class="c-tile__media c-tile__media--icon"><i class="bi bi-building fs-1"></i></div>
+                    }
+                    <h3>@p.Name</h3>
+                </a>
             }
         }
         else
         {
-            <div class="col-12">
-                <div class="alert alert-info text-center">
-                    <i class="bi bi-info-circle me-2"></i>Không có nhà xuất bản nào.
-                </div>
-            </div>
+            <div class="c-empty">Không có nhà xuất bản nào.</div>
         }
     </div>
-    
+
     <div class="mt-4">
         @await Html.PartialAsync("_Pagination")
     </div>
 </div>
-
-
-

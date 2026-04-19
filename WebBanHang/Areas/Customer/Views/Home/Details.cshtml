@@ -26,7 +26,7 @@
                                asp-action="View"
                                asp-route-bookId="@Model.Id"
                                class="btn btn-primary me-2">Read Preview</a>
-                            <a asp-area="Customer" asp-controller="Home" asp-action="Index" 
+                            <a href="@Url.Action("Index", "Home", new { area = "Customer", tab = "products" })"
                                class="btn btn-outline-primary">Back to List</a>
                         </div>
                     </div>

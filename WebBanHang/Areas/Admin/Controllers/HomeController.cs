@@ -65,6 +65,12 @@ namespace WebBanHang.Areas.Admin.Controllers
                 trendValues.Add(count);
             }
 
+            ViewData["Title"] = "Tổng quan";
+            ViewData["AdminNavSection"] = "overview";
+            ViewData["AdminPageTitle"] = "Tổng quan";
+            ViewData["AdminBreadcrumb"] = "Tổng quan";
+            ViewData["AdminNotifCount"] = overdueBooks;
+
             var model = new DashboardViewModel
             {
                 TotalBooks = totalBooks,

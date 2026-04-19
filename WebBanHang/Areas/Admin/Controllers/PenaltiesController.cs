@@ -19,6 +19,11 @@ namespace WebBanHang.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(string? q, bool? isPaid, int page = 1, int pageSize = 10)
         {
+            ViewData["Title"] = "Phạt & nợ";
+            ViewData["AdminNavSection"] = "penalties";
+            ViewData["AdminPageTitle"] = "Phạt & nợ";
+            ViewData["AdminBreadcrumb"] = "Tổng quan / Giao dịch / Phạt";
+
             page = Math.Max(1, page);
 
             var query = _db.Penalties

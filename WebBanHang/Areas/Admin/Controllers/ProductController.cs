@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WebBanHang.Helpers;
 using WebBanHang.Models;
+using WebBanHang.Models.ViewModels;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
@@ -24,10 +26,26 @@ namespace WebBanHang.Areas.Admin.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index([FromQuery] int? genreId, [FromQuery] string? status)
         {
-            IEnumerable<Product> products = _db.Products.Include(p => p.Category);
-            return View(products);
+            ViewData["Title"] = "Danh sách sách";
+            ViewData["AdminNavSection"] = "books";
+            ViewData["AdminPageTitle"] = "Danh sách sách";
+            ViewData["AdminBreadcrumb"] = "Tổng quan / Sách";
+            ViewData["AdminNotifCount"] = await _db.Borrows.CountAsync(b =>
+                b.Status == BorrowStatus.Borrowing && b.DueDate.Date < DateTime.UtcNow.Date);
+
+            var vm = await BookCatalogHelper.BuildAsync(_db, new BookCatalogQuery(
+                genreId,
+                status,
+                null,
+                null,
+                null,
+                null,
+                1,
+                50_000));
+
+            return View(vm);
         }
 
         public IActionResult Upsert(int? id)

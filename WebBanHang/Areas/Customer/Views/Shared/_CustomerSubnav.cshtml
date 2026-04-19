@@ -1,0 +1,10 @@
+@model string
+@{
+    var tab = Model?.ToLowerInvariant() ?? "products";
+}
+<nav class="c-subnav" aria-label="Menu khu khách">
+    <a class="@(tab == "products" ? "is-active" : null)" href="@Url.Action("Index", "Home", new { area = "Customer", tab = "products", page = 1 })">Sách</a>
+    <a class="@(tab == "authors" ? "is-active" : null)" href="@Url.RouteUrl("customerAuthorBrowser", new { action = "Index" })">Tác giả</a>
+    <a class="@(tab == "genres" ? "is-active" : null)" href="@Url.RouteUrl("customerCategoryBrowser", new { action = "Index" })">Thể loại</a>
+    <a class="@(tab == "publishers" ? "is-active" : null)" href="@Url.RouteUrl("customerPublisherBrowser", new { action = "Index" })">Nhà xuất bản</a>
+</nav>

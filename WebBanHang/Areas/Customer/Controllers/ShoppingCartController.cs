@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebBanHang.Extensions;
 using WebBanHang.Models;
+using WebBanHang.Areas.Customer;
 using WebBanHang.Repositories;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace WebBanHang.Controllers
 {
     [Area("Customer")]
     [Authorize]
-    public class ShoppingCartController : Controller
+    public class ShoppingCartController : CustomerAreaControllerBase
     {
         private readonly IProductRepository _productRepository;
         private readonly ApplicationDbContext _context;
@@ -57,6 +58,11 @@ namespace WebBanHang.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Title"] = "Giỏ hàng";
+            ViewData["CustomerNavSection"] = "cart";
+            ViewData["CustomerPageTitle"] = "Giỏ hàng";
+            ViewData["CustomerBreadcrumb"] = "Tổng quan / Giao dịch / Giỏ hàng";
+
             var cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("Cart") ?? new ShoppingCart();
             ViewBag.ShippingCost = SHIPPING_COST;
             return View(cart);

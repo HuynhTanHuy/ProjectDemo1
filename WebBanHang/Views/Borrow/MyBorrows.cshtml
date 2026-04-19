@@ -1,20 +1,20 @@
 @model IEnumerable<WebBanHang.Models.Borrow>
 @{
-    ViewData["Title"] = "My Borrows";
+    ViewData["Title"] = "Sách tôi đang mượn";
 }
 
 <div class="container mt-4">
-    <h3 class="mb-3">My Borrowed Books</h3>
+    <h3 class="mb-3">Sách tôi đang mượn</h3>
     <div class="card shadow-sm">
         <div class="table-responsive">
             <table class="table table-striped align-middle mb-0">
                 <thead>
                     <tr>
-                        <th>Book</th>
-                        <th>Borrow Date</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
-                        <th class="text-end">Action</th>
+                        <th>Sách</th>
+                        <th>Ngày mượn</th>
+                        <th>Hạn trả</th>
+                        <th>Trạng thái</th>
+                        <th class="text-end">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,11 +27,11 @@
                         <td>
                             @if (item.Status == WebBanHang.Models.BorrowStatus.Borrowing)
                             {
-                                <span class="badge bg-warning text-dark">Borrowing</span>
+                                <span class="badge bg-warning text-dark">Đang mượn</span>
                             }
                             else
                             {
-                                <span class="badge bg-success">Returned</span>
+                                <span class="badge bg-success">Đã trả</span>
                             }
                         </td>
                         <td class="text-end">
@@ -40,7 +40,7 @@
                                 <form asp-action="ReturnBook" method="post" class="d-inline">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="borrowId" value="@item.Id" />
-                                    <button class="btn btn-sm btn-primary rounded-pill">Return</button>
+                                    <button class="btn btn-sm btn-primary rounded-pill">Trả sách</button>
                                 </form>
                             }
                         </td>

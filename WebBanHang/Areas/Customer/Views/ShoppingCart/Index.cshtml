@@ -1,13 +1,14 @@
 ﻿@using System.Globalization
 @model ShoppingCart
+@await Html.PartialAsync("_CustomerSubnav", "products")
 
-<div class="container mt-4">
+<div class="container mt-4 c-browse-page">
 	<h2 class="mb-4">Giỏ hàng của bạn</h2>
 	
 	@if (!Model.Items.Any())
 	{
 		<div class="alert alert-info">
-			Giỏ hàng của bạn đang trống. <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="alert-link">Tiếp tục mua sắm</a>
+			Giỏ hàng của bạn đang trống. <a href="@Url.Action("Index", "Home", new { area = "Customer", tab = "products" })" class="alert-link">Tiếp tục mua sắm</a>
 		</div>
 	}
 	else

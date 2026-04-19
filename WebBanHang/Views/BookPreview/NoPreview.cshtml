@@ -1,18 +1,27 @@
 @{
-    ViewData["Title"] = "No Preview";
+    Layout = "~/Areas/Customer/Views/Shared/_LayoutCustomer.cshtml";
+    ViewData["Title"] = ViewData["Title"] as string ?? "Chưa có bản xem thử";
     var bookId = ViewBag.BookId;
 }
 
-<div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-body text-center py-5">
-            <h3 class="mb-3">Chưa có bản xem thử</h3>
-            <p class="text-muted mb-4">
-                Sách có mã <strong>@bookId</strong> hiện chưa được cấu hình nội dung preview.
+@await Html.PartialAsync("~/Areas/Customer/Views/Shared/_CustomerSubnav.cshtml", "products")
+
+<div class="container mt-4 c-browse-page">
+    <div class="card shadow-sm border-0" style="border-radius: var(--radius, 12px);">
+        <div class="card-body text-center py-5 px-3">
+            <div class="mb-3 fs-1" aria-hidden="true">📄</div>
+            <h1 class="h4 mb-3">Chưa có bản xem thử</h1>
+            <p class="text-secondary mb-4 mx-auto" style="max-width: 32rem;">
+                Đầu sách mã <strong>#@bookId</strong> chưa được cấu hình nội dung xem thử trên hệ thống.
             </p>
-            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-primary">
-                Quay về danh sách sách
-            </a>
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <a class="btn btn-primary" asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@bookId">
+                    <i class="bi bi-book me-1"></i>Về chi tiết sách
+                </a>
+                <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Home", new { area = "Customer", tab = "products", page = 1 })">
+                    <i class="bi bi-grid me-1"></i>Danh mục sách
+                </a>
+            </div>
         </div>
     </div>
 </div>

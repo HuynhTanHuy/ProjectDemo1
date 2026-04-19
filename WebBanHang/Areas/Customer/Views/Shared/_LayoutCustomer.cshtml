@@ -1,0 +1,87 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var title = ViewData["Title"] as string ?? "BookShelf";
+    var cartCount = ViewBag.CartItemCount as int? ?? 0;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title · BookShelf</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/customer.css" asp-append-version="true" />
+</head>
+<body class="customer-store">
+    <script>
+        try {
+            if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark-mode");
+        } catch (e) { }
+    </script>
+    <header class="c-topbar">
+        <div class="c-topbar__inner">
+            <a class="c-brand" href="@Url.Action("Index", "Home", new { area = "Customer", tab = "products" })">BookShelf</a>
+            @* action tường minh: tránh link generator rút thành /Customer rồi mất keyword (đã bỏ MapGet /Customer). *@
+            <form id="catalogSearchForm"
+                  class="c-search"
+                  method="get"
+                  action="@Url.Action("Index", "Home", new { area = "Customer" })"
+                  novalidate>
+                <input type="hidden" name="tab" value="products" />
+                <input type="hidden" name="page" value="1" />
+                <input type="text"
+                       name="keyword"
+                       id="catalogSearchKeyword"
+                       value="@ViewBag.Query"
+                       class="c-search__input"
+                       placeholder="Tìm theo tên sách, mô tả, ISBN, tác giả, thể loại, NXB…"
+                       autocomplete="off"
+                       inputmode="search"
+                       enterkeyhint="search" />
+                <button type="submit" class="c-search__btn" aria-label="Tìm kiếm"><i class="bi bi-search"></i></button>
+            </form>
+            <environment include="Development">
+                <!-- catalog-search: GET #catalogSearchForm → Customer/Home/Index; text input name=keyword inside form -->
+            </environment>
+            <div class="c-topbar__actions">
+                <a class="c-icon-btn" asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" title="Giỏ hàng">
+                    <i class="bi bi-cart3"></i>
+                    @if (cartCount > 0)
+                    {
+                        <span class="c-badge">@cartCount</span>
+                    }
+                </a>
+                @await Component.InvokeAsync("UserMenu")
+                <button type="button" class="c-icon-btn c-theme-toggle" id="themeToggle" aria-pressed="false" title="Chế độ tối">
+                    <span class="c-theme-icon" aria-hidden="true">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="c-main-wrap">
+        @RenderBody()
+    </main>
+
+    <environment include="Development">
+        <script>
+            (function () {
+                var f = document.getElementById("catalogSearchForm");
+                if (!f) return;
+                f.addEventListener("submit", function () {
+                    try {
+                        var u = new URL(f.action, window.location.origin);
+                        new FormData(f).forEach(function (v, k) { u.searchParams.set(k, v); });
+                        console.info("[catalog-search] submit →", u.pathname + u.search);
+                    } catch (e) { console.warn("[catalog-search]", e); }
+                });
+            })();
+        </script>
+    </environment>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/theme.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

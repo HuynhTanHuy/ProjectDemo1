@@ -1,60 +1,373 @@
-@model IEnumerable<WebBanHang.Models.ViewModels.BorrowListItemViewModel>
+@model WebBanHang.Models.ViewModels.BorrowIndexViewModel
+@using WebBanHang.Models
 @{
-    ViewData["Title"] = "Borrow Management";
+    ViewData["Title"] = "Quản lý mượn sách";
+    Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0">Borrows</h4>
-</div>
+<style>
+    .borrow-page .breadcrumb { font-size: 0.875rem; }
+    .borrow-stat-card { border-radius: 0.5rem; border: 1px solid #e9ecef; }
+    .borrow-filter-card { border-radius: 0.5rem; }
+</style>
 
-<div class="card shadow-sm border-0">
-    <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th>User</th>
-                    <th>Book</th>
-                    <th>Borrow Date</th>
-                    <th>Due Date</th>
-                    <th>Status</th>
-                    <th class="text-end">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.UserName</td>
-                        <td>@item.BookTitle</td>
-                        <td>@item.BorrowDate.ToLocalTime().ToString("dd/MM/yyyy")</td>
-                        <td>@item.DueDate.ToLocalTime().ToString("dd/MM/yyyy")</td>
-                        <td>
-                            @if (item.Status == WebBanHang.Models.BorrowStatus.Returned)
+<div class="borrow-page">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+            <li class="breadcrumb-item">Mượn trả</li>
+            <li class="breadcrumb-item active" aria-current="page">Danh sách mượn</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <h1 class="h3 mb-0 fw-semibold text-dark">
+            <i class="fa-solid fa-book-journal-whills me-2 text-primary"></i>Quản lý mượn sách
+        </h1>
+        <a href="@Url.Action("Index", "Home", new { area = "Customer", tab = "products" })" class="btn btn-outline-primary btn-sm">
+            <i class="fa-solid fa-store me-1"></i>Xem kho sách
+        </a>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-xl-3">
+            <div class="card borrow-stat-card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <div class="text-muted small">Tổng phiếu mượn</div>
+                    <div class="fs-4 fw-bold text-dark">@Model.StatTotalBorrows.ToString("N0")</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="card borrow-stat-card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <div class="text-muted small">Đang mượn (trong hạn)</div>
+                    <div class="fs-4 fw-bold text-primary">@Model.StatActiveBorrowing.ToString("N0")</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="card borrow-stat-card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <div class="text-muted small">Quá hạn</div>
+                    <div class="fs-4 fw-bold text-danger">@Model.StatOverdue.ToString("N0")</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="card borrow-stat-card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <div class="text-muted small">Đã trả</div>
+                    <div class="fs-4 fw-bold text-success">@Model.StatReturned.ToString("N0")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card borrow-filter-card shadow-sm border-0 mb-3">
+        <div class="card-body">
+            <form method="get" asp-area="Admin" asp-controller="Borrows" asp-action="Index" class="row g-2 align-items-end">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <label class="form-label small text-muted mb-1" for="q">Tìm kiếm</label>
+                    <input type="text" class="form-control form-control-sm" id="q" name="SearchQuery" value="@Model.SearchQuery" placeholder="Người dùng hoặc tên sách..." />
+                </div>
+                <div class="col-12 col-md-3 col-lg-2">
+                    <label class="form-label small text-muted mb-1" for="cat">Danh mục sách</label>
+                    <select class="form-select form-select-sm" id="cat" name="CategoryId" asp-items="Model.CategoryOptions" asp-for="CategoryId"></select>
+                </div>
+                <div class="col-12 col-md-3 col-lg-2">
+                    <label class="form-label small text-muted mb-1" for="st">Trạng thái</label>
+                    <select class="form-select form-select-sm" id="st" name="Status">
+                        @if (string.IsNullOrEmpty(Model.Status))
+                        {
+                            <option value="" selected>Tất cả</option>
+                        }
+                        else
+                        {
+                            <option value="">Tất cả</option>
+                        }
+                        @if (Model.Status == "Borrowing")
+                        {
+                            <option value="Borrowing" selected>Đang mượn</option>
+                        }
+                        else
+                        {
+                            <option value="Borrowing">Đang mượn</option>
+                        }
+                        @if (Model.Status == "Overdue")
+                        {
+                            <option value="Overdue" selected>Quá hạn</option>
+                        }
+                        else
+                        {
+                            <option value="Overdue">Quá hạn</option>
+                        }
+                        @if (Model.Status == "Returned")
+                        {
+                            <option value="Returned" selected>Đã trả</option>
+                        }
+                        else
+                        {
+                            <option value="Returned">Đã trả</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-6 col-md-2 col-lg-1">
+                    <label class="form-label small text-muted mb-1" for="ps">/ trang</label>
+                    <select class="form-select form-select-sm" id="ps" name="PageSize" asp-for="PageSize">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <div class="col-6 col-md-2 col-lg-2 d-flex gap-2">
+                    <input type="hidden" name="PageNumber" value="1" />
+                    <button type="submit" class="btn btn-primary btn-sm flex-grow-1">
+                        <i class="fa-solid fa-magnifying-glass me-1"></i>Lọc
+                    </button>
+                    <a asp-area="Admin" asp-controller="Borrows" asp-action="Index" class="btn btn-outline-secondary btn-sm">Xóa lọc</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-sm align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Người mượn</th>
+                            <th scope="col">Tên sách</th>
+                            <th scope="col">Ngày mượn</th>
+                            <th scope="col">Hạn trả</th>
+                            <th scope="col" class="text-center">Trạng thái</th>
+                            <th scope="col" class="text-end" style="min-width: 200px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Items.Any())
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-5">
+                                    <i class="fa-regular fa-folder-open fa-2x mb-2 d-block opacity-50"></i>
+                                    Không có phiếu mượn phù hợp bộ lọc.
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model.Items)
                             {
-                                <span class="badge bg-success">Returned</span>
+                                var borrowLocal = item.BorrowDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm");
+                                var dueLocal = item.DueDate.ToLocalTime().ToString("dd/MM/yyyy");
+                                var returnLocal = item.ReturnDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "N/A";
+                                <tr data-borrow-id="@item.BorrowId"
+                                    data-user="@item.UserName"
+                                    data-book="@item.BookTitle"
+                                    data-borrow-date="@borrowLocal"
+                                    data-due-date="@dueLocal"
+                                    data-return-date="@returnLocal"
+                                    data-raw-status="@((int)item.Status)">
+                                    <td>@Html.DisplayFor(_ => item.UserName)</td>
+                                    <td>@(item.BookTitle ?? "N/A")</td>
+                                    <td>@item.BorrowDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@item.DueDate.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                                    <td class="text-center">
+                                        @switch (item.Status)
+                                        {
+                                            case BorrowStatus.Returned:
+                                                <span class="badge bg-success">Đã trả</span>
+                                                break;
+                                            default:
+                                                if (item.IsOverdue)
+                                                {
+                                                    <span class="badge bg-danger">Quá hạn</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-primary">Đang mượn</span>
+                                                }
+                                                break;
+                                        }
+                                    </td>
+                                    <td class="text-end text-nowrap">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" title="Chi tiết"
+                                                data-bs-toggle="modal" data-bs-target="#detailModal">
+                                            <i class="fa-solid fa-circle-info"></i> Chi tiết
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-warning" disabled title="Chưa hỗ trợ chỉnh sửa">
+                                            <i class="fa-solid fa-pen"></i> Sửa
+                                        </button>
+                                        @if (item.Status == BorrowStatus.Borrowing)
+                                        {
+                                            <form asp-area="Admin" asp-controller="Borrows" asp-action="MarkReturned" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="borrowId" value="@item.BorrowId" />
+                                                <button type="submit" class="btn btn-sm btn-outline-primary" title="Ghi nhận trả sách">
+                                                    <i class="fa-solid fa-rotate-left"></i> Trả sách
+                                                </button>
+                                            </form>
+                                        }
+                                        @if (item.Status != BorrowStatus.Borrowing)
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-sm btn-outline-danger btn-borrow-delete"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal"
+                                                    data-id="@item.BorrowId"
+                                                    data-book="@(item.BookTitle ?? "N/A")"
+                                                    title="Xóa phiếu">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" disabled title="Chỉ xóa khi đã trả sách">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
                             }
-                            else if (item.IsOverdue)
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @if (Model.TotalPages > 0 && Model.TotalCount > 0)
+        {
+            <div class="card-footer bg-white d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
+                <div class="small text-muted">
+                    Hiển thị @((Model.PageNumber - 1) * Model.PageSize + 1)–@(Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount)) / @Model.TotalCount.ToString("N0") phiếu
+                </div>
+                <nav aria-label="Phân trang">
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : null)">
+                            <a class="page-link" asp-area="Admin" asp-controller="Borrows" asp-action="Index"
+                               asp-route-PageNumber="@(Model.PageNumber - 1)"
+                               asp-route-PageSize="@Model.PageSize"
+                               asp-route-SearchQuery="@Model.SearchQuery"
+                               asp-route-CategoryId="@Model.CategoryId"
+                               asp-route-Status="@Model.Status">Trước</a>
+                        </li>
+                        @{
+                            var start = Math.Max(1, Model.PageNumber - 2);
+                            var end = Math.Min(Model.TotalPages, Model.PageNumber + 2);
+                            for (var p = start; p <= end; p++)
                             {
-                                <span class="badge bg-danger">Overdue</span>
+                                <li class="page-item @(p == Model.PageNumber ? "active" : null)">
+                                    <a class="page-link" asp-area="Admin" asp-controller="Borrows" asp-action="Index"
+                                       asp-route-PageNumber="@p"
+                                       asp-route-PageSize="@Model.PageSize"
+                                       asp-route-SearchQuery="@Model.SearchQuery"
+                                       asp-route-CategoryId="@Model.CategoryId"
+                                       asp-route-Status="@Model.Status">@p</a>
+                                </li>
                             }
-                            else
-                            {
-                                <span class="badge bg-primary">Borrowing</span>
-                            }
-                        </td>
-                        <td class="text-end">
-                            @if (item.Status == WebBanHang.Models.BorrowStatus.Borrowing)
-                            {
-                                <form asp-action="MarkReturned" method="post" class="d-inline">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="borrowId" value="@item.BorrowId" />
-                                    <button class="btn btn-sm btn-outline-primary rounded-pill">Mark Returned</button>
-                                </form>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                        }
+                        <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : null)">
+                            <a class="page-link" asp-area="Admin" asp-controller="Borrows" asp-action="Index"
+                               asp-route-PageNumber="@(Model.PageNumber + 1)"
+                               asp-route-PageSize="@Model.PageSize"
+                               asp-route-SearchQuery="@Model.SearchQuery"
+                               asp-route-CategoryId="@Model.CategoryId"
+                               asp-route-Status="@Model.Status">Sau</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        }
     </div>
 </div>
+
+<!-- Chi tiết -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel"><i class="fa-solid fa-book me-2"></i>Chi tiết phiếu mượn</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <dl class="row mb-0 small">
+                    <dt class="col-sm-4">Người mượn</dt>
+                    <dd class="col-sm-8" id="detailUser">—</dd>
+                    <dt class="col-sm-4">Sách</dt>
+                    <dd class="col-sm-8" id="detailBook">—</dd>
+                    <dt class="col-sm-4">Ngày mượn</dt>
+                    <dd class="col-sm-8" id="detailBorrow">—</dd>
+                    <dt class="col-sm-4">Hạn trả</dt>
+                    <dd class="col-sm-8" id="detailDue">—</dd>
+                    <dt class="col-sm-4">Ngày trả</dt>
+                    <dd class="col-sm-8" id="detailReturn">—</dd>
+                    <dt class="col-sm-4">Trạng thái</dt>
+                    <dd class="col-sm-8" id="detailStatus">—</dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Xóa -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-danger text-danger">
+                <h5 class="modal-title" id="deleteModalLabel"><i class="fa-solid fa-triangle-exclamation me-2"></i>Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Bạn có chắc muốn xóa phiếu mượn của sách <strong id="deleteBookName"></strong>? Thao tác không thể hoàn tác.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Hủy</button>
+                <form asp-area="Admin" asp-controller="Borrows" asp-action="Delete" method="post" class="d-inline" id="deleteBorrowForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" id="deleteBorrowIdInput" value="" />
+                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            var detailModal = document.getElementById('detailModal');
+            if (detailModal) {
+                detailModal.addEventListener('show.bs.modal', function (event) {
+                    var btn = event.relatedTarget;
+                    if (!btn || typeof btn.closest !== 'function') return;
+                    var tr = btn.closest('tr');
+                    if (!tr) return;
+                    document.getElementById('detailUser').textContent = tr.dataset.user || 'N/A';
+                    document.getElementById('detailBook').textContent = tr.dataset.book || 'N/A';
+                    document.getElementById('detailBorrow').textContent = tr.dataset.borrowDate || 'N/A';
+                    document.getElementById('detailDue').textContent = tr.dataset.dueDate || 'N/A';
+                    document.getElementById('detailReturn').textContent = tr.dataset.returnDate || 'N/A';
+                    var st = tr.dataset.rawStatus;
+                    var el = document.getElementById('detailStatus');
+                    if (st === '2') {
+                        el.innerHTML = '<span class="badge bg-success">Đã trả</span>';
+                    } else if (tr.querySelector('.badge.bg-danger')) {
+                        el.innerHTML = '<span class="badge bg-danger">Quá hạn</span>';
+                    } else {
+                        el.innerHTML = '<span class="badge bg-primary">Đang mượn</span>';
+                    }
+                });
+            }
+            document.querySelectorAll('.btn-borrow-delete').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    document.getElementById('deleteBorrowIdInput').value = this.dataset.id || '';
+                    document.getElementById('deleteBookName').textContent = this.dataset.book || '';
+                });
+            });
+        })();
+    </script>
+}

@@ -1,54 +1,104 @@
-@model WebBanHang.Models.ViewModels.LoginViewModel
 @{
-    ViewData["Title"] = "Login";
+    Layout = null;
+    var returnUrl = ViewData["ReturnUrl"] as string;
+    var emailValue = ViewBag.Email as string ?? string.Empty;
+    var error = ViewBag.Error as string;
 }
-
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
-            <div class="card shadow border-0 rounded-4">
-                <div class="card-body p-4 p-md-5">
-                    <h3 class="text-center fw-bold mb-4">Welcome back</h3>
-                    <form method="post" asp-action="Login">
-                        @Html.AntiForgeryToken()
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                        <div class="mb-3">
-                            <label asp-for="UserNameOrEmail" class="form-label"></label>
-                            <input asp-for="UserNameOrEmail" class="form-control form-control-lg rounded-3" />
-                            <span asp-validation-for="UserNameOrEmail" class="text-danger"></span>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập - WebBanHang</title>
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+</head>
+<body class="login-page" data-auth-page>
+    <div class="login-shell">
+        <aside class="login-visual" aria-hidden="true">
+            <div class="login-visual__glow"></div>
+            <div class="login-stage">
+                <div class="login-characters">
+                    <div class="login-character login-character--a">
+                        <div class="login-character__head">
+                            <span class="login-character__eye login-character__eye--left"></span>
+                            <span class="login-character__eye login-character__eye--right"></span>
                         </div>
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label"></label>
-                            <input asp-for="Password" class="form-control form-control-lg rounded-3" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="login-character__body"></div>
+                    </div>
+                    <div class="login-character login-character--b">
+                        <div class="login-character__head">
+                            <span class="login-character__eye login-character__eye--left"></span>
+                            <span class="login-character__eye login-character__eye--right"></span>
                         </div>
-                        <div class="form-check mb-3">
-                            <input asp-for="RememberMe" class="form-check-input" />
-                            <label asp-for="RememberMe" class="form-check-label"></label>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 rounded-3" id="loginBtn">Login</button>
-                    </form>
-                    <p class="text-center mt-3 mb-0">
-                        No account?
-                        <a asp-action="Register">Create one</a>
-                    </p>
+                        <div class="login-character__body"></div>
+                    </div>
                 </div>
+                <p class="login-caption">Di chuyển chuột — nhân vật sẽ theo dõi bạn</p>
             </div>
-        </div>
-    </div>
-</div>
+        </aside>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-        (() => {
-            const form = document.querySelector('form');
-            const btn = document.getElementById('loginBtn');
-            if (!form || !btn) return;
-            form.addEventListener('input', () => {
-                btn.disabled = !form.checkValidity();
-            });
-            btn.disabled = !form.checkValidity();
-        })();
-    </script>
-}
+        <section class="login-panel">
+            <div class="login-card">
+                <h1 class="login-card__title">Chào mừng trở lại</h1>
+                <p class="login-card__subtitle">Đăng nhập để tiếp tục mua sắm</p>
+
+                @if (!string.IsNullOrEmpty(error))
+                {
+                    <div class="login-alert" role="alert">@error</div>
+                }
+
+                <form method="post" asp-action="Login" asp-controller="Auth">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+                    <div class="login-field">
+                        <label class="login-label" for="login-email">Email hoặc tên đăng nhập</label>
+                        <input class="login-input"
+                               type="text"
+                               id="login-email"
+                               name="email"
+                               value="@emailValue"
+                               autocomplete="username"
+                               required />
+                    </div>
+
+                    <div class="login-field">
+                        <label class="login-label" for="login-password">Mật khẩu</label>
+                        <div class="login-password-wrap">
+                            <input class="login-input"
+                                   type="password"
+                                   id="login-password"
+                                   name="password"
+                                   autocomplete="current-password"
+                                   required />
+                            <button type="button"
+                                    class="login-toggle"
+                                    data-password-toggle
+                                    data-label-show="Hiện"
+                                    data-label-hide="Ẩn"
+                                    aria-pressed="false"
+                                    aria-label="Hiện hoặc ẩn mật khẩu">
+                                Hiện
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="login-check">
+                        <input type="checkbox" name="rememberMe" value="true" />
+                        <span>Ghi nhớ đăng nhập</span>
+                    </label>
+
+                    <button type="submit" class="login-submit">Đăng nhập</button>
+                </form>
+
+                <p class="login-footer">
+                    Chưa có tài khoản?
+                    <a asp-action="Register" asp-controller="Auth">Đăng ký</a>
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <script src="~/js/login.js" asp-append-version="true"></script>
+</body>
+</html>

@@ -1,465 +1,552 @@
-﻿@using System.Globalization
-@{
-	ViewData["Title"] = "Trang chủ";
-	var currentTab = ViewBag.Tab?.ToString() ?? "products";
+﻿@model WebBanHang.Models.ViewModels.CustomerHomeIndexViewModel
+@functions {
+    private static RouteValueDictionary CatalogRoute(CustomerHomeIndexViewModel m, object? overrides = null)
+    {
+        var d = new RouteValueDictionary
+        {
+            ["area"] = "Customer",
+            ["controller"] = "Home",
+            ["action"] = "Index",
+            ["tab"] = "products",
+            ["page"] = m.CurrentPage,
+            ["pageSize"] = m.PageSize,
+            ["sort"] = m.Sort,
+        };
+        if (!string.IsNullOrWhiteSpace(m.Query))
+        {
+            d["keyword"] = m.Query;
+        }
+
+        if (m.CategoryId is > 0)
+        {
+            d["categoryId"] = m.CategoryId;
+        }
+
+        if (m.AuthorId is > 0)
+        {
+            d["authorId"] = m.AuthorId;
+        }
+
+        if (m.GenreId is > 0)
+        {
+            d["genreId"] = m.GenreId;
+        }
+
+        if (m.PublisherId is > 0)
+        {
+            d["publisherId"] = m.PublisherId;
+        }
+
+        if (!string.IsNullOrWhiteSpace(m.Status))
+        {
+            d["status"] = m.Status;
+        }
+
+        if (m.MinRating is >= 1 and <= 5)
+        {
+            d["minRating"] = m.MinRating;
+        }
+
+        if (m.YearFrom is > 0)
+        {
+            d["yearFrom"] = m.YearFrom;
+        }
+
+        if (m.YearTo is > 0)
+        {
+            d["yearTo"] = m.YearTo;
+        }
+
+        if (!string.IsNullOrWhiteSpace(m.Lang))
+        {
+            d["lang"] = m.Lang;
+        }
+
+        if (overrides != null)
+        {
+            foreach (var kv in new RouteValueDictionary(overrides))
+            {
+                if (kv.Value == null)
+                {
+                    d.Remove(kv.Key);
+                }
+                else
+                {
+                    d[kv.Key] = kv.Value;
+                }
+            }
+        }
+
+        return d;
+    }
 }
 
-<div class="container bookstore-page py-4">
-	<div class="bookstore-shell mx-auto">
-	<div class="row align-items-end mb-4">
-		<div class="col-12 col-lg-8 mb-3 mb-lg-0">
-			<h2 class="display-title mb-0">
-				<i class="bi bi-book-half"></i>&nbsp;Nha sach truc tuyen
-			</h2>
-			<div class="text-secondary small">Kham pha sach moi, doc thu va dat muon nhanh chong</div>
-		</div>
-		<div class="col-12 col-lg-4">
-			<div class="d-flex gap-2 align-items-end">
-				@if (currentTab == "products")
-				{
-					<form method="get" class="d-flex gap-2 flex-grow-1">
-						<input type="hidden" name="tab" value="products" />
-						<input type="hidden" name="page" value="1" />
-						<input type="text" name="q" value="@ViewBag.Query" class="form-control" placeholder="Tìm kiếm...">
-						<button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
-					</form>
-					<a asp-action="Index" asp-route-tab="products" asp-route-page="1"
-					   class="btn btn-outline-secondary" title="Làm mới và quay về trang chủ">
-						<i class="bi bi-arrow-clockwise"></i> Làm mới
-					</a>
-				}				
-			</div>
-		</div>
-	</div>
+@await Html.PartialAsync("_CustomerSubnav", Model.Tab)
 
-	<ul class="nav nav-tabs bookstore-tabs mb-4" role="tablist">
-		<li class="nav-item" role="presentation">
-			<a class="nav-link @(currentTab == "products" ? "active" : "")" 
-			   asp-action="Index" asp-route-tab="products" asp-route-page="1">
-				<i class="bi bi-book me-2"></i>Sản phẩm
-			</a>
-		</li>
-		<li class="nav-item" role="presentation">
-			<a class="nav-link @(currentTab == "authors" ? "active" : "")" 
-			   asp-action="Index" asp-route-tab="authors" asp-route-page="1">
-				<i class="bi bi-people me-2"></i>Tác giả
-			</a>
-		</li>
-		<li class="nav-item" role="presentation">
-			<a class="nav-link @(currentTab == "genres" ? "active" : "")" 
-			   asp-action="Index" asp-route-tab="genres" asp-route-page="1">
-				<i class="bi bi-tags me-2"></i>Thể loại
-			</a>
-		</li>
-		<li class="nav-item" role="presentation">
-			<a class="nav-link @(currentTab == "publishers" ? "active" : "")" 
-			   asp-action="Index" asp-route-tab="publishers" asp-route-page="1">
-				<i class="bi bi-building me-2"></i>Nhà xuất bản
-			</a>
-		</li>
-	</ul>
+@if (Model.Tab == "products" && Model.Catalog != null)
+{
+    var cat = Model.Catalog;
+    var st = cat.Status ?? "";
 
-	<div class="tab-content">
-		@if (currentTab == "products")
-		{
-			<div class="tab-pane fade show active">
-				<form method="get" class="row g-3 mb-4 filter-panel">
-					<input type="hidden" name="tab" value="products" />
-					<input type="hidden" name="page" value="1" />
-					<input type="hidden" name="q" value="@ViewBag.Query" />
-					<div class="col-12 col-md-3">
-						<label class="form-label small text-muted mb-1">Danh muc</label>
-						<select name="categoryId" class="form-select" onchange="this.form.submit()">
-							<option value="">Tất cả danh mục</option>
-							@foreach (var c in (IEnumerable<WebBanHang.Models.Category>)ViewBag.Categories)
-							{
-								<option value="@c.Id" selected="@(ViewBag.SelectedCategoryId == c.Id)">@c.Name</option>
-							}
-						</select>
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="form-label small text-muted mb-1">Tac gia</label>
-						<select name="authorId" class="form-select" onchange="this.form.submit()">
-							<option value="">Tất cả tác giả</option>
-							@foreach (var a in (IEnumerable<WebBanHang.Models.Author>)ViewBag.Authors)
-							{
-								<option value="@a.Id" selected="@(ViewBag.SelectedAuthorId == a.Id)">@a.Name</option>
-							}
-						</select>
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="form-label small text-muted mb-1">The loai</label>
-						<select name="genreId" class="form-select" onchange="this.form.submit()">
-							<option value="">Tất cả thể loại</option>
-							@foreach (var g in (IEnumerable<WebBanHang.Models.Genre>)ViewBag.Genres)
-							{
-								<option value="@g.Id" selected="@(ViewBag.SelectedGenreId == g.Id)">@g.Name</option>
-							}
-						</select>
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="form-label small text-muted mb-1">Nha xuat ban</label>
-						<select name="publisherId" class="form-select" onchange="this.form.submit()">
-							<option value="">Tất cả nhà XB</option>
-							@foreach (var p in (IEnumerable<WebBanHang.Models.Publisher>)ViewBag.Publishers)
-							{
-								<option value="@p.Id" selected="@(ViewBag.SelectedPublisherId == p.Id)">@p.Name</option>
-							}
-						</select>
-					</div>
-				</form>
+    var totalBooks = Math.Max(1, cat.StatTotalBooks);
+    var pctAvail = 100.0 * cat.StatAvailableTitles / totalBooks;
+    var pctBorrow = 100.0 * cat.StatBorrowing / totalBooks;
+    var pctOverdueOfBorrow = cat.StatBorrowing > 0 ? 100.0 * cat.StatOverdueLoans / cat.StatBorrowing : 0;
 
-				<div class="row g-4" id="productGrid">
-					@if (ViewBag.Products != null && ((IEnumerable<WebBanHang.Models.Product>)ViewBag.Products).Any())
-					{
-						@foreach (var product in (IEnumerable<WebBanHang.Models.Product>)ViewBag.Products)
-						{
-							<div class="col-12 col-sm-6 col-lg-4 col-xl-3 product-item">
-								<div class="card book-card h-100 border-0">
-									<div class="position-relative cover-wrap">
-										@if (!string.IsNullOrEmpty(product.ImageUrl))
-										{
-											<img src="@product.ImageUrl" class="card-img-top book-cover" alt="@product.Name">
-										}
-										else
-										{
-											<img src="/images/no-image.jpg" class="card-img-top book-cover" alt="No Image">
-										}
-										<div class="position-absolute top-0 end-0 m-2 d-flex flex-column gap-2">
-											@if (product.DiscountPercent.HasValue && product.DiscountPercent.Value > 0)
-											{
-												<span class="badge rounded-pill bg-danger px-3 py-2">-@product.DiscountPercent%</span>
-											}
-											@if (product.Category != null)
-											{
-												<span class="badge rounded-pill text-bg-light border">@product.Category.Name</span>
-											}
-										</div>
-										<div class="position-absolute bottom-0 start-0 p-2">
-											@if (product.Stock > 0)
-											{
-												<span class="badge rounded-pill bg-success">Available</span>
-											}
-											else
-											{
-												<span class="badge rounded-pill bg-danger">Out of stock</span>
-											}
-										</div>
-									</div>
-									<div class="card-body d-flex flex-column px-3 pb-3">
-										<h5 class="book-title mb-2">@product.Name</h5>
-										<div class="book-author mb-1">@(!string.IsNullOrWhiteSpace(product.Author?.Name) ? product.Author.Name : "Dang cap nhat tac gia")</div>
-										<div class="book-meta mb-3">@product.Genre?.Name · @product.Language</div>
-										<div class="mt-auto">
-											<div class="mb-3">
-												@if (product.DiscountPercent > 0)
-												{
-													var oldPrice = product.Price;
-													var newPrice = product.Price * (100 - product.DiscountPercent) / 100;
+    <div class="c-dash-grid">
+        <div class="c-dash-card c-dash-card--blue">
+            <div class="c-dash-card__icon"><i class="bi bi-journal-richtext"></i></div>
+            <div class="c-dash-card__body">
+                <div class="c-dash-card__value">@cat.StatTotalBooks.ToString("N0")</div>
+                <div class="c-dash-card__label">Tổng sách</div>
+                <div class="c-dash-card__hint">100% danh mục</div>
+            </div>
+        </div>
+        <div class="c-dash-card c-dash-card--green">
+            <div class="c-dash-card__icon"><i class="bi bi-bookmark-check"></i></div>
+            <div class="c-dash-card__body">
+                <div class="c-dash-card__value">@cat.StatAvailableTitles.ToString("N0")</div>
+                <div class="c-dash-card__label">Còn sách (sẵn có)</div>
+                <div class="c-dash-card__hint">@pctAvail.ToString("0.#")% / tổng đầu sách</div>
+            </div>
+        </div>
+        <div class="c-dash-card c-dash-card--amber">
+            <div class="c-dash-card__icon"><i class="bi bi-people"></i></div>
+            <div class="c-dash-card__body">
+                <div class="c-dash-card__value">@cat.StatBorrowing.ToString("N0")</div>
+                <div class="c-dash-card__label">Đang mượn</div>
+                <div class="c-dash-card__hint">@pctBorrow.ToString("0.#")% / tổng đầu sách</div>
+            </div>
+        </div>
+        <div class="c-dash-card c-dash-card--red">
+            <div class="c-dash-card__icon"><i class="bi bi-exclamation-triangle"></i></div>
+            <div class="c-dash-card__body">
+                <div class="c-dash-card__value">@cat.StatOverdueLoans.ToString("N0")</div>
+                <div class="c-dash-card__label">Quá hạn</div>
+                <div class="c-dash-card__hint">@pctOverdueOfBorrow.ToString("0.#")% / lượt đang mượn</div>
+            </div>
+        </div>
+    </div>
 
-													<span class="text-muted text-decoration-line-through me-2 small">
-														@oldPrice.ToString("c", new CultureInfo("vi-VN"))
-													</span>
+    <nav class="c-catnav" aria-label="Danh mục">
+        <a class="c-catnav__link @(Model.CategoryId == null || Model.CategoryId == 0 ? "is-active" : null)"
+           href="@Url.Action("Index", "Home", CatalogRoute(Model, new { categoryId = (int?)null, page = 1 }))">Tất cả</a>
+        @foreach (var c in (IEnumerable<WebBanHang.Models.Category>)ViewBag.Categories)
+        {
+            <a class="c-catnav__link @(Model.CategoryId == c.Id ? "is-active" : null)"
+               href="@Url.Action("Index", "Home", CatalogRoute(Model, new { categoryId = c.Id, page = 1 }))">@c.Name</a>
+        }
+    </nav>
 
-													<span class="text-danger fw-bold fs-5">
-														@newPrice?.ToString("c", new CultureInfo("vi-VN"))
-													</span>
-												}
-												else
-												{
-													<span class="text-danger fw-bold fs-5">
-														@product.Price.ToString("c", new CultureInfo("vi-VN"))
-													</span>
-												}
-											</div>
-											<div class="d-flex gap-2 flex-wrap">
-												<a asp-area="" asp-controller="BookPreview"
-												   asp-action="View"
-												   asp-route-bookId="@product.Id"
-												   class="btn btn-primary btn-action">
-													<i class="bi bi-book me-1"></i> Preview
-												</a>
-												<a asp-area="Customer" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-productId="@product.Id" asp-route-quantity="1" class="btn btn-success btn-action @(product.Stock <= 0 ? "disabled" : "")">
-													<i class="bi bi-journal-check me-1"></i> Borrow
-												</a>
-												<a asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-secondary btn-action">
-													<i class="bi bi-eye me-1"></i> Detail
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						}
-					}
-					else
-					{
-						<div class="col-12">
-							<div class="alert alert-info text-center">
-								<i class="bi bi-info-circle me-2"></i>Không tìm thấy sản phẩm nào.
-							</div>
-						</div>
-					}
-				</div>
-				
-				<div class="mt-4">
-					@await Html.PartialAsync("_Pagination")
-				</div>
-			</div>
-		}
-		else if (currentTab == "authors")
-		{
-			<div class="tab-pane fade show active">
-				<div class="row">
-					@if (ViewBag.AuthorsList != null && ((IEnumerable<WebBanHang.Models.Author>)ViewBag.AuthorsList).Any())
-					{
-						@foreach (var author in (IEnumerable<WebBanHang.Models.Author>)ViewBag.AuthorsList)
-						{
-							<div class="col-6 col-md-4 col-lg-3 mb-4">
-								<a class="text-decoration-none" asp-area="Customer" asp-controller="Authors" asp-action="Details" asp-route-id="@author.Id">
-									<div class="card h-100">
-										@if (!string.IsNullOrEmpty(author.PhotoUrl))
-										{
-											<img src="@author.PhotoUrl" class="card-img-top" alt="@author.Name" style="height:200px;object-fit:cover;">
-										}
-										else
-										{
-											<div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height:200px;">
-												<i class="bi bi-person-circle fs-1 text-muted"></i>
-											</div>
-										}
-										<div class="card-body">
-											<h5 class="card-title">@author.Name</h5>
-											@if (!string.IsNullOrEmpty(author.Biography))
-											{
-												<div class="text-muted small text-truncate">@author.Biography</div>
-											}
-										</div>
-									</div>
-								</a>
-							</div>
-						}
-					}
-					else
-					{
-						<div class="col-12">
-							<div class="alert alert-info text-center">
-								<i class="bi bi-info-circle me-2"></i>Không có tác giả nào.
-							</div>
-						</div>
-					}
-				</div>
-				
-				<div class="mt-4">
-					@await Html.PartialAsync("_Pagination")
-				</div>
-			</div>
-		}
-		else if (currentTab == "genres")
-		{
-			<div class="tab-pane fade show active">
-				<div class="row">
-					@if (ViewBag.GenresList != null && ((IEnumerable<WebBanHang.Models.Genre>)ViewBag.GenresList).Any())
-					{
-						@foreach (var genre in (IEnumerable<WebBanHang.Models.Genre>)ViewBag.GenresList)
-						{
-							<div class="col-6 col-md-4 col-lg-3 mb-3">
-								<a asp-area="Customer" asp-controller="Genres" asp-action="Details" asp-route-id="@genre.Id" class="btn btn-outline-primary w-100">
-									<i class="bi bi-tag me-2"></i>@genre.Name
-								</a>
-							</div>
-						}
-					}
-					else
-					{
-						<div class="col-12">
-							<div class="alert alert-info text-center">
-								<i class="bi bi-info-circle me-2"></i>Không có thể loại nào.
-							</div>
-						</div>
-					}
-				</div>
-				
-				<div class="mt-4">
-					@await Html.PartialAsync("_Pagination")
-				</div>
-			</div>
-		}
-		else if (currentTab == "publishers")
-		{
-			<div class="tab-pane fade show active">
-				<div class="row">
-					@if (ViewBag.PublishersList != null && ((IEnumerable<WebBanHang.Models.Publisher>)ViewBag.PublishersList).Any())
-					{
-						@foreach (var publisher in (IEnumerable<WebBanHang.Models.Publisher>)ViewBag.PublishersList)
-						{
-							<div class="col-6 col-md-4 col-lg-3 mb-4">
-								<a class="text-decoration-none" asp-area="Customer" asp-controller="Publishers" asp-action="Details" asp-route-id="@publisher.Id">
-									<div class="card h-100 d-flex align-items-center justify-content-center p-4">
-										@if (!string.IsNullOrEmpty(publisher.LogoUrl))
-										{
-											<img src="@publisher.LogoUrl" alt="@publisher.Name" style="max-height:60px;object-fit:contain;" />
-										}
-										else
-										{
-											<i class="bi bi-building fs-1 text-muted"></i>
-										}
-										<div class="mt-2 fw-semibold">@publisher.Name</div>
-									</div>
-								</a>
-							</div>
-						}
-					}
-					else
-					{
-						<div class="col-12">
-							<div class="alert alert-info text-center">
-								<i class="bi bi-info-circle me-2"></i>Không có nhà xuất bản nào.
-							</div>
-						</div>
-					}
-				</div>
-				
-				<div class="mt-4">
-					@await Html.PartialAsync("_Pagination")
-				</div>
-			</div>
-		}
-	</div>
-	</div>
-</div>
+    <div class="c-layout">
+        <aside class="c-sidebar" aria-label="Bộ lọc">
+            <form method="get" action="@Url.Action("Index", "Home", new { area = "Customer" })">
+                <input type="hidden" name="tab" value="products" />
+                <input type="hidden" name="page" value="1" />
+                <input type="hidden" name="sort" value="@Model.Sort" />
+                <input type="hidden" name="keyword" value="@Model.Query" />
+                @if (Model.CategoryId is > 0)
+                {
+                    <input type="hidden" name="categoryId" value="@Model.CategoryId" />
+                }
 
-<style>
-	.bookstore-page {
-		background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-		min-height: 100vh;
-	}
+                <p class="c-sidebar__title">Trạng thái</p>
+                <div class="c-field">
+                    <select name="status" aria-label="Trạng thái">
+                        @if (st == "")
+                        {
+                            <option value="" selected="selected">Tất cả</option>
+                        }
+                        else
+                        {
+                            <option value="">Tất cả</option>
+                        }
+                        @if (st == "available")
+                        {
+                            <option value="available" selected="selected">Sẵn có</option>
+                        }
+                        else
+                        {
+                            <option value="available">Sẵn có</option>
+                        }
+                        @if (st == "borrowing")
+                        {
+                            <option value="borrowing" selected="selected">Đang mượn</option>
+                        }
+                        else
+                        {
+                            <option value="borrowing">Đang mượn</option>
+                        }
+                        @if (st == "overdue")
+                        {
+                            <option value="overdue" selected="selected">Quá hạn</option>
+                        }
+                        else
+                        {
+                            <option value="overdue">Quá hạn</option>
+                        }
+                        @if (st == "out")
+                        {
+                            <option value="out" selected="selected">Hết sách</option>
+                        }
+                        else
+                        {
+                            <option value="out">Hết sách</option>
+                        }
+                    </select>
+                </div>
 
-	.bookstore-shell {
-		max-width: 1320px;
-	}
+                <p class="c-sidebar__title">Đánh giá tối thiểu</p>
+                <div class="c-field">
+                    <select name="minRating" aria-label="Đánh giá">
+                        @if (!Model.MinRating.HasValue)
+                        {
+                            <option value="" selected="selected">Bất kỳ</option>
+                        }
+                        else
+                        {
+                            <option value="">Bất kỳ</option>
+                        }
+                        @if (Model.MinRating == 1)
+                        {
+                            <option value="1" selected="selected">Từ 1 ★</option>
+                        }
+                        else
+                        {
+                            <option value="1">Từ 1 ★</option>
+                        }
+                        @if (Model.MinRating == 2)
+                        {
+                            <option value="2" selected="selected">Từ 2 ★</option>
+                        }
+                        else
+                        {
+                            <option value="2">Từ 2 ★</option>
+                        }
+                        @if (Model.MinRating == 3)
+                        {
+                            <option value="3" selected="selected">Từ 3 ★</option>
+                        }
+                        else
+                        {
+                            <option value="3">Từ 3 ★</option>
+                        }
+                        @if (Model.MinRating == 4)
+                        {
+                            <option value="4" selected="selected">Từ 4 ★</option>
+                        }
+                        else
+                        {
+                            <option value="4">Từ 4 ★</option>
+                        }
+                        @if (Model.MinRating == 5)
+                        {
+                            <option value="5" selected="selected">5 ★</option>
+                        }
+                        else
+                        {
+                            <option value="5">5 ★</option>
+                        }
+                    </select>
+                </div>
 
-	.display-title {
-		font-size: 1.9rem;
-		font-weight: 800;
-		color: #1e3a8a;
-		letter-spacing: .2px;
-	}
+                <p class="c-sidebar__title">Năm xuất bản</p>
+                <div class="c-field">
+                    <label for="yf">Từ</label>
+                    <input id="yf" type="number" name="yearFrom" value="@Model.YearFrom" min="1800" max="2100" placeholder="VD: 2010" />
+                </div>
+                <div class="c-field">
+                    <label for="yt">Đến</label>
+                    <input id="yt" type="number" name="yearTo" value="@Model.YearTo" min="1800" max="2100" placeholder="VD: 2024" />
+                </div>
 
-	.bookstore-tabs .nav-link {
-		border: none;
-		border-radius: 999px;
-		padding: .6rem 1rem;
-		color: #475569;
-		font-weight: 600;
-	}
+                <p class="c-sidebar__title">Ngôn ngữ</p>
+                <div class="c-field">
+                    <select name="lang" aria-label="Ngôn ngữ">
+                        @if (string.IsNullOrEmpty(Model.Lang))
+                        {
+                            <option value="" selected="selected">Tất cả</option>
+                        }
+                        else
+                        {
+                            <option value="">Tất cả</option>
+                        }
+                        @foreach (var lng in (ViewBag.Languages as IEnumerable<string>) ?? Array.Empty<string>())
+                        {
+                            if (Model.Lang == lng)
+                            {
+                                <option value="@lng" selected="selected">@lng</option>
+                            }
+                            else
+                            {
+                                <option value="@lng">@lng</option>
+                            }
+                        }
+                    </select>
+                </div>
 
-	.bookstore-tabs .nav-link.active {
-		background: #1d4ed8;
-		color: #fff;
-		box-shadow: 0 8px 18px rgba(29, 78, 216, .25);
-	}
+                <p class="c-sidebar__title">Thể loại</p>
+                <div class="c-field">
+                    <select name="genreId" aria-label="Thể loại">
+                        @foreach (var opt in cat.GenreOptions)
+                        {
+                            if (opt.Selected)
+                            {
+                                <option value="@opt.Value" selected="selected">@opt.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@opt.Value">@opt.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
 
-	.filter-panel {
-		background: #fff;
-		border-radius: 16px;
-		padding: 1rem;
-		box-shadow: 0 10px 24px rgba(15, 23, 42, .06);
-	}
+                <p class="c-sidebar__title">Tác giả</p>
+                <div class="c-field">
+                    <select name="authorId" aria-label="Tác giả">
+                        <option value="">Tất cả</option>
+                        @foreach (var a in (IEnumerable<WebBanHang.Models.Author>)ViewBag.Authors)
+                        {
+                            if (Model.AuthorId == a.Id)
+                            {
+                                <option value="@a.Id" selected="selected">@a.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@a.Id">@a.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
 
-	.book-card {
-		border-radius: 18px;
-		overflow: hidden;
-		background: #fff;
-		box-shadow: 0 8px 22px rgba(15, 23, 42, .08);
-		transition: transform .25s ease, box-shadow .25s ease;
-	}
+                <p class="c-sidebar__title">Nhà xuất bản</p>
+                <div class="c-field">
+                    <select name="publisherId" aria-label="NXB">
+                        <option value="">Tất cả</option>
+                        @foreach (var p in (IEnumerable<WebBanHang.Models.Publisher>)ViewBag.Publishers)
+                        {
+                            if (Model.PublisherId == p.Id)
+                            {
+                                <option value="@p.Id" selected="selected">@p.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@p.Id">@p.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
 
-	.book-card:hover {
-		transform: translateY(-6px) scale(1.01);
-		box-shadow: 0 18px 34px rgba(15, 23, 42, .16);
-	}
+                <input type="hidden" name="pageSize" value="@Model.PageSize" />
+                <button type="submit" class="c-btn-apply">Áp dụng</button>
+            </form>
+        </aside>
 
-	.cover-wrap {
-		background: #f8fafc;
-	}
+        <div class="c-content">
+            <div class="c-toolbar">
+                <div class="c-sort" role="group" aria-label="Sắp xếp">
+                    <a class="c-sort__link @(Model.Sort == "popular" ? "is-active" : null)"
+                       href="@Url.Action("Index", "Home", CatalogRoute(Model, new { sort = "popular", page = 1 }))">Phổ biến</a>
+                    <a class="c-sort__link @(Model.Sort == "newest" ? "is-active" : null)"
+                       href="@Url.Action("Index", "Home", CatalogRoute(Model, new { sort = "newest", page = 1 }))">Mới nhất</a>
+                    <a class="c-sort__link @(Model.Sort == "az" ? "is-active" : null)"
+                       href="@Url.Action("Index", "Home", CatalogRoute(Model, new { sort = "az", page = 1 }))">A-Z</a>
+                </div>
+                <div class="c-meta">
+                    <span>@cat.TotalFilteredCount.ToString("N0") kết quả</span>
+                    <form method="get" action="@Url.Action("Index", "Home", new { area = "Customer" })" class="d-flex align-items-center gap-1">
+                        <input type="hidden" name="tab" value="products" />
+                        <input type="hidden" name="page" value="1" />
+                        <input type="hidden" name="sort" value="@Model.Sort" />
+                        <input type="hidden" name="status" value="@st" />
+                        @if (Model.MinRating.HasValue)
+                        {
+                            <input type="hidden" name="minRating" value="@Model.MinRating.Value" />
+                        }
+                        @if (Model.YearFrom.HasValue)
+                        {
+                            <input type="hidden" name="yearFrom" value="@Model.YearFrom.Value" />
+                        }
+                        @if (Model.YearTo.HasValue)
+                        {
+                            <input type="hidden" name="yearTo" value="@Model.YearTo.Value" />
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Lang))
+                        {
+                            <input type="hidden" name="lang" value="@Model.Lang" />
+                        }
+                        @if (Model.CategoryId is > 0)
+                        {
+                            <input type="hidden" name="categoryId" value="@Model.CategoryId" />
+                        }
+                        @if (Model.AuthorId is > 0)
+                        {
+                            <input type="hidden" name="authorId" value="@Model.AuthorId" />
+                        }
+                        @if (Model.GenreId is > 0)
+                        {
+                            <input type="hidden" name="genreId" value="@Model.GenreId" />
+                        }
+                        @if (Model.PublisherId is > 0)
+                        {
+                            <input type="hidden" name="publisherId" value="@Model.PublisherId" />
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.Query))
+                        {
+                            <input type="hidden" name="keyword" value="@Model.Query" />
+                        }
+                        <label class="mb-0" for="pageSizeSel">Hiển thị</label>
+                        <select id="pageSizeSel" name="pageSize" onchange="this.form.submit()">
+                            @foreach (var n in new[] { 12, 24, 48 })
+                            {
+                                if (Model.PageSize == n)
+                                {
+                                    <option value="@n" selected="selected">@n / trang</option>
+                                }
+                                else
+                                {
+                                    <option value="@n">@n / trang</option>
+                                }
+                            }
+                        </select>
+                    </form>
+                </div>
+            </div>
 
-	.book-cover {
-		height: 290px;
-		width: 100%;
-		object-fit: cover;
-	}
+            <div class="c-grid">
+                @if (!cat.Books.Any())
+                {
+                    <div class="c-empty">Không có sách phù hợp bộ lọc.</div>
+                }
+                else
+                {
+                    @foreach (var item in cat.Books)
+                    {
+                        var pill = item.StatusKey switch
+                        {
+                            "available" => "c-pill--available",
+                            "borrowing" => "c-pill--borrowing",
+                            "overdue" => "c-pill--overdue",
+                            _ => "c-pill--out"
+                        };
+                        string? thumbSrc = null;
+                        if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                        {
+                            var path = item.ImageUrl.Trim().Replace("\\", "/").TrimStart('~', '/');
+                            thumbSrc = Url.Content("~/" + path);
+                        }
+                        <article class="c-card">
+                            <a class="c-card__thumb-wrap" asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
+                                @if (thumbSrc != null)
+                                {
+                                    <img class="c-card__thumb" src="@thumbSrc" alt="" loading="lazy" />
+                                }
+                                else
+                                {
+                                    <div class="c-card__thumb c-card__thumb--ph" aria-hidden="true">📖</div>
+                                }
+                            </a>
+                            <div class="c-card__body">
+                                <a asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">
+                                    <h3 class="c-card__title">@item.Name</h3>
+                                </a>
+                                <p class="c-card__author">@item.Author</p>
+                                <div class="c-card__row">
+                                    <div class="c-rating">
+                                        ★ @item.AvgRating.ToString("0.0")
+                                        <span>/ 5</span>
+                                    </div>
+                                    <span class="c-pill @pill">@item.StatusLabel</span>
+                                </div>
+                                <div class="c-card__actions@(item.StatusKey == "available" ? " c-card__actions--3" : "")">
+                                    @if (item.StatusKey == "available")
+                                    {
+                                        <a class="c-act--primary" asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">Mượn</a>
+                                        <a class="c-act--secondary" asp-area="Customer" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-productId="@item.Id" asp-route-quantity="1">Giỏ</a>
+                                        <a class="c-act--detail" asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                                    }
+                                    else if (item.StatusKey == "borrowing" || item.StatusKey == "overdue")
+                                    {
+                                        <a class="c-act--primary" asp-area="Customer" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-productId="@item.Id" asp-route-quantity="1">Đặt chỗ</a>
+                                        <a class="c-act--detail" asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                                    }
+                                    else
+                                    {
+                                        <span class="c-act--wait">Chờ</span>
+                                        <a class="c-act--detail" asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                                    }
+                                </div>
+                            </div>
+                        </article>
+                    }
+                }
+            </div>
 
-	.book-title {
-		font-weight: 700;
-		color: #0f172a;
-		line-height: 1.4;
-		min-height: 3rem;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	.book-author {
-		color: #334155;
-		font-weight: 600;
-		font-size: .95rem;
-	}
-
-	.book-meta {
-		color: #64748b;
-		font-size: .85rem;
-	}
-
-	.btn-action {
-		border-radius: 999px;
-		font-weight: 600;
-		padding: .45rem .95rem;
-		font-size: .85rem;
-	}
-
-	@@media (max-width: 575.98px) {
-		.display-title {
-			font-size: 1.45rem;
-		}
-
-		.book-cover {
-			height: 250px;
-		}
-	}
-</style>
-
-@section Scripts {
-	<script>
-		$(document).ready(function() {
-			// Chỉ chạy logic reload nếu thực sự là reload (F5), không phải khi click link
-			var navEntry = performance.getEntriesByType('navigation')[0];
-			var isReload = navEntry && navEntry.type === 'reload';
-			
-			if (isReload) {
-				var urlParams = new URLSearchParams(window.location.search);
-				var hasFilters = urlParams.has('q') || urlParams.has('categoryId') || 
-								urlParams.has('authorId') || urlParams.has('genreId') || 
-								urlParams.has('publisherId');
-				var currentPage = parseInt(urlParams.get('page')) || 1;
-				var currentTab = urlParams.get('tab') || 'products';
-				
-				// Nếu reload và có filter/page khác 1/tab khác products, thì reset về trang ban đầu
-				if (hasFilters || currentPage > 1 || currentTab !== 'products') {
-					window.location.href = '@Url.Action("Index", "Home", new { area = "Customer", tab = "products", page = 1 })';
-					return;
-				}
-			}
-			
-			if ('@currentTab' === 'products') {
-				$("#searchInput").on("keyup", function() {
-					var value = $(this).val().toLowerCase();
-					$(".product-item").filter(function() {
-						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-					});
-				});
-			}
-		});
-	</script>
+            <div class="mt-3">
+                @await Html.PartialAsync("_Pagination")
+            </div>
+        </div>
+    </div>
+}
+else if (Model.Tab == "authors")
+{
+    <div class="c-tiles">
+        @if (Model.Authors != null && Model.Authors.Any())
+        {
+            @foreach (var author in Model.Authors)
+            {
+                <a class="c-tile" asp-area="Customer" asp-controller="Authors" asp-action="Details" asp-route-id="@author.Id">
+                    <h3>@author.Name</h3>
+                    @if (!string.IsNullOrEmpty(author.Biography))
+                    {
+                        <p class="text-truncate">@author.Biography</p>
+                    }
+                </a>
+            }
+        }
+        else
+        {
+            <div class="c-empty">Chưa có tác giả.</div>
+        }
+    </div>
+    <div class="mt-3">@await Html.PartialAsync("_Pagination")</div>
+}
+else if (Model.Tab == "genres")
+{
+    <div class="c-tiles">
+        @if (Model.Genres != null && Model.Genres.Any())
+        {
+            @foreach (var genre in Model.Genres)
+            {
+                <a class="c-tile" asp-area="Customer" asp-controller="Genres" asp-action="Details" asp-route-id="@genre.Id">
+                    <h3>@genre.Name</h3>
+                </a>
+            }
+        }
+        else
+        {
+            <div class="c-empty">Chưa có thể loại.</div>
+        }
+    </div>
+    <div class="mt-3">@await Html.PartialAsync("_Pagination")</div>
+}
+else if (Model.Tab == "publishers")
+{
+    <div class="c-tiles">
+        @if (Model.Publishers != null && Model.Publishers.Any())
+        {
+            @foreach (var publisher in Model.Publishers)
+            {
+                <a class="c-tile" asp-area="Customer" asp-controller="Publishers" asp-action="Details" asp-route-id="@publisher.Id">
+                    <h3>@publisher.Name</h3>
+                </a>
+            }
+        }
+        else
+        {
+            <div class="c-empty">Chưa có nhà xuất bản.</div>
+        }
+    </div>
+    <div class="mt-3">@await Html.PartialAsync("_Pagination")</div>
 }

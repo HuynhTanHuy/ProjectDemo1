@@ -1,9 +1,11 @@
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
+using WebBanHang.Extensions;
 using WebBanHang.Models;
 using WebBanHang.Models.ViewModels;
 
@@ -24,6 +26,8 @@ namespace WebBanHang.Controllers
         [HttpGet("View/{bookId:int}")]
         public async Task<IActionResult> View(int bookId)
         {
+            PopulateCustomerStoreChrome();
+
             var preview = await _db.BookPreviews
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.BookId == bookId);
@@ -31,6 +35,7 @@ namespace WebBanHang.Controllers
             if (preview == null)
             {
                 ViewBag.BookId = bookId;
+                ViewData["Title"] = "Chưa có bản xem thử";
                 return base.View("NoPreview");
             }
 
@@ -47,6 +52,7 @@ namespace WebBanHang.Controllers
                 CreatedAt = preview.CreatedAt
             };
 
+            ViewData["Title"] = "Đọc thử";
             return base.View(vm);
         }
 
@@ -210,6 +216,12 @@ namespace WebBanHang.Controllers
             await _db.SaveChangesAsync();
 
             return Ok();
+        }
+
+        private void PopulateCustomerStoreChrome()
+        {
+            var cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("Cart");
+            ViewBag.CartItemCount = cart?.Items.Sum(i => i.Quantity) ?? 0;
         }
 
         private async Task PopulatePreviewPayloadAsync(BookPreview preview, BookPreviewViewModel model)

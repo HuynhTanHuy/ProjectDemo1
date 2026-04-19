@@ -1,60 +1,117 @@
 @model WebBanHang.Models.ViewModels.RegisterViewModel
 @{
-    ViewData["Title"] = "Register";
+    Layout = null;
+    var error = ViewBag.Error as string;
 }
-
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
-            <div class="card shadow border-0 rounded-4">
-                <div class="card-body p-4 p-md-5">
-                    <h3 class="text-center fw-bold mb-4">Create account</h3>
-                    <form method="post" asp-action="Register">
-                        @Html.AntiForgeryToken()
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                        <div class="mb-3">
-                            <label asp-for="UserName" class="form-label"></label>
-                            <input asp-for="UserName" class="form-control form-control-lg rounded-3" />
-                            <span asp-validation-for="UserName" class="text-danger"></span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create an account - WebBanHang</title>
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+</head>
+<body class="login-page" data-auth-page>
+    <div class="login-shell">
+        <aside class="login-visual" aria-hidden="true">
+            <div class="login-visual__glow"></div>
+            <div class="login-stage">
+                <div class="login-characters">
+                    <div class="login-character login-character--a">
+                        <div class="login-character__head">
+                            <span class="login-character__eye login-character__eye--left"></span>
+                            <span class="login-character__eye login-character__eye--right"></span>
                         </div>
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label"></label>
-                            <input asp-for="Email" class="form-control form-control-lg rounded-3" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                        <div class="login-character__body"></div>
+                    </div>
+                    <div class="login-character login-character--b">
+                        <div class="login-character__head">
+                            <span class="login-character__eye login-character__eye--left"></span>
+                            <span class="login-character__eye login-character__eye--right"></span>
                         </div>
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label"></label>
-                            <input asp-for="Password" class="form-control form-control-lg rounded-3" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="ConfirmPassword" class="form-label"></label>
-                            <input asp-for="ConfirmPassword" class="form-control form-control-lg rounded-3" />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 rounded-3" id="registerBtn">Register</button>
-                    </form>
-                    <p class="text-center mt-3 mb-0">
-                        Have account?
-                        <a asp-action="Login">Login</a>
-                    </p>
+                        <div class="login-character__body"></div>
+                    </div>
                 </div>
+                <p class="login-caption">Join us — same friendly faces</p>
             </div>
-        </div>
-    </div>
-</div>
+        </aside>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-        (() => {
-            const form = document.querySelector('form');
-            const btn = document.getElementById('registerBtn');
-            if (!form || !btn) return;
-            form.addEventListener('input', () => {
-                btn.disabled = !form.checkValidity();
-            });
-            btn.disabled = !form.checkValidity();
-        })();
-    </script>
-}
+        <section class="login-panel">
+            <div class="login-card login-card--register">
+                <div class="login-logo" aria-hidden="true">WB</div>
+                <h1 class="login-card__title">Create an account</h1>
+                <p class="login-card__subtitle">Enter your details to get started</p>
+
+                @if (!string.IsNullOrEmpty(error))
+                {
+                    <div class="login-alert" role="alert">@error</div>
+                }
+
+                <form method="post" asp-action="Register" asp-controller="Auth" data-register-form>
+                    @Html.AntiForgeryToken()
+
+                    <div class="login-field">
+                        <label class="login-label" asp-for="Role"></label>
+                        <select asp-for="Role" class="login-input login-select" id="register-role">
+                            <option value="@WebBanHang.Models.SD.Role_Customer">Customer</option>
+                            <option value="@WebBanHang.Models.SD.Role_User">User</option>
+                        </select>
+                    </div>
+
+                    <div class="login-name-row">
+                        <div class="login-field login-field--flush">
+                            <label class="login-label" asp-for="FirstName"></label>
+                            <input class="login-input" asp-for="FirstName" autocomplete="given-name" />
+                        </div>
+                        <div class="login-field login-field--flush">
+                            <label class="login-label" asp-for="LastName"></label>
+                            <input class="login-input" asp-for="LastName" autocomplete="family-name" />
+                        </div>
+                    </div>
+
+                    <div class="login-field">
+                        <label class="login-label" asp-for="Username"></label>
+                        <input class="login-input" asp-for="Username" autocomplete="username" />
+                    </div>
+
+                    <div class="login-field">
+                        <label class="login-label" asp-for="Email"></label>
+                        <input class="login-input" asp-for="Email" autocomplete="email" />
+                    </div>
+
+                    <div class="login-field">
+                        <label class="login-label" asp-for="Password"></label>
+                        <div class="login-password-wrap">
+                            <input class="login-input" asp-for="Password" id="register-password" autocomplete="new-password" />
+                            <button type="button"
+                                    class="login-toggle"
+                                    data-password-toggle
+                                    data-label-show="Show"
+                                    data-label-hide="Hide"
+                                    aria-pressed="false"
+                                    aria-label="Show or hide password">
+                                Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="login-check login-check--terms">
+                        <input asp-for="AcceptTerms" id="register-accept-terms" />
+                        <span>I accept the <a href="#" class="login-inline-link" tabindex="-1">terms and conditions</a></span>
+                    </label>
+
+                    <button type="submit" class="login-submit">Create account</button>
+                </form>
+
+                <p class="login-footer">
+                    Already have an account?
+                    <a asp-action="Login" asp-controller="Auth">Sign in</a>
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <script src="~/js/login.js" asp-append-version="true"></script>
+    <script src="~/js/register.js" asp-append-version="true"></script>
+</body>
+</html>

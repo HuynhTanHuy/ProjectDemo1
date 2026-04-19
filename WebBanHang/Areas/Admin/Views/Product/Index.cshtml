@@ -1,54 +1,176 @@
-@using System.Globalization
-@model IEnumerable<WebBanHang.Models.Product>
+@model WebBanHang.Models.ViewModels.ProductBooksPageViewModel
+@{
+    var st = Model.Status ?? "";
+}
 
-<div class="container">
-    <div class="row pt-4 pb-3">
-        <div class="col-6">
-            <h2 class="text-primary">Product List</h2>
-        </div>
-        <div class="col-6 text-end">
-            <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Create New Product
-            </a>
-        </div>
+<div class="dash-stat-grid">
+    <div class="dash-stat-card dash-stat-card--neutral">
+        <div class="dash-stat-card__value">@Model.StatTotalBooks.ToString("N0")</div>
+        <div class="dash-stat-card__label">Tổng sách</div>
     </div>
+    <div class="dash-stat-card dash-stat-card--primary">
+        <div class="dash-stat-card__value">@Model.StatBorrowing.ToString("N0")</div>
+        <div class="dash-stat-card__label">Đang cho mượn</div>
+    </div>
+    <div class="dash-stat-card dash-stat-card--success">
+        <div class="dash-stat-card__value">@Model.StatAvailableTitles.ToString("N0")</div>
+        <div class="dash-stat-card__label">Sẵn có (có tồn kho)</div>
+    </div>
+    <div class="dash-stat-card dash-stat-card--danger">
+        <div class="dash-stat-card__value">@Model.StatOverdueLoans.ToString("N0")</div>
+        <div class="dash-stat-card__label">Quá hạn</div>
+    </div>
+</div>
 
-    <table id="productTable" class="table table-bordered table-striped">
+<div class="dash-toolbar">
+    <form method="get" asp-area="Admin" asp-controller="Product" asp-action="Index" class="dash-toolbar-left">
+        <div class="form-check mb-0">
+            <input class="form-check-input" type="checkbox" id="chkSelectAll" title="Chọn tất cả (giao diện)" />
+            <label class="form-check-label text-secondary small" for="chkSelectAll">Chọn tất cả</label>
+        </div>
+        <select class="form-select form-select-sm" name="genreId" id="filterGenre" aria-label="Thể loại">
+            @foreach (var opt in Model.GenreOptions)
+            {
+                if (opt.Selected)
+                {
+                    <option value="@opt.Value" selected="selected">@opt.Text</option>
+                }
+                else
+                {
+                    <option value="@opt.Value">@opt.Text</option>
+                }
+            }
+        </select>
+        <select class="form-select form-select-sm" name="status" id="filterStatus" aria-label="Trạng thái">
+            @if (st == "")
+            {
+                <option value="" selected="selected">Tất cả trạng thái</option>
+            }
+            else
+            {
+                <option value="">Tất cả trạng thái</option>
+            }
+            @if (st == "available")
+            {
+                <option value="available" selected="selected">Sẵn có</option>
+            }
+            else
+            {
+                <option value="available">Sẵn có</option>
+            }
+            @if (st == "borrowing")
+            {
+                <option value="borrowing" selected="selected">Đang mượn</option>
+            }
+            else
+            {
+                <option value="borrowing">Đang mượn</option>
+            }
+            @if (st == "overdue")
+            {
+                <option value="overdue" selected="selected">Quá hạn</option>
+            }
+            else
+            {
+                <option value="overdue">Quá hạn</option>
+            }
+            @if (st == "out")
+            {
+                <option value="out" selected="selected">Hết sách</option>
+            }
+            else
+            {
+                <option value="out">Hết sách</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-outline-light btn-sm">Áp dụng</button>
+    </form>
+    <div class="dash-toolbar-right">
+        <a class="btn-dash-primary" asp-area="Admin" asp-controller="Product" asp-action="Upsert">
+            <i class="bi bi-plus-lg"></i> Thêm sách
+        </a>
+    </div>
+</div>
+
+<div class="dash-book-table-wrap">
+    <table class="dash-book-table">
         <thead>
             <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Actions</th>
+                <th scope="col" class="text-center" style="width:40px;"></th>
+                <th scope="col">Tên sách</th>
+                <th scope="col">Tác giả</th>
+                <th scope="col">Thể loại</th>
+                <th scope="col">ISBN</th>
+                <th scope="col" class="text-end">Số lượng</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col" class="text-end">Thao tác</th>
             </tr>
         </thead>
         <tbody>
-            @foreach(var obj in Model)
+            @if (!Model.Books.Any())
             {
                 <tr>
-                    <td>
-                        <img src="@obj.ImageUrl" width="50" class="rounded" />
-                    </td>
-                    <td>@obj.Name</td>
-                    <td>@obj.Category.Name</td>
-                    <td>@obj.Price.ToString("c", new CultureInfo("vi-VN"))</td>
-                    <td>
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id"
-                               class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i> Edit</a>
-                            <a asp-area="" asp-controller="BookPreview" asp-action="Manage" asp-route-bookId="@obj.Id"
-                               class="btn btn-info mx-2"><i class="bi bi-book-half"></i> Preview</a>
-                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id"
-                               class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i> Delete</a>
-                        </div>
-                    </td>
+                    <td colspan="8" class="dash-empty border-0">Không có sách phù hợp bộ lọc.</td>
                 </tr>
+            }
+            else
+            {
+                @foreach (var item in Model.Books)
+                {
+                    var pillClass = item.StatusKey switch
+                    {
+                        "available" => "dash-pill dash-pill--available",
+                        "borrowing" => "dash-pill dash-pill--borrowing",
+                        "overdue" => "dash-pill dash-pill--overdue",
+                        _ => "dash-pill dash-pill--out"
+                    };
+                    <tr class="dash-book-row">
+                        <td class="text-center">
+                            <input class="form-check-input chk-row" type="checkbox" value="@item.Id" aria-label="Chọn @item.Name" />
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                                {
+                                    var path = item.ImageUrl.Trim().Replace("\\", "/").TrimStart('~', '/');
+                                    var src = Url.Content("~/" + path);
+                                    <img class="dash-book-thumb" src="@src" alt="" loading="lazy" />
+                                }
+                                else
+                                {
+                                    <div class="dash-book-thumb dash-book-thumb--fallback">?</div>
+                                }
+                                <div>
+                                    <p class="dash-book-title mb-0">@item.Name</p>
+                                    <p class="dash-book-meta mb-0">@item.Category</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>@(item.Author ?? "N/A")</td>
+                        <td>@(item.Genre ?? "N/A")</td>
+                        <td>@(item.Isbn?.ToString() ?? "N/A")</td>
+                        <td class="text-end">@item.Quantity.ToString("N0")</td>
+                        <td><span class="@pillClass">@item.StatusLabel</span></td>
+                        <td class="text-end">
+                            <a class="dash-link-detail" asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
 </div>
 
-@section Scripts{
-    <script src="~/js/product.js"></script>
-} 
+@section Scripts {
+    <script>
+        (function () {
+            var all = document.getElementById('chkSelectAll');
+            if (!all) return;
+            all.addEventListener('change', function () {
+                document.querySelectorAll('.chk-row').forEach(function (c) {
+                    c.checked = all.checked;
+                });
+            });
+        })();
+    </script>
+}

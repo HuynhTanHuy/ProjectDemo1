@@ -1,0 +1,118 @@
+@using WebBanHang.Models
+@{
+    var nav = ViewData["CustomerNavSection"] as string ?? "";
+    var pageTitle = ViewData["CustomerPageTitle"] as string ?? ViewData["Title"] as string ?? "Thư viện";
+    var breadcrumb = ViewData["CustomerBreadcrumb"] as string ?? "";
+    var notifCount = ViewData["CustomerNotifCount"] as int?;
+    var userName = User.Identity?.Name ?? "Khách";
+    var initial = userName.Length > 0 ? userName.Substring(0, 1).ToUpperInvariant() : "?";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Thư viện</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+</head>
+<body class="dashboard-body customer-dashboard">
+    <div class="dashboard-shell">
+        <aside class="dashboard-sidebar">
+            <a class="dashboard-brand" href="@Url.Action("Index", "Home", new { area = "Customer", tab = "products" })">Thư viện</a>
+
+            <nav>
+                <div class="dashboard-nav-section">
+                    <div class="dashboard-nav-heading">Tổng quan</div>
+                    <a class="dashboard-nav-link @(nav == "books" ? "is-active" : null)" href="@Url.Action("Index", "Home", new { area = "Customer", tab = "products", page = 1 })">
+                        <i class="bi bi-grid-1x2-fill"></i> Danh sách sách
+                    </a>
+                </div>
+
+                <div class="dashboard-nav-section">
+                    <div class="dashboard-nav-heading">Sách</div>
+                    <a class="dashboard-nav-link @(nav == "authors" ? "is-active" : null)" asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="authors" asp-route-page="1">
+                        <i class="bi bi-person-lines-fill"></i> Tác giả
+                    </a>
+                    <a class="dashboard-nav-link @(nav == "genres" ? "is-active" : null)" href="@Url.Action("Index", "Home", new { area = "Customer", tab = "genres", page = 1 })">
+                        <i class="bi bi-tags-fill"></i> Thể loại
+                    </a>
+                    <a class="dashboard-nav-link @(nav == "publishers" ? "is-active" : null)" href="@Url.Action("Index", "Home", new { area = "Customer", tab = "publishers", page = 1 })">
+                        <i class="bi bi-building"></i> Nhà xuất bản
+                    </a>
+                </div>
+
+                <div class="dashboard-nav-section">
+                    <div class="dashboard-nav-heading">Thành viên</div>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a class="dashboard-nav-link @(nav == "members" ? "is-active" : null)" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            <i class="bi bi-person-circle"></i> Tài khoản
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="dashboard-nav-link" asp-area="" asp-controller="Auth" asp-action="Login">
+                            <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+                        </a>
+                    }
+                </div>
+
+                <div class="dashboard-nav-section">
+                    <div class="dashboard-nav-heading">Giao dịch</div>
+                    <a class="dashboard-nav-link @(nav == "cart" ? "is-active" : null)" asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index">
+                        <i class="bi bi-cart3"></i> Giỏ hàng
+                    </a>
+                </div>
+            </nav>
+
+            <div class="dashboard-sidebar-footer d-flex flex-column gap-2">
+                @if (User.IsInRole(SD.Role_Admin))
+                {
+                    <a class="btn btn-outline-warning btn-sm w-100" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                        <i class="bi bi-shield-lock me-1"></i>Quản trị
+                    </a>
+                }
+            </div>
+        </aside>
+
+        <div class="dashboard-main">
+            <header class="dashboard-header">
+                <div class="dashboard-header-titles">
+                    <h1>@pageTitle</h1>
+                    @if (!string.IsNullOrEmpty(breadcrumb))
+                    {
+                        <p class="dashboard-breadcrumb">@breadcrumb</p>
+                    }
+                </div>
+                <div class="dashboard-header-actions">
+                    <button type="button" class="dashboard-icon-btn" title="Thông báo" aria-label="Thông báo">
+                        <i class="bi bi-bell"></i>
+                        @if (notifCount is > 0)
+                        {
+                            <span class="badge text-bg-danger rounded-pill">@(notifCount > 99 ? "99+" : notifCount.ToString())</span>
+                        }
+                    </button>
+                    <span class="dashboard-avatar" title="@userName">@initial</span>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                @if (TempData["Success"] != null || TempData["success"] != null)
+                {
+                    <div class="alert alert-success dashboard-alert">@(TempData["Success"] ?? TempData["success"])</div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger dashboard-alert">@TempData["Error"]</div>
+                }
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

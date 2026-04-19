@@ -15,7 +15,7 @@ namespace WebBanHang.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Home", new { area = "Customer", tab = "products" });
         }
 
         public IActionResult Privacy()

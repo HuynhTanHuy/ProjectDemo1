@@ -1,45 +1,35 @@
 @model IEnumerable<WebBanHang.Models.Genre>
+@await Html.PartialAsync("_CustomerSubnav", "genres")
 
-<div class="container mt-4">
-    <div class="row align-items-end mb-4">
-        <div class="col-12 col-lg-8 mb-3 mb-lg-0">
-            <h2 class="text-primary mb-0">
-                <i class="bi bi-tags me-2"></i>Thể loại
-            </h2>
+<div class="c-browse-page">
+    <header class="c-page-head">
+        <div>
+            <h1 class="c-page-head__title"><i class="bi bi-tags me-2"></i>Thể loại</h1>
+            <p class="c-page-head__sub">Phân loại theo thể loại sách</p>
         </div>
-        <div class="col-12 col-lg-4 text-end">
-            <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="genres" asp-route-page="1" 
-               class="btn btn-outline-secondary" title="Làm mới và quay về trang chủ">
-                <i class="bi bi-arrow-clockwise"></i> Làm mới
-            </a>
-        </div>
-    </div>
-    <div class="row">
+        <a class="c-btn-ghost" href="@Url.RouteUrl("customerCategoryBrowser", new { action = "Index" })">
+            <i class="bi bi-arrow-clockwise me-1"></i>Làm mới
+        </a>
+    </header>
+
+    <div class="c-tiles">
         @if (Model != null && Model.Any())
         {
             @foreach (var g in Model)
             {
-                <div class="col-6 col-md-4 col-lg-3 mb-3">
-                    <a asp-action="Details" asp-route-id="@g.Id" class="btn btn-outline-primary w-100">
-                        <i class="bi bi-tag me-2"></i>@g.Name
-                    </a>
-                </div>
+                <a class="c-tile c-tile--center" asp-area="Customer" asp-controller="Genres" asp-action="Details" asp-route-id="@g.Id">
+                    <div class="c-tile__media c-tile__media--icon text-primary"><i class="bi bi-tag-fill fs-3"></i></div>
+                    <h3>@g.Name</h3>
+                </a>
             }
         }
         else
         {
-            <div class="col-12">
-                <div class="alert alert-info text-center">
-                    <i class="bi bi-info-circle me-2"></i>Không có thể loại nào.
-                </div>
-            </div>
+            <div class="c-empty">Không có thể loại nào.</div>
         }
     </div>
-    
+
     <div class="mt-4">
         @await Html.PartialAsync("_Pagination")
     </div>
 </div>
-
-
-

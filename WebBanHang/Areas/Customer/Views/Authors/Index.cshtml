@@ -1,63 +1,48 @@
 @model IEnumerable<WebBanHang.Models.Author>
+@await Html.PartialAsync("_CustomerSubnav", "authors")
 
-<div class="container mt-4">
-    <div class="row align-items-end mb-4">
-        <div class="col-12 col-lg-8 mb-3 mb-lg-0">
-            <h2 class="text-primary mb-0">
-                <i class="bi bi-people me-2"></i>Tác giả
-            </h2>
+<div class="c-browse-page">
+    <header class="c-page-head">
+        <div>
+            <h1 class="c-page-head__title"><i class="bi bi-people me-2"></i>Tác giả</h1>
+            <p class="c-page-head__sub">Danh sách tác giả trong hệ thống</p>
         </div>
-        <div class="col-12 col-lg-4 text-end">
-            <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="authors" asp-route-page="1" 
-               class="btn btn-outline-secondary" title="Làm mới và quay về trang chủ">
-                <i class="bi bi-arrow-clockwise"></i> Làm mới
-            </a>
-        </div>
-    </div>
-    <div class="row">
+        <a class="c-btn-ghost" href="@Url.RouteUrl("customerAuthorBrowser", new { action = "Index" })">
+            <i class="bi bi-arrow-clockwise me-1"></i>Làm mới
+        </a>
+    </header>
+
+    <div class="c-tiles">
         @if (Model != null && Model.Any())
         {
             @foreach (var a in Model)
             {
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <a class="text-decoration-none" asp-action="Details" asp-route-id="@a.Id">
-                        <div class="card h-100">
-                            @if (!string.IsNullOrEmpty(a.PhotoUrl))
-                            {
-                                <img src="@a.PhotoUrl" class="card-img-top" alt="@a.Name" style="height:200px;object-fit:cover;">
-                            }
-                            else
-                            {
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height:200px;">
-                                    <i class="bi bi-person-circle fs-1 text-muted"></i>
-                                </div>
-                            }
-                            <div class="card-body">
-                                <h5 class="card-title">@a.Name</h5>
-                                @if (!string.IsNullOrEmpty(a.Biography))
-                                {
-                                    <div class="text-muted small text-truncate">@a.Biography</div>
-                                }
-                            </div>
+                <a class="c-tile" asp-area="Customer" asp-controller="Authors" asp-action="Details" asp-route-id="@a.Id">
+                    @if (!string.IsNullOrEmpty(a.PhotoUrl))
+                    {
+                        <div class="c-tile__media">
+                            <img src="@a.PhotoUrl" alt="" loading="lazy" />
                         </div>
-                    </a>
-                </div>
+                    }
+                    else
+                    {
+                        <div class="c-tile__media c-tile__media--icon"><i class="bi bi-person-circle"></i></div>
+                    }
+                    <h3>@a.Name</h3>
+                    @if (!string.IsNullOrEmpty(a.Biography))
+                    {
+                        <p class="text-truncate">@a.Biography</p>
+                    }
+                </a>
             }
         }
         else
         {
-            <div class="col-12">
-                <div class="alert alert-info text-center">
-                    <i class="bi bi-info-circle me-2"></i>Không có tác giả nào.
-                </div>
-            </div>
+            <div class="c-empty">Không có tác giả nào.</div>
         }
     </div>
-    
+
     <div class="mt-4">
         @await Html.PartialAsync("_Pagination")
     </div>
 </div>
-
-
-

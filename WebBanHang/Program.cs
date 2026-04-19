@@ -18,8 +18,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 // ✅ Cấu hình Cookie Authentication (đăng nhập, đăng xuất, từ chối quyền truy cập)
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Identity/Account/Login";        // Trang đăng nhập
-    options.LogoutPath = "/Identity/Account/Logout";      // Trang đăng xuất
+    options.LoginPath = "/Auth/Login";                      // Trang đăng nhập (MVC)
+    options.LogoutPath = "/Identity/Account/Logout";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Trang báo lỗi khi truy cập trái phép
 });
 
@@ -39,10 +39,6 @@ builder.Services.AddRazorPages();
 // ✅ Đăng ký Repository (Dependency Injection)
 builder.Services.AddScoped<IProductRepository, EFProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
-
-builder.Services.AddMvc().AddRazorPagesOptions(options => {
-    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
-});
 
 var app = builder.Build();
 
@@ -77,6 +73,37 @@ app.UseAuthorization();
 // ✅ Cấu hình Endpoint cho Areas & Controllers
 app.UseEndpoints(endpoints =>
 {
+    // Tránh dùng lại Login Razor (RCL) khi có bookmark /Identity/Account/Login
+    // Lưu ý: KHÔNG MapGet("/Customer") — route đó ăn cả GET /Customer?keyword=... (form search rút gọn URL),
+    // redirect mất query string → keyword null. Area Customer + controller/action mặc định đã xử lý bởi MapControllerRoute.
+
+    endpoints.MapGet("/Identity/Account/Login", context =>
+    {
+        var returnUrl = context.Request.Query["ReturnUrl"].FirstOrDefault()
+            ?? context.Request.Query["returnUrl"].FirstOrDefault();
+        var suffix = string.IsNullOrEmpty(returnUrl)
+            ? string.Empty
+            : "?returnUrl=" + Uri.EscapeDataString(returnUrl);
+        context.Response.Redirect("/Auth/Login" + suffix);
+        return Task.CompletedTask;
+    });
+
+    // URL thân thiện (tránh /Author bị hiểu nhầm là controller mặc định)
+    endpoints.MapControllerRoute(
+        name: "customerAuthorBrowser",
+        pattern: "Author/{action=Index}/{id?}",
+        defaults: new { area = "Customer", controller = "Authors" });
+
+    endpoints.MapControllerRoute(
+        name: "customerCategoryBrowser",
+        pattern: "Category/{action=Index}/{id?}",
+        defaults: new { area = "Customer", controller = "Genres" });
+
+    endpoints.MapControllerRoute(
+        name: "customerPublisherBrowser",
+        pattern: "Publisher/{action=Index}/{id?}",
+        defaults: new { area = "Customer", controller = "Publishers" });
+
     endpoints.MapControllers();
 
     endpoints.MapControllerRoute(

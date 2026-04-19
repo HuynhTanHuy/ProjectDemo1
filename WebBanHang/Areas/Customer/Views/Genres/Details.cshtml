@@ -1,29 +1,31 @@
 @model WebBanHang.Models.Genre
+@await Html.PartialAsync("_CustomerSubnav", "genres")
 
-<div class="container mt-4">
-    <div class="mb-3">
-        <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-tab="genres" asp-route-page="1" class="btn btn-outline-secondary">
+<div class="c-browse-page">
+    <div class="c-toolbar mb-3" style="justify-content: flex-start;">
+        <a class="c-btn-ghost" href="@Url.RouteUrl("customerCategoryBrowser", new { action = "Index" })">
             <i class="bi bi-arrow-left me-1"></i>Quay lại danh sách thể loại
         </a>
     </div>
-    
-    <h3 class="mb-4">@Model.Name</h3>
-    <div class="row">
+
+    <header class="c-page-head">
+        <h1 class="c-page-head__title">@Model.Name</h1>
+    </header>
+
+    <h2 class="c-section-title">Sách trong thể loại</h2>
+    <div class="row g-3">
         @if (Model.Products != null && Model.Products.Any())
         {
             foreach (var p in Model.Products)
             {
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                <div class="col-6 col-md-4 col-lg-3">
                     @await Html.PartialAsync("~/Areas/Customer/Views/Product/_ProductCard.cshtml", p)
                 </div>
             }
         }
         else
         {
-            <div class="text-muted">Chưa có sách.</div>
+            <div class="col-12 c-empty">Chưa có sách.</div>
         }
     </div>
 </div>
-
-
-

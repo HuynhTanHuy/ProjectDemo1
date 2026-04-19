@@ -15,6 +15,8 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
 build_property.RootNamespace = WebBanHang
 build_property.RootNamespace = WebBanHang
 build_property.ProjectDir = C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\
@@ -184,6 +186,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcUHVibGlzaGVyc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Shared/_CustomerDashboardLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcU2hhcmVkXF9DdXN0b21lckRhc2hib2FyZExheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Shared/_CustomerSubnav.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcU2hhcmVkXF9DdXN0b21lclN1Ym5hdi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Shared/_LayoutCustomer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcU2hhcmVkXF9MYXlvdXRDdXN0b21lci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Shared/_Pagination.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcU2hhcmVkXF9QYWdpbmF0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -206,10 +220,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Identity/Pages/Account/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Identity/Pages/Account/Logout.cshtml]
@@ -306,6 +316,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Views/Product/Update.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxVcGRhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Views/Shared/Components/UserMenu/Anonymous.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVXNlck1lbnVcQW5vbnltb3VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Views/Shared/Components/UserMenu/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVXNlck1lbnVcRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Views/Shared/Error.cshtml]

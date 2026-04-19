@@ -75,7 +75,7 @@
                             <hr class="my-3" />
                             <p class="mb-0">
                                 Đã có tài khoản? 
-                                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="text-primary fw-bold text-decoration-none">
+                                <a asp-area="" asp-controller="Auth" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" class="text-primary fw-bold text-decoration-none">
                                     <i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập ngay
                                 </a>
                             </p>

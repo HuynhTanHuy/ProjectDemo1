@@ -29,3 +29,49 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* UserMenu ViewComponent trên navbar chính (_Layout) — không dùng customer.css để tránh đổi style toàn site */
+.navbar-dark .c-user-dropdown .c-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: linear-gradient(135deg, #fff 0%, #e8ecff 100%);
+  color: #224abe;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-dark .c-user-dropdown .c-avatar--btn {
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  background: transparent;
+}
+
+.navbar-dark .c-user-dropdown .dropdown-menu {
+  min-width: 240px;
+  border-radius: 12px;
+}
+
+.navbar-dark .c-user-dropdown .c-dropdown-name {
+  color: #212529;
+}
+
+.navbar-dark .c-user-dropdown .c-dropdown-email {
+  color: #6c757d;
+}
+
+.navbar-dark .c-user-dropdown .dropdown-item {
+  color: #212529;
+}
+
+.navbar-dark .c-user-dropdown .dropdown-item:hover {
+  background-color: #f8f9fc;
+  color: #224abe;
+}

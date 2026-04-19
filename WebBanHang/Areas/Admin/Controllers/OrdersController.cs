@@ -18,6 +18,11 @@ namespace WebBanHang.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Title"] = "Đơn hàng";
+            ViewData["AdminNavSection"] = "orders";
+            ViewData["AdminPageTitle"] = "Đơn hàng";
+            ViewData["AdminBreadcrumb"] = "Tổng quan / Giao dịch / Đơn hàng";
+
             var orders = _db.Orders
                 .Include(o => o.ApplicationUser)
                 .Include(o => o.OrderDetails)
