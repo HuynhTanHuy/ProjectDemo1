@@ -21,9 +21,11 @@ namespace WebBanHang.Areas.Admin.Controllers
         {
             var totalBooks = await _db.Products.CountAsync();
             var availableBooks = await _db.Products.CountAsync(p => p.Stock > 0);
-            var borrowedBooks = await _db.Borrows.CountAsync(x => x.Status == BorrowStatus.Borrowing);
+            var borrowedBooks = await _db.Borrows.CountAsync(x =>
+                x.Status == BorrowStatus.Borrowing || x.Status == BorrowStatus.Overdue);
             var overdueBooks = await _db.Borrows.CountAsync(x =>
-                x.Status == BorrowStatus.Borrowing && x.DueDate < DateTime.UtcNow);
+                x.Status == BorrowStatus.Overdue ||
+                (x.Status == BorrowStatus.Borrowing && x.DueDate.Date < DateTime.UtcNow.Date));
             var totalUsers = await _db.Users.CountAsync();
             var totalPenalties = await _db.Penalties.CountAsync();
             var unpaidPenalties = await _db.Penalties.CountAsync(x => !x.IsPaid);
@@ -38,7 +40,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 
             var activeBorrows = await _db.Borrows
                 .AsNoTracking()
-                .Where(b => b.Status == BorrowStatus.Borrowing)
+                .Where(b => b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue)
                 .Include(b => b.Book)
                 .ThenInclude(p => p!.Category)
                 .ToListAsync();

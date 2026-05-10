@@ -90,8 +90,16 @@
 
     var totalBooks = Math.Max(1, cat.StatTotalBooks);
     var pctAvail = 100.0 * cat.StatAvailableTitles / totalBooks;
-    var pctBorrow = 100.0 * cat.StatBorrowing / totalBooks;
-    var pctOverdueOfBorrow = cat.StatBorrowing > 0 ? 100.0 * cat.StatOverdueLoans / cat.StatBorrowing : 0;
+    var pctBorrow = 100.0 * cat.StatActiveLoansSystemWide / totalBooks;
+    var pctOverdueOfBorrow = cat.StatActiveLoansSystemWide > 0
+        ? 100.0 * cat.StatOverdueLoans / cat.StatActiveLoansSystemWide
+        : 0;
+    var isAuth = User.Identity?.IsAuthenticated == true;
+    var borrowCardValue = isAuth ? cat.StatMyActiveLoans : cat.StatActiveLoansSystemWide;
+    var borrowCardLabel = isAuth ? "Sách đang mượn (của bạn)" : "Lượt mượn (toàn hệ thống)";
+    var borrowCardHint = isAuth
+        ? "Đang mượn + quá hạn"
+        : $"{pctBorrow.ToString("0.#")}% / tổng đầu sách";
 
     <div class="c-dash-grid">
         <div class="c-dash-card c-dash-card--blue">
@@ -113,9 +121,9 @@
         <div class="c-dash-card c-dash-card--amber">
             <div class="c-dash-card__icon"><i class="bi bi-people"></i></div>
             <div class="c-dash-card__body">
-                <div class="c-dash-card__value">@cat.StatBorrowing.ToString("N0")</div>
-                <div class="c-dash-card__label">Đang mượn</div>
-                <div class="c-dash-card__hint">@pctBorrow.ToString("0.#")% / tổng đầu sách</div>
+                <div class="c-dash-card__value">@borrowCardValue.ToString("N0")</div>
+                <div class="c-dash-card__label">@borrowCardLabel</div>
+                <div class="c-dash-card__hint">@borrowCardHint</div>
             </div>
         </div>
         <div class="c-dash-card c-dash-card--red">

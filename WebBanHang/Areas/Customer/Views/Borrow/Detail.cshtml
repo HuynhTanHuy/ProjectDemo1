@@ -1,0 +1,41 @@
+@model WebBanHang.Models.ViewModels.CustomerBorrowDetailViewModel
+@using WebBanHang.Models
+@{
+    ViewData["Title"] = "Chi tiết phiếu mượn";
+}
+<div class="container mt-4" style="max-width: 720px;">
+    <a asp-area="Customer" asp-controller="Borrow" asp-action="BorrowHistory" class="small">&larr; Lịch sử</a>
+    <h3 class="mt-2">@Model.BookTitle</h3>
+    @if (!string.IsNullOrEmpty(Model.CategoryName))
+    {
+        <p class="text-muted small mb-2">@Model.CategoryName</p>
+    }
+    <dl class="row">
+        <dt class="col-sm-4">Ngày mượn</dt>
+        <dd class="col-sm-8">@Model.BorrowDateUtc.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</dd>
+        <dt class="col-sm-4">Hạn trả</dt>
+        <dd class="col-sm-8">@Model.DueDateUtc.ToLocalTime().ToString("dd/MM/yyyy")</dd>
+        @if (Model.ReturnDateUtc.HasValue)
+        {
+            <dt class="col-sm-4">Ngày trả</dt>
+            <dd class="col-sm-8">@Model.ReturnDateUtc.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</dd>
+        }
+        <dt class="col-sm-4">Trạng thái</dt>
+        <dd class="col-sm-8">@Model.Status</dd>
+        <dt class="col-sm-4">Phí mượn</dt>
+        <dd class="col-sm-8">@Model.BorrowFeeAmount.ToString("N0") đ</dd>
+        @if (Model.FineAmount > 0)
+        {
+            <dt class="col-sm-4">Phạt quá hạn</dt>
+            <dd class="col-sm-8 text-danger">@Model.FineAmount.ToString("N0") đ (@Model.OverdueDays ngày)</dd>
+        }
+    </dl>
+    @if (Model.Status is BorrowStatus.Borrowing or BorrowStatus.Overdue)
+    {
+        <form asp-area="Customer" asp-controller="Borrow" asp-action="ReturnBook" method="post" class="mt-3">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="borrowId" value="@Model.BorrowId" />
+            <button type="submit" class="btn btn-primary">Trả sách</button>
+        </form>
+    }
+</div>

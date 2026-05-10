@@ -1,0 +1,48 @@
+@model WebBanHang.Models.Order
+@using WebBanHang.Models
+@{
+    ViewData["Title"] = "Chi tiết đơn #" + Model.Id;
+    ViewData["CustomerNavSection"] = "cart";
+    var pendingPayment = Model.Payments?.OrderByDescending(x => x.Id).FirstOrDefault(x => x.Status == PaymentStatus.Pending);
+}
+<div class="container mt-4">
+    <a asp-action="Index" class="small">&larr; Danh sách đơn</a>
+    <h3 class="mt-2">Đơn hàng #@Model.Id</h3>
+    <p class="text-muted small">@Model.OrderDate.ToLocalTime(): @Model.OrderStatus</p>
+    <p><strong>Tổng:</strong> @Model.TotalPrice.ToString("N0") đ</p>
+    <p><strong>Địa chỉ:</strong> @Model.ShippingAddress</p>
+    @if (Model.OrderStatus == OrderStatus.Pending && pendingPayment != null)
+    {
+        <a class="btn btn-primary" asp-controller="Payment" asp-action="Start" asp-route-id="@pendingPayment.Id">Thanh toán</a>
+    }
+    else if (Model.OrderStatus == OrderStatus.Pending)
+    {
+        <a class="btn btn-primary" asp-action="Pay" asp-route-id="@Model.Id">Tạo link thanh toán</a>
+    }
+    <h5 class="mt-4">Sản phẩm</h5>
+    <ul class="list-group">
+        @foreach (var line in Model.OrderDetails)
+        {
+            <li class="list-group-item d-flex justify-content-between">
+                <span>@(line.Product?.Name ?? ("#" + line.ProductId)) × @line.Quantity</span>
+                <span>@((line.Price * line.Quantity).ToString("N0")) đ</span>
+            </li>
+        }
+    </ul>
+    @if (Model.Payments != null && Model.Payments.Any())
+    {
+        <h5 class="mt-4">Thanh toán</h5>
+        <ul class="list-group">
+            @foreach (var pay in Model.Payments.OrderByDescending(x => x.Id))
+            {
+                <li class="list-group-item small">
+                    #@pay.Id — @pay.Status — @pay.Amount.ToString("N0") đ — @pay.TransactionCode
+                    @if (pay.FailureReason != null)
+                    {
+                        <div class="text-danger">@pay.FailureReason</div>
+                    }
+                </li>
+            }
+        </ul>
+    }
+</div>

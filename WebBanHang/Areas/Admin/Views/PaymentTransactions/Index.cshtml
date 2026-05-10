@@ -1,0 +1,52 @@
+@model List<WebBanHang.Models.PaymentTransaction>
+@{
+    Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var pageIndex = (int)(ViewBag.Page ?? 1);
+    var totalPages = (int)(ViewBag.TotalPages ?? 1);
+}
+<h2 class="h4 mb-3">Nhật ký thanh toán</h2>
+<div class="table-responsive card">
+    <table class="table table-sm table-striped mb-0">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Thời điểm</th>
+            <th>Đơn</th>
+            <th>Payment</th>
+            <th>Sự kiện</th>
+            <th>Ghi chú</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.Id</td>
+                <td>@t.CreatedAtUtc.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@(t.Payment?.OrderId.ToString() ?? "—")</td>
+                <td>@t.PaymentId</td>
+                <td>@t.EventType</td>
+                <td class="small text-break" style="max-width: 280px;">@(t.PayloadSnapshot ?? "—")</td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="6" class="text-center text-muted py-4">Chưa có nhật ký.</td></tr>
+        }
+        </tbody>
+    </table>
+</div>
+@if (totalPages > 1)
+{
+    <nav class="mt-3">
+        <ul class="pagination pagination-sm">
+            <li class="page-item @(pageIndex <= 1 ? "disabled" : null)">
+                <a class="page-link" asp-action="Index" asp-route-page="@(pageIndex - 1)">Trước</a>
+            </li>
+            <li class="page-item disabled"><span class="page-link">@pageIndex / @totalPages</span></li>
+            <li class="page-item @(pageIndex >= totalPages ? "disabled" : null)">
+                <a class="page-link" asp-action="Index" asp-route-page="@(pageIndex + 1)">Sau</a>
+            </li>
+        </ul>
+    </nav>
+}

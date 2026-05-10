@@ -1,0 +1,14 @@
+@model int
+@{
+    ViewData["Title"] = "Thanh toán thất bại";
+    var reason = ViewBag.Reason as string;
+}
+<div class="container mt-4 text-center">
+    <h3 class="text-danger">Thanh toán không thành công</h3>
+    @if (!string.IsNullOrEmpty(reason))
+    {
+        <p class="text-muted">Mã: @reason</p>
+    }
+    <p>Đơn <strong>#@Model</strong> vẫn ở trạng thái chờ thanh toán (nếu còn hợp lệ).</p>
+    <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model">Thử lại</a>
+</div>

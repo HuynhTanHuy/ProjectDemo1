@@ -1,0 +1,43 @@
+@model WebBanHang.Models.SystemSetting
+@{
+    Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<h2 class="h4 mb-3">Cấu hình mượn sách</h2>
+<form asp-action="Index" method="post" class="row g-3" style="max-width: 640px;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-md-6">
+        <label class="form-label" asp-for="DefaultBorrowDays"></label>
+        <input class="form-control" asp-for="DefaultBorrowDays" />
+        <span asp-validation-for="DefaultBorrowDays" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" asp-for="MaxBorrowDays"></label>
+        <input class="form-control" asp-for="MaxBorrowDays" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" asp-for="MaxBorrowBookPerUser"></label>
+        <input class="form-control" asp-for="MaxBorrowBookPerUser" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" asp-for="BorrowFee"></label>
+        <input class="form-control" asp-for="BorrowFee" />
+        <div class="form-text">Ghi nhận trên phiếu mượn (đồng).</div>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" asp-for="OverdueFeePerDay"></label>
+        <input class="form-control" asp-for="OverdueFeePerDay" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" asp-for="RemindBeforeDueDays"></label>
+        <input class="form-control" asp-for="RemindBeforeDueDays" />
+        <div class="form-text">0 = không nhắc trước hạn.</div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Lưu</button>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

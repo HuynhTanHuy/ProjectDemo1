@@ -1,0 +1,91 @@
+@model IReadOnlyList<WebBanHang.Models.ViewModels.CustomerBorrowRowViewModel>
+@using WebBanHang.Models
+@{
+    ViewData["Title"] = "Sách đang mượn";
+}
+<div class="container mt-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h3 class="mb-0">Sách đang mượn</h3>
+        <div class="btn-group">
+            <a class="btn btn-outline-secondary btn-sm" asp-area="Customer" asp-controller="Borrow" asp-action="BorrowHistory">Lịch sử</a>
+        </div>
+    </div>
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Sách</th>
+                        <th>Ngày mượn</th>
+                        <th>Hạn trả</th>
+                        <th>Còn lại</th>
+                        <th>Trạng thái</th>
+                        <th class="text-end">Phí / Phạt</th>
+                        <th class="text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-area="Customer" asp-controller="Borrow" asp-action="Detail" asp-route-id="@item.BorrowId">@item.BookTitle</a>
+                        </td>
+                        <td>@item.BorrowDateUtc.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                        <td>@item.DueDateUtc.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                        <td>
+                            @if (item.DaysRemaining.HasValue)
+                            {
+                                if (item.DaysRemaining < 0)
+                                {
+                                    <span class="text-danger">Trễ @(-item.DaysRemaining) ngày</span>
+                                }
+                                else
+                                {
+                                    <span>@item.DaysRemaining ngày</span>
+                                }
+                            }
+                            else { <span class="text-muted">—</span> }
+                        </td>
+                        <td>
+                            @switch (item.Status)
+                            {
+                                case BorrowStatus.Borrowing:
+                                    <span class="badge bg-primary">Đang mượn</span>
+                                    break;
+                                case BorrowStatus.Overdue:
+                                    <span class="badge bg-danger">Quá hạn</span>
+                                    break;
+                                default:
+                                    <span class="badge bg-secondary">@item.Status</span>
+                                    break;
+                            }
+                        </td>
+                        <td class="text-end small">
+                            <div>Phí mượn: @item.BorrowFeeAmount.ToString("N0") đ</div>
+                            @if (item.FineAmount > 0)
+                            {
+                                <div class="text-danger">Phạt: @item.FineAmount.ToString("N0") đ (@item.OverdueDays ngày)</div>
+                            }
+                        </td>
+                        <td class="text-end">
+                            @if (item.Status is BorrowStatus.Borrowing or BorrowStatus.Overdue)
+                            {
+                                <form asp-area="Customer" asp-controller="Borrow" asp-action="ReturnBook" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="borrowId" value="@item.BorrowId" />
+                                    <button class="btn btn-sm btn-primary rounded-pill" type="submit">Trả sách</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        @if (!Model.Any())
+        {
+            <div class="p-4 text-center text-muted">Bạn chưa có sách đang mượn.</div>
+        }
+    </div>
+</div>

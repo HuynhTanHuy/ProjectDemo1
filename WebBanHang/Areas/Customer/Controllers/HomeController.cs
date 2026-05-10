@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -185,7 +186,8 @@ namespace WebBanHang.Areas.Customer.Controllers
             };
 
             var overdueNotif = await _db.Borrows.CountAsync(b =>
-                b.Status == BorrowStatus.Borrowing && b.DueDate.Date < DateTime.UtcNow.Date);
+                (b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue) &&
+                b.DueDate.Date < DateTime.UtcNow.Date);
 
             ViewData["Title"] = tab switch
             {
@@ -261,6 +263,7 @@ namespace WebBanHang.Areas.Customer.Controllers
 
                 default:
                     // Từ khóa tìm: URL thường là ?keyword=... → model.Query; record BookCatalogQuery gọi thuộc tính là Search.
+                    var catalogUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     model.Catalog = await BookCatalogHelper.BuildAsync(_db, new BookCatalogQuery(
                         GenreId: model.GenreId,
                         Status: model.Status,
@@ -274,7 +277,8 @@ namespace WebBanHang.Areas.Customer.Controllers
                         YearFrom: model.YearFrom,
                         YearTo: model.YearTo,
                         Lang: model.Lang,
-                        Sort: model.Sort));
+                        Sort: model.Sort),
+                        catalogUserId);
                     model.TotalItems = model.Catalog.TotalFilteredCount;
                     model.TotalPages = Math.Max(1, (int)Math.Ceiling(model.TotalItems / (double)model.PageSize));
                     ViewBag.StatusFilter = model.Catalog.Status;

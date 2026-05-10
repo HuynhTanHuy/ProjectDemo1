@@ -27,7 +27,8 @@ namespace WebBanHang.Helpers
     {
         public static async Task<ProductBooksPageViewModel> BuildAsync(
             ApplicationDbContext db,
-            BookCatalogQuery query)
+            BookCatalogQuery query,
+            string? currentUserId = null)
         {
             var page = Math.Max(1, query.Page);
             var pageSize = Math.Max(1, query.PageSize);
@@ -48,9 +49,13 @@ namespace WebBanHang.Helpers
                 .ToListAsync();
             vm.GenreOptions.Insert(0, new SelectListItem { Value = "", Text = "Tất cả thể loại" });
 
+            var utcToday = DateTime.UtcNow.Date;
+
             var overdueByBook = (await db.Borrows
                     .AsNoTracking()
-                    .Where(b => b.Status == BorrowStatus.Borrowing && b.DueDate.Date < DateTime.UtcNow.Date)
+                    .Where(b =>
+                        (b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue) &&
+                        b.DueDate.Date < utcToday)
                     .GroupBy(b => b.BookId)
                     .Select(g => new { BookId = g.Key, Cnt = g.Count() })
                     .ToListAsync())
@@ -58,7 +63,9 @@ namespace WebBanHang.Helpers
 
             var borrowingByBook = (await db.Borrows
                     .AsNoTracking()
-                    .Where(b => b.Status == BorrowStatus.Borrowing && b.DueDate.Date >= DateTime.UtcNow.Date)
+                    .Where(b =>
+                        (b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue) &&
+                        b.DueDate.Date >= utcToday)
                     .GroupBy(b => b.BookId)
                     .Select(g => new { BookId = g.Key, Cnt = g.Count() })
                     .ToListAsync())
@@ -222,10 +229,18 @@ namespace WebBanHang.Helpers
                 .ToList();
 
             vm.StatTotalBooks = await db.Products.CountAsync();
-            vm.StatBorrowing = await db.Borrows.CountAsync(b => b.Status == BorrowStatus.Borrowing);
+            vm.StatActiveLoansSystemWide = await db.Borrows.CountAsync(b =>
+                b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue);
+            vm.StatMyActiveLoans = string.IsNullOrWhiteSpace(currentUserId)
+                ? 0
+                : await db.Borrows.CountAsync(b =>
+                    b.UserId == currentUserId &&
+                    (b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue));
+            vm.StatBorrowing = vm.StatActiveLoansSystemWide;
             vm.StatAvailableTitles = await db.Products.CountAsync(p => p.Stock > 0);
             vm.StatOverdueLoans = await db.Borrows.CountAsync(b =>
-                b.Status == BorrowStatus.Borrowing && b.DueDate.Date < DateTime.UtcNow.Date);
+                (b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue) &&
+                b.DueDate.Date < utcToday);
 
             foreach (var o in vm.GenreOptions)
             {

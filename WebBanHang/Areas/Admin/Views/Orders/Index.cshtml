@@ -1,4 +1,5 @@
 @using System.Globalization
+@using WebBanHang.Models
 @model IEnumerable<WebBanHang.Models.Order>
 
 <div class="container mt-4">
@@ -21,6 +22,7 @@
                                 <th>Người đặt</th>
                                 <th>Ngày đặt</th>
                                 <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
                                 <th>Địa chỉ giao hàng</th>
                                 <th>Thao tác</th>
                             </tr>
@@ -33,6 +35,18 @@
                                     <td>@obj.ApplicationUser?.UserName</td>
                                     <td>@obj.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
                                     <td>@obj.TotalPrice.ToString("c", new CultureInfo("vi-VN"))</td>
+                                    <td>
+                                        @if (obj.OrderStatus == OrderStatus.Pending)
+                                        { <span class="badge bg-warning text-dark">Chờ thanh toán</span> }
+                                        else if (obj.OrderStatus == OrderStatus.Paid)
+                                        { <span class="badge bg-success">Đã thanh toán</span> }
+                                        else if (obj.OrderStatus == OrderStatus.Shipping)
+                                        { <span class="badge bg-info text-dark">Đang giao</span> }
+                                        else if (obj.OrderStatus == OrderStatus.Completed)
+                                        { <span class="badge bg-primary">Hoàn tất</span> }
+                                        else if (obj.OrderStatus == OrderStatus.Cancelled)
+                                        { <span class="badge bg-secondary">Đã hủy</span> }
+                                    </td>
                                     <td>
                                         <span class="text-truncate d-inline-block" style="max-width: 200px;" title="@obj.ShippingAddress">
                                             @obj.ShippingAddress

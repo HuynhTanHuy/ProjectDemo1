@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models;
+using WebBanHang.Options;
 using WebBanHang.Repositories;
+using WebBanHang.Services;
+using WebBanHang.Services.Background;
+using WebBanHang.Services.PaymentGateway;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +43,21 @@ builder.Services.AddRazorPages();
 // ✅ Đăng ký Repository (Dependency Injection)
 builder.Services.AddScoped<IProductRepository, EFProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
+
+builder.Services.AddMemoryCache();
+builder.Services.Configure<SimulatedPaymentOptions>(
+    builder.Configuration.GetSection(SimulatedPaymentOptions.SectionName));
+builder.Services.Configure<OrderCheckoutOptions>(
+    builder.Configuration.GetSection(OrderCheckoutOptions.SectionName));
+
+builder.Services.AddScoped<ISystemSettingsService, SystemSettingsService>();
+builder.Services.AddScoped<IBorrowService, BorrowService>();
+builder.Services.AddScoped<IOverdueProcessingService, OverdueProcessingService>();
+builder.Services.AddScoped<IBorrowNotificationService, LoggingBorrowNotificationService>();
+builder.Services.AddScoped<IPaymentSignatureService, PaymentSignatureService>();
+builder.Services.AddScoped<IPaymentProcessingService, PaymentProcessingService>();
+builder.Services.AddScoped<IOrderCheckoutService, OrderCheckoutService>();
+builder.Services.AddHostedService<OverdueScanBackgroundService>();
 
 var app = builder.Build();
 

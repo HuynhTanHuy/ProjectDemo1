@@ -1,0 +1,12 @@
+@model WebBanHang.Models.Payment
+@{
+    ViewData["Title"] = "Thanh toán";
+    ViewData["CustomerNavSection"] = "cart";
+}
+<div class="container mt-4" style="max-width: 560px;">
+    <h3>Thanh toán đơn hàng #@Model.OrderId</h3>
+    <p class="lead">Số tiền: <strong>@Model.Amount.ToString("N0") đ</strong></p>
+    <p class="text-muted small">Mã giao dịch: @Model.TransactionCode</p>
+    <a class="btn btn-primary w-100 mb-2" asp-action="SimulatedGateway" asp-route-id="@Model.Id">Tiếp tục thanh toán</a>
+    <a class="btn btn-outline-secondary w-100" asp-controller="MyOrders" asp-action="Details" asp-route-id="@Model.OrderId">Quay lại đơn hàng</a>
+</div>

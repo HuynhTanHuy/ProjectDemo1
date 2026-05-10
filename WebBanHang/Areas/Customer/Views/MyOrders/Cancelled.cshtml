@@ -1,0 +1,9 @@
+@model int
+@{
+    ViewData["Title"] = "Đã hủy thanh toán";
+}
+<div class="container mt-4 text-center">
+    <h3>Bạn đã hủy thanh toán</h3>
+    <p>Đơn <strong>#@Model</strong> chưa bị ghi nhận là đã thanh toán.</p>
+    <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model">Quay lại đơn</a>
+</div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models;
 using WebBanHang.Models.ViewModels;
+using WebBanHang.Services;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
@@ -12,11 +13,12 @@ namespace WebBanHang.Areas.Admin.Controllers
     public class BorrowsController : Controller
     {
         private readonly ApplicationDbContext _db;
-        private const decimal LateFeePerDay = 5000m;
+        private readonly IBorrowService _borrowService;
 
-        public BorrowsController(ApplicationDbContext db)
+        public BorrowsController(ApplicationDbContext db, IBorrowService borrowService)
         {
             _db = db;
+            _borrowService = borrowService;
         }
 
         public async Task<IActionResult> Index([FromQuery] BorrowIndexViewModel? vm)
@@ -26,7 +28,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             ViewData["AdminPageTitle"] = "Mượn & trả";
             ViewData["AdminBreadcrumb"] = "Tổng quan / Sách / Mượn trả";
             ViewData["AdminNotifCount"] = await _db.Borrows.CountAsync(b =>
-                b.Status == BorrowStatus.Borrowing && b.DueDate.Date < DateTime.UtcNow.Date);
+                b.Status == BorrowStatus.Overdue ||
+                (b.Status == BorrowStatus.Borrowing && b.DueDate.Date < DateTime.UtcNow.Date));
 
             vm ??= new BorrowIndexViewModel();
             if (vm.PageNumber < 1) vm.PageNumber = 1;
@@ -43,7 +46,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             vm.StatActiveBorrowing = await _db.Borrows.CountAsync(x =>
                 x.Status == BorrowStatus.Borrowing && x.DueDate.Date >= DateTime.UtcNow.Date);
             vm.StatOverdue = await _db.Borrows.CountAsync(x =>
-                x.Status == BorrowStatus.Borrowing && x.DueDate.Date < DateTime.UtcNow.Date);
+                x.Status == BorrowStatus.Overdue ||
+                (x.Status == BorrowStatus.Borrowing && x.DueDate.Date < DateTime.UtcNow.Date));
             vm.StatReturned = await _db.Borrows.CountAsync(x => x.Status == BorrowStatus.Returned);
 
             var query = _db.Borrows
@@ -80,8 +84,9 @@ namespace WebBanHang.Areas.Admin.Controllers
                         break;
                     case "Overdue":
                         query = query.Where(x =>
-                            x.Status == BorrowStatus.Borrowing &&
-                            x.DueDate.Date < DateTime.UtcNow.Date);
+                            x.Status == BorrowStatus.Overdue ||
+                            (x.Status == BorrowStatus.Borrowing &&
+                             x.DueDate.Date < DateTime.UtcNow.Date));
                         break;
                 }
             }
@@ -103,7 +108,10 @@ namespace WebBanHang.Areas.Admin.Controllers
                 DueDate = x.DueDate,
                 ReturnDate = x.ReturnDate,
                 Status = x.Status,
-                IsOverdue = x.Status == BorrowStatus.Borrowing && x.DueDate.Date < DateTime.UtcNow.Date
+                IsOverdue = x.Status == BorrowStatus.Overdue ||
+                    (x.Status == BorrowStatus.Borrowing && x.DueDate.Date < DateTime.UtcNow.Date),
+                FineAmount = x.FineAmount,
+                OverdueDays = x.OverdueDays
             }).ToList();
 
             return View(vm);
@@ -113,41 +121,16 @@ namespace WebBanHang.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MarkReturned(int borrowId)
         {
-            var borrow = await _db.Borrows.Include(x => x.Book).FirstOrDefaultAsync(x => x.Id == borrowId);
-            if (borrow == null)
+            var result = await _borrowService.AdminMarkReturnedAsync(borrowId);
+            if (!result.Success)
             {
-                return NotFound();
+                TempData["Error"] = result.Message;
+            }
+            else
+            {
+                TempData["Success"] = "Đã ghi nhận trả sách.";
             }
 
-            if (borrow.Status == BorrowStatus.Returned)
-            {
-                TempData["Error"] = "Phiếu mượn đã được trả trước đó.";
-                return RedirectToIndexPreservingQuery();
-            }
-
-            borrow.ReturnDate = DateTime.UtcNow;
-            borrow.Status = BorrowStatus.Returned;
-            if (borrow.Book != null)
-            {
-                borrow.Book.Stock += 1;
-            }
-
-            if (borrow.ReturnDate.Value > borrow.DueDate)
-            {
-                var lateDays = (borrow.ReturnDate.Value.Date - borrow.DueDate.Date).Days;
-                _db.Penalties.Add(new Penalty
-                {
-                    UserId = borrow.UserId,
-                    BorrowId = borrow.Id,
-                    Amount = lateDays * LateFeePerDay,
-                    Reason = $"Trả trễ ({lateDays} ngày).",
-                    CreatedAt = DateTime.UtcNow,
-                    IsPaid = false
-                });
-            }
-
-            await _db.SaveChangesAsync();
-            TempData["Success"] = "Đã ghi nhận trả sách.";
             return RedirectToIndexPreservingQuery();
         }
 
@@ -162,9 +145,9 @@ namespace WebBanHang.Areas.Admin.Controllers
                 return RedirectToIndexPreservingQuery();
             }
 
-            if (borrow.Status == BorrowStatus.Borrowing)
+            if (borrow.Status is BorrowStatus.Borrowing or BorrowStatus.Overdue)
             {
-                TempData["Error"] = "Không thể xóa phiếu đang mượn. Vui lòng ghi nhận trả sách trước.";
+                TempData["Error"] = "Không thể xóa phiếu đang mượn hoặc quá hạn. Vui lòng ghi nhận trả sách trước.";
                 return RedirectToIndexPreservingQuery();
             }
 

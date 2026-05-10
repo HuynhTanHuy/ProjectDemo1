@@ -90,6 +90,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Admin/Views/LibrarySettings/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTGlicmFyeVNldHRpbmdzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Admin/Views/Orders/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcT3JkZXJzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -104,6 +108,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Admin/Views/Orders/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcT3JkZXJzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Admin/Views/OverdueReport/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcT3ZlcmR1ZVJlcG9ydFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Admin/Views/PaymentTransactions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUGF5bWVudFRyYW5zYWN0aW9uc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Admin/Views/Penalties/Index.cshtml]
@@ -154,6 +166,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQXV0aG9yc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Borrow/BorrowHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQm9ycm93XEJvcnJvd0hpc3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Borrow/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQm9ycm93XERldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Borrow/MyBorrows.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQm9ycm93XE15Qm9ycm93cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Genres/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcR2VucmVzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -168,6 +192,34 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/MyOrders/Cancelled.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcTXlPcmRlcnNcQ2FuY2VsbGVkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/MyOrders/Completed.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcTXlPcmRlcnNcQ29tcGxldGVkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/MyOrders/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcTXlPcmRlcnNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/MyOrders/Failed.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcTXlPcmRlcnNcRmFpbGVkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/MyOrders/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcTXlPcmRlcnNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Payment/SimulatedGateway.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcUGF5bWVudFxTaW11bGF0ZWRHYXRld2F5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Payment/Start.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcUGF5bWVudFxTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Areas/Customer/Views/Product/Details.cshtml]
@@ -264,10 +316,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Views/BookPreview/View.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1ByZXZpZXdcVmlldy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Views/Borrow/MyBorrows.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9ycm93XE15Qm9ycm93cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Views/Categories/Add.cshtml]

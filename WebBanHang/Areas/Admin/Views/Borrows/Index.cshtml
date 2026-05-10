@@ -143,6 +143,7 @@
                             <th scope="col">Ngày mượn</th>
                             <th scope="col">Hạn trả</th>
                             <th scope="col" class="text-center">Trạng thái</th>
+                            <th scope="col" class="text-end">Phạt (ước tính)</th>
                             <th scope="col" class="text-end" style="min-width: 200px;">Thao tác</th>
                         </tr>
                     </thead>
@@ -150,7 +151,7 @@
                         @if (!Model.Items.Any())
                         {
                             <tr>
-                                <td colspan="6" class="text-center text-muted py-5">
+                                <td colspan="7" class="text-center text-muted py-5">
                                     <i class="fa-regular fa-folder-open fa-2x mb-2 d-block opacity-50"></i>
                                     Không có phiếu mượn phù hợp bộ lọc.
                                 </td>
@@ -180,6 +181,15 @@
                                             case BorrowStatus.Returned:
                                                 <span class="badge bg-success">Đã trả</span>
                                                 break;
+                                            case BorrowStatus.Overdue:
+                                                <span class="badge bg-danger">Quá hạn</span>
+                                                break;
+                                            case BorrowStatus.Lost:
+                                                <span class="badge bg-dark">Mất</span>
+                                                break;
+                                            case BorrowStatus.Cancelled:
+                                                <span class="badge bg-secondary">Đã hủy</span>
+                                                break;
                                             default:
                                                 if (item.IsOverdue)
                                                 {
@@ -192,6 +202,17 @@
                                                 break;
                                         }
                                     </td>
+                                    <td class="text-end small">
+                                        @if (item.FineAmount > 0)
+                                        {
+                                            @item.FineAmount.ToString("N0")<text> đ</text>
+                                            <div class="text-muted">(@item.OverdueDays ngày trễ)</div>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">—</span>
+                                        }
+                                    </td>
                                     <td class="text-end text-nowrap">
                                         <button type="button" class="btn btn-sm btn-outline-secondary" title="Chi tiết"
                                                 data-bs-toggle="modal" data-bs-target="#detailModal">
@@ -200,7 +221,7 @@
                                         <button type="button" class="btn btn-sm btn-outline-warning" disabled title="Chưa hỗ trợ chỉnh sửa">
                                             <i class="fa-solid fa-pen"></i> Sửa
                                         </button>
-                                        @if (item.Status == BorrowStatus.Borrowing)
+                                        @if (item.Status == BorrowStatus.Borrowing || item.Status == BorrowStatus.Overdue)
                                         {
                                             <form asp-area="Admin" asp-controller="Borrows" asp-action="MarkReturned" method="post" class="d-inline">
                                                 @Html.AntiForgeryToken()
@@ -210,7 +231,7 @@
                                                 </button>
                                             </form>
                                         }
-                                        @if (item.Status != BorrowStatus.Borrowing)
+                                        @if (item.Status != BorrowStatus.Borrowing && item.Status != BorrowStatus.Overdue)
                                         {
                                             <button type="button"
                                                     class="btn btn-sm btn-outline-danger btn-borrow-delete"
@@ -355,6 +376,8 @@
                     var el = document.getElementById('detailStatus');
                     if (st === '2') {
                         el.innerHTML = '<span class="badge bg-success">Đã trả</span>';
+                    } else if (st === '3') {
+                        el.innerHTML = '<span class="badge bg-danger">Quá hạn</span>';
                     } else if (tr.querySelector('.badge.bg-danger')) {
                         el.innerHTML = '<span class="badge bg-danger">Quá hạn</span>';
                     } else {

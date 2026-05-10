@@ -38,6 +38,12 @@
                     <a class="dashboard-nav-link @(nav == "borrows" ? "is-active" : null)" asp-area="Admin" asp-controller="Borrows" asp-action="Index">
                         <i class="bi bi-arrow-left-right"></i> Mượn &amp; trả
                     </a>
+                    <a class="dashboard-nav-link @(nav == "library_settings" ? "is-active" : null)" asp-area="Admin" asp-controller="LibrarySettings" asp-action="Index">
+                        <i class="bi bi-sliders"></i> Cấu hình mượn
+                    </a>
+                    <a class="dashboard-nav-link @(nav == "overdue_report" ? "is-active" : null)" asp-area="Admin" asp-controller="OverdueReport" asp-action="Index">
+                        <i class="bi bi-exclamation-triangle"></i> Báo cáo quá hạn
+                    </a>
                 </div>
 
                 <div class="dashboard-nav-section">
@@ -54,6 +60,9 @@
                     </a>
                     <a class="dashboard-nav-link @(nav == "penalties" ? "is-active" : null)" asp-area="Admin" asp-controller="Penalties" asp-action="Index">
                         <i class="bi bi-cash-coin"></i> Phạt &amp; nợ
+                    </a>
+                    <a class="dashboard-nav-link @(nav == "payment_tx" ? "is-active" : null)" asp-area="Admin" asp-controller="PaymentTransactions" asp-action="Index">
+                        <i class="bi bi-journal-text"></i> Nhật ký thanh toán
                     </a>
                 </div>
             </nav>

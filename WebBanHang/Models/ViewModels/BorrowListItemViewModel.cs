@@ -1,3 +1,5 @@
+using WebBanHang.Models;
+
 namespace WebBanHang.Models.ViewModels
 {
     public class BorrowListItemViewModel
@@ -10,5 +12,7 @@ namespace WebBanHang.Models.ViewModels
         public DateTime? ReturnDate { get; set; }
         public BorrowStatus Status { get; set; }
         public bool IsOverdue { get; set; }
+        public decimal FineAmount { get; set; }
+        public int OverdueDays { get; set; }
     }
 }

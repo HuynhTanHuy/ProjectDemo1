@@ -1,0 +1,11 @@
+@{
+    ViewData["Title"] = "Cổng thanh toán (giả lập)";
+    var url = ViewBag.CallbackUrl as string ?? "#";
+    var label = ViewBag.ResultLabel as string ?? "success";
+}
+<div class="container mt-4 text-center" style="max-width: 520px;">
+    <h3>Cổng thanh toán</h3>
+    <p class="text-muted">Kết quả: <strong>@label</strong></p>
+    <p class="small"><code style="font-size: 0.75rem;">@url</code></p>
+    <a class="btn btn-success btn-lg w-100" href="@url">Hoàn tất thanh toán</a>
+</div>

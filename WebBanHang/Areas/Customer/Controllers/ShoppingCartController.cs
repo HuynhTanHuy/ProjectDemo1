@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using WebBanHang.Extensions;
 using WebBanHang.Models;
+using WebBanHang.Models.ViewModels;
+using WebBanHang.Options;
 using WebBanHang.Areas.Customer;
 using WebBanHang.Repositories;
+using WebBanHang.Services;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
@@ -18,15 +22,21 @@ namespace WebBanHang.Controllers
         private readonly IProductRepository _productRepository;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private const decimal SHIPPING_COST = 30000; // Phí vận chuyển cố định
+        private readonly IOrderCheckoutService _orderCheckout;
+        private readonly OrderCheckoutOptions _shippingOptions;
 
-        public ShoppingCartController(ApplicationDbContext context,
-                                      UserManager<ApplicationUser> userManager,
-                                      IProductRepository productRepository)
+        public ShoppingCartController(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            IProductRepository productRepository,
+            IOrderCheckoutService orderCheckout,
+            IOptions<OrderCheckoutOptions> shippingOptions)
         {
             _productRepository = productRepository;
             _context = context;
             _userManager = userManager;
+            _orderCheckout = orderCheckout;
+            _shippingOptions = shippingOptions.Value;
         }
 
         public async Task<IActionResult> AddToCart(int productId, int quantity)
@@ -64,7 +74,7 @@ namespace WebBanHang.Controllers
             ViewData["CustomerBreadcrumb"] = "Tổng quan / Giao dịch / Giỏ hàng";
 
             var cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("Cart") ?? new ShoppingCart();
-            ViewBag.ShippingCost = SHIPPING_COST;
+            ViewBag.ShippingCost = _shippingOptions.ShippingCost;
             return View(cart);
         }
 
@@ -119,16 +129,19 @@ namespace WebBanHang.Controllers
                 return RedirectToAction("Index");
             }
 
-            var order = new Order
+            var merchandise = cart.Items.Sum(i => i.Price * i.Quantity);
+            var vm = new CheckoutOrderViewModel
             {
-                TotalPrice = cart.Items.Sum(i => i.Price * i.Quantity) + SHIPPING_COST
+                MerchandiseTotal = merchandise,
+                ShippingCost = _shippingOptions.ShippingCost
             };
 
-            return View(order);
+            return View(vm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Checkout(Order order)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Checkout(CheckoutOrderViewModel model)
         {
             var cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("Cart");
             if (cart == null || !cart.Items.Any())
@@ -144,23 +157,28 @@ namespace WebBanHang.Controllers
                 return RedirectToAction("Index");
             }
 
-            order.UserId = user.Id;
-            order.OrderDate = DateTime.UtcNow;
-            order.TotalPrice = cart.Items.Sum(i => i.Price * i.Quantity) + SHIPPING_COST;
-            order.OrderDetails = cart.Items.Select(i => new OrderDetail
+            model.MerchandiseTotal = cart.Items.Sum(i => i.Price * i.Quantity);
+            model.ShippingCost = _shippingOptions.ShippingCost;
+            if (!ModelState.IsValid)
             {
-                ProductId = i.ProductId,
-                Quantity = i.Quantity,
-                Price = i.Price
-            }).ToList();
+                return View(model);
+            }
 
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+            var result = await _orderCheckout.CreatePendingOrderWithPaymentAsync(
+                user.Id,
+                cart,
+                model.ShippingAddress,
+                model.Notes ?? string.Empty);
 
+            if (!result.Success || result.Data == default)
+            {
+                TempData["Error"] = result.Message;
+                return View(model);
+            }
+
+            var (_, paymentId) = result.Data;
             HttpContext.Session.Remove("Cart");
-            TempData["Success"] = "Đặt hàng thành công";
-
-            return View("OrderCompleted", order.Id);
+            return RedirectToAction("Start", "Payment", new { area = "Customer", id = paymentId });
         }
 
         private async Task<Product> GetProductFromDatabase(int productId)

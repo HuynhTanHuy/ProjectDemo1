@@ -1,0 +1,10 @@
+@model int
+@{
+    ViewData["Title"] = "Thanh toán thành công";
+}
+<div class="container mt-4 text-center">
+    <h3 class="text-success">Thanh toán thành công</h3>
+    <p>Cảm ơn bạn. Đơn hàng <strong>#@Model</strong> đã được ghi nhận thanh toán.</p>
+    <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model">Xem đơn</a>
+    <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index" asp-area="Customer">Về trang chủ</a>
+</div>

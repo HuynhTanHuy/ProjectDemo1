@@ -24,6 +24,9 @@ namespace WebBanHang.Models
         public DbSet<UserPreviewLog> UserPreviewLogs { get; set; }
         public DbSet<Borrow> Borrows { get; set; }
         public DbSet<Penalty> Penalties { get; set; }
+        public DbSet<SystemSetting> SystemSettings { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentTransaction> PaymentTransactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -107,6 +110,56 @@ namespace WebBanHang.Models
             builder.Entity<Penalty>()
                 .Property(x => x.Amount)
                 .HasPrecision(18, 2);
+
+            builder.Entity<SystemSetting>()
+                .HasKey(x => x.Id);
+
+            builder.Entity<SystemSetting>()
+                .Property(x => x.Id)
+                .ValueGeneratedNever();
+
+            builder.Entity<SystemSetting>()
+                .Property(x => x.BorrowFee)
+                .HasPrecision(18, 2);
+
+            builder.Entity<SystemSetting>()
+                .Property(x => x.OverdueFeePerDay)
+                .HasPrecision(18, 2);
+
+            builder.Entity<Borrow>()
+                .Property(x => x.BorrowFeeAmount)
+                .HasPrecision(18, 2);
+
+            builder.Entity<Borrow>()
+                .Property(x => x.FineAmount)
+                .HasPrecision(18, 2);
+
+            builder.Entity<Payment>()
+                .HasIndex(x => x.TransactionCode)
+                .IsUnique();
+
+            builder.Entity<Payment>()
+                .HasIndex(x => x.IdempotencyKey)
+                .IsUnique();
+
+            builder.Entity<Payment>()
+                .Property(x => x.Amount)
+                .HasPrecision(18, 2);
+
+            builder.Entity<Payment>()
+                .HasOne(x => x.Order)
+                .WithMany(x => x.Payments)
+                .HasForeignKey(x => x.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<PaymentTransaction>()
+                .HasIndex(x => x.PaymentId);
+
+            builder.Entity<PaymentTransaction>()
+                .HasOne(x => x.Payment)
+                .WithMany(x => x.Transactions)
+                .HasForeignKey(x => x.PaymentId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
