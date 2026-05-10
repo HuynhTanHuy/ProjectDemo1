@@ -43,6 +43,7 @@ builder.Services.AddRazorPages();
 // ✅ Đăng ký Repository (Dependency Injection)
 builder.Services.AddScoped<IProductRepository, EFProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
+builder.Services.AddScoped<IBookCopyRepository, EFBookCopyRepository>();
 
 builder.Services.AddMemoryCache();
 builder.Services.Configure<SimulatedPaymentOptions>(
@@ -52,6 +53,11 @@ builder.Services.Configure<OrderCheckoutOptions>(
 
 builder.Services.AddScoped<ISystemSettingsService, SystemSettingsService>();
 builder.Services.AddScoped<IBorrowService, BorrowService>();
+builder.Services.AddScoped<IBookCopyQrService, BookCopyQrService>();
+builder.Services.AddScoped<IProductBookCopyProvisioningService, ProductBookCopyProvisioningService>();
+builder.Services.AddScoped<ILibraryMemberQrService, LibraryMemberQrService>();
+builder.Services.AddScoped<ILibraryQrWorkflowService, LibraryQrWorkflowService>();
+builder.Services.AddScoped<IBookInventoryService, BookInventoryService>();
 builder.Services.AddScoped<IOverdueProcessingService, OverdueProcessingService>();
 builder.Services.AddScoped<IBorrowNotificationService, LoggingBorrowNotificationService>();
 builder.Services.AddScoped<IPaymentSignatureService, PaymentSignatureService>();

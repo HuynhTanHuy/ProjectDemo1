@@ -44,6 +44,9 @@
                     <a class="dashboard-nav-link @(nav == "overdue_report" ? "is-active" : null)" asp-area="Admin" asp-controller="OverdueReport" asp-action="Index">
                         <i class="bi bi-exclamation-triangle"></i> Báo cáo quá hạn
                     </a>
+                    <a class="dashboard-nav-link @(nav == "library_qr" ? "is-active" : null)" asp-area="Admin" asp-controller="LibraryQr" asp-action="Index">
+                        <i class="bi bi-qr-code-scan"></i> QR &amp; kiểm kê
+                    </a>
                 </div>
 
                 <div class="dashboard-nav-section">

@@ -46,6 +46,20 @@ namespace WebBanHang.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ReturnBookByQr([FromForm] string copyPayload)
+        {
+            var userId = CurrentUserId;
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return Json(new { success = false, code = "auth", message = "Chưa đăng nhập." });
+            }
+
+            var result = await _borrowService.ReturnBookWithCopyPayloadAsync(userId, copyPayload);
+            return Json(new { success = result.Success, code = result.ErrorCode, message = result.Message });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ReturnBook(int borrowId)
         {
             var userId = CurrentUserId;

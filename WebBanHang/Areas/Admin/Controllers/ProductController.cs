@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WebBanHang.Helpers;
 using WebBanHang.Models;
 using WebBanHang.Models.ViewModels;
+using WebBanHang.Services;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
@@ -19,11 +20,16 @@ namespace WebBanHang.Areas.Admin.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IProductBookCopyProvisioningService _bookCopyProvisioning;
 
-        public ProductController(ApplicationDbContext db, IWebHostEnvironment hostEnvironment)
+        public ProductController(
+            ApplicationDbContext db,
+            IWebHostEnvironment hostEnvironment,
+            IProductBookCopyProvisioningService bookCopyProvisioning)
         {
             _db = db;
             _hostEnvironment = hostEnvironment;
+            _bookCopyProvisioning = bookCopyProvisioning;
         }
 
         public async Task<IActionResult> Index([FromQuery] int? genreId, [FromQuery] string? status)
@@ -71,7 +77,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Product product, IFormFile? file)
+        public async Task<IActionResult> Upsert(Product product, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +107,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 
                         using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
                         {
-                            file.CopyTo(fileStreams);
+                            await file.CopyToAsync(fileStreams);
                         }
                         product.ImageUrl = @"\images\products\" + fileName + extension;
                     }
@@ -116,7 +122,8 @@ namespace WebBanHang.Areas.Admin.Controllers
                         _db.Products.Update(product);
                         TempData["success"] = "Product updated successfully";
                     }
-                    _db.SaveChanges();
+                    await _db.SaveChangesAsync();
+                    await _bookCopyProvisioning.SyncProductCopiesAsync(product.Id);
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)

@@ -45,5 +45,7 @@ namespace WebBanHang.Models
         public string? Slug { get; set; }
 
         public List<Review>? Reviews { get; set; }
+
+        public List<BookCopy>? BookCopies { get; set; }
     }
 }

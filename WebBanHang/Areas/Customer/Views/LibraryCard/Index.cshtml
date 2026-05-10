@@ -1,0 +1,94 @@
+@model WebBanHang.Models.ViewModels.LibraryMemberCardViewModel
+@{
+    Layout = "~/Areas/Customer/Views/Shared/_LayoutCustomer.cshtml";
+    ViewData["Title"] = "Thẻ thư viện (QR)";
+}
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    var tokens = Antiforgery.GetAndStoreTokens(Context);
+}
+
+<div class="container py-4" style="max-width:640px">
+    <h1 class="h4 mb-3">Thẻ thư viện</h1>
+    <p class="text-muted small">QR chỉ chứa mã thẻ nội bộ, không hiển thị email hay số điện thoại. Xuất trình tại quầy để quét khi mượn sách.</p>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model?.QrPayload))
+    {
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <div class="mb-2 fw-semibold">@Model.FullName</div>
+                @if (!string.IsNullOrEmpty(Model.QrImageUrl))
+                {
+                    <img src="@Model.QrImageUrl" alt="QR thẻ thư viện" class="img-fluid border rounded mb-3" style="max-width:260px" />
+                }
+                <div class="small text-break text-muted mb-3">@Model.QrPayload</div>
+                <a class="btn btn-primary" asp-area="Customer" asp-controller="LibraryCard" asp-action="DownloadQr">Tải ảnh QR</a>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-3">
+            <div class="card-body">
+                <h2 class="h6">Trả sách bằng QR</h2>
+                <p class="small text-muted mb-2">Quét mã trên bản sao sách bạn đang cầm để ghi nhận trả (nếu phiếu thuộc tài khoản của bạn).</p>
+                <div class="input-group mb-2">
+                    <input type="text" id="retQr" class="form-control form-control-sm" placeholder="Nội dung QR sách" autocomplete="off" />
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnCamRet" title="Camera"><i class="bi bi-camera"></i></button>
+                </div>
+                <button type="button" class="btn btn-outline-primary btn-sm" id="btnRetQr">Gửi trả sách</button>
+                <div id="retMsg" class="small mt-2"></div>
+            </div>
+        </div>
+    }
+</div>
+
+<input type="hidden" id="afTok" value="@tokens.RequestToken" />
+
+@section Scripts {
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script>
+        (function () {
+            const url = '@Url.Action("ReturnBookByQr", "Borrow", new { area = "Customer" })';
+            const tok = document.getElementById('afTok').value;
+            function post(copyPayload) {
+                const p = new URLSearchParams();
+                p.append('__RequestVerificationToken', tok);
+                p.append('copyPayload', copyPayload);
+                return fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                    body: p.toString()
+                }).then(r => r.json());
+            }
+            const msg = document.getElementById('retMsg');
+            document.getElementById('btnRetQr').addEventListener('click', async () => {
+                const v = document.getElementById('retQr').value.trim();
+                const res = await post(v);
+                msg.className = 'small mt-2 ' + (res.success ? 'text-success' : 'text-danger');
+                msg.textContent = res.success ? 'Đã ghi nhận trả sách.' : (res.message || res.code || 'Lỗi');
+            });
+            document.getElementById('btnCamRet').addEventListener('click', async () => {
+                const hostId = 'camHostRet';
+                let el = document.getElementById(hostId);
+                if (!el) {
+                    el = document.createElement('div');
+                    el.id = hostId;
+                    el.className = 'my-2';
+                    document.getElementById('retQr').parentElement.parentElement.appendChild(el);
+                }
+                el.innerHTML = '';
+                const qr = new Html5Qrcode(hostId);
+                await qr.start({ facingMode: 'environment' }, { fps: 10, qrbox: 200 },
+                    (text) => {
+                        document.getElementById('retQr').value = text.trim();
+                        qr.stop().catch(() => { });
+                        el.innerHTML = '';
+                    }, () => { });
+            });
+        })();
+    </script>
+}

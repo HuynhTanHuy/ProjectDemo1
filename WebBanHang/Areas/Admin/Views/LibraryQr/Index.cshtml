@@ -1,0 +1,152 @@
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    var tokens = Antiforgery.GetAndStoreTokens(Context);
+}
+
+<div class="row g-3">
+    <div class="col-12 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Tra cứu bản sao</h2>
+                <p class="text-muted small mb-2">Nội dung QR chỉ chứa mã bản sao (ví dụ <code>COPY-000001</code>) hoặc Id số.</p>
+                <div class="input-group mb-2">
+                    <input type="text" id="lookupInput" class="form-control" placeholder="Dán nội dung QR hoặc nhập mã" autocomplete="off" />
+                    <button type="button" class="btn btn-outline-secondary" id="btnScanLookup" data-scan-target="lookupInput" title="Quét QR">
+                        <i class="bi bi-camera"></i>
+                    </button>
+                </div>
+                <button type="button" class="btn btn-primary" id="btnLookup">Xem thông tin</button>
+                <div id="lookupResult" class="mt-3 small"></div>
+                <div id="lookupQrPreview" class="mt-2 text-center d-none">
+                    <img id="lookupQrImg" alt="QR preview" class="img-fluid border rounded" style="max-width:220px" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Đồng bộ &amp; QR</h2>
+                <p class="text-muted small">Sau khi thêm/sửa sách, hệ thống tự tạo bản sao theo tồn kho. Nút này chạy lại cho toàn bộ đầu sách.</p>
+                <button type="button" class="btn btn-outline-primary btn-sm" id="btnSyncAll">Đồng bộ tất cả bản sao</button>
+                <hr />
+                <p class="small mb-1">Tạo lại ảnh QR khi cần (nhập Id bản sao hoặc quét mã vào ô tra cứu rồi dùng Id).</p>
+                <div class="input-group input-group-sm">
+                    <input type="number" id="regenCopyId" class="form-control" placeholder="BookCopy Id" min="1" />
+                    <button type="button" class="btn btn-outline-secondary" id="btnRegenQr">Generate QR</button>
+                    <a class="btn btn-outline-success" id="btnDownloadQr" href="#" style="display:none">Download QR</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mt-1">
+    <div class="col-12 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Quầy mượn (QR thành viên + QR sách)</h2>
+                <label class="form-label small">QR thành viên</label>
+                <div class="input-group mb-2">
+                    <input type="text" id="borrowMemberInput" class="form-control" autocomplete="off" />
+                    <button type="button" class="btn btn-outline-secondary" data-scan-target="borrowMemberInput"><i class="bi bi-camera"></i></button>
+                </div>
+                <label class="form-label small">QR bản sao sách</label>
+                <div class="input-group mb-2">
+                    <input type="text" id="borrowCopyInput" class="form-control" autocomplete="off" />
+                    <button type="button" class="btn btn-outline-secondary" data-scan-target="borrowCopyInput"><i class="bi bi-camera"></i></button>
+                </div>
+                <button type="button" class="btn btn-success" id="btnBorrowQr">Tạo phiếu mượn</button>
+                <div id="borrowResult" class="mt-2 small"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Quầy trả (QR bản sao)</h2>
+                <div class="input-group mb-2">
+                    <input type="text" id="returnCopyInput" class="form-control" autocomplete="off" />
+                    <button type="button" class="btn btn-outline-secondary" data-scan-target="returnCopyInput"><i class="bi bi-camera"></i></button>
+                </div>
+                <button type="button" class="btn btn-warning text-dark" id="btnReturnQr">Ghi nhận trả</button>
+                <div id="returnResult" class="mt-2 small"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mt-1">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Kiểm kê theo phiên</h2>
+                <div class="row g-2 align-items-end">
+                    <div class="col-md-6">
+                        <label class="form-label small">Ghi chú (tuỳ chọn)</label>
+                        <input type="text" id="invNote" class="form-control form-control-sm" />
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-primary btn-sm" id="btnInvStart">Bắt đầu phiên</button>
+                        <span class="ms-2 small" id="invSessionLabel"></span>
+                    </div>
+                </div>
+                <hr />
+                <label class="form-label small">Quét bản sao (lặp lại nhiều lần)</label>
+                <div class="input-group mb-2">
+                    <input type="text" id="invScanInput" class="form-control" autocomplete="off" disabled />
+                    <button type="button" class="btn btn-outline-secondary" data-scan-target="invScanInput" disabled id="btnScanInv"><i class="bi bi-camera"></i></button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text">Vị trí quan sát</span>
+                    <input type="text" id="invShelfObserved" class="form-control" placeholder="Tuỳ chọn — để phát hiện sai kệ" disabled />
+                </div>
+                <button type="button" class="btn btn-outline-primary btn-sm" id="btnInvScan" disabled>Ghi nhận quét</button>
+                <button type="button" class="btn btn-danger btn-sm" id="btnInvComplete" disabled>Kết thúc &amp; báo cáo</button>
+                <div id="invLog" class="mt-3 small font-monospace" style="max-height:200px;overflow:auto"></div>
+                <div id="invReport" class="mt-2 small"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="afToken" name="__RequestVerificationToken" value="@tokens.RequestToken" />
+
+<div class="modal fade" id="qrScanModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Quét QR</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <div id="qrReaderHost" class="w-100" style="min-height:240px"></div>
+                <p class="small text-muted mt-2 mb-0">Cho phép truy cập camera khi trình duyệt hỏi.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="~/js/library-qr-workspace.js" asp-append-version="true"></script>
+    <script>
+        window.libraryQrWorkspace.init({
+            afToken: document.getElementById('afToken').value,
+            urls: {
+                lookup: '@Url.Action("LookupCopy", "LibraryQr", new { area = "Admin" })',
+                borrow: '@Url.Action("BorrowByQr", "LibraryQr", new { area = "Admin" })',
+                returnBook: '@Url.Action("ReturnByQr", "LibraryQr", new { area = "Admin" })',
+                invStart: '@Url.Action("StartInventory", "LibraryQr", new { area = "Admin" })',
+                invScan: '@Url.Action("ScanInventory", "LibraryQr", new { area = "Admin" })',
+                invComplete: '@Url.Action("CompleteInventory", "LibraryQr", new { area = "Admin" })',
+                syncAll: '@Url.Action("SyncAllCopies", "LibraryQr", new { area = "Admin" })',
+                regenQr: '@Url.Action("RegenerateCopyQr", "LibraryQr", new { area = "Admin" })',
+                downloadQr: '@Url.Action("DownloadCopyQr", "LibraryQr", new { area = "Admin" })'
+            }
+        });
+    </script>
+}

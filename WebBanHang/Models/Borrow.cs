@@ -22,6 +22,11 @@ namespace WebBanHang.Models
         [Required]
         public int BookId { get; set; }
 
+        /// <summary>Bản sao vật lý đã mượn (null với dữ liệu cũ trước khi có QR).</summary>
+        public int? BookCopyId { get; set; }
+
+        public BookCopy? BookCopy { get; set; }
+
         public DateTime BorrowDate { get; set; } = DateTime.UtcNow;
 
         public DateTime DueDate { get; set; }

@@ -5134,3 +5134,5 @@ C:\Users\YangTV\AppData\Local\Temp\borrow-stat-fix\WebBanHang.deps.json
 C:\Users\YangTV\AppData\Local\Temp\borrow-stat-fix\WebBanHang.runtimeconfig.json
 C:\Users\YangTV\AppData\Local\Temp\borrow-stat-fix\WebBanHang.dll
 C:\Users\YangTV\AppData\Local\Temp\borrow-stat-fix\WebBanHang.pdb
+C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\bin\Debug\net9.0\QRCoder.dll
+C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compressed\2xxelxj4de-{0}-v2ftkdm5cp-v2ftkdm5cp.gz

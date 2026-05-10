@@ -8,7 +8,26 @@ namespace WebBanHang.Services
     {
         Task<ServiceResult> BorrowBookAsync(string userId, int bookId, CancellationToken cancellationToken = default);
 
+        Task<ServiceResult<int>> BorrowBookWithCopyAsync(
+            string userId,
+            int bookCopyId,
+            CancellationToken cancellationToken = default);
+
+        Task<ServiceResult<int>> BorrowBookWithCopyPayloadAsync(
+            string userId,
+            string copyQrPayload,
+            CancellationToken cancellationToken = default);
+
         Task<ServiceResult> ReturnBookAsync(string userId, int borrowId, CancellationToken cancellationToken = default);
+
+        Task<ServiceResult> ReturnBookWithCopyPayloadAsync(
+            string userId,
+            string copyQrPayload,
+            CancellationToken cancellationToken = default);
+
+        Task<ServiceResult> AdminReturnBookWithCopyPayloadAsync(
+            string copyQrPayload,
+            CancellationToken cancellationToken = default);
 
         Task<ServiceResult> AdminMarkReturnedAsync(int borrowId, CancellationToken cancellationToken = default);
 

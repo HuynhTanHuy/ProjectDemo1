@@ -184,6 +184,14 @@ namespace WebBanHang.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LibraryMemberQrImageRelativePath")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("LibraryMemberQrToken")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -218,6 +226,10 @@ namespace WebBanHang.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LibraryMemberQrToken")
+                        .IsUnique()
+                        .HasFilter("[LibraryMemberQrToken] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -254,6 +266,112 @@ namespace WebBanHang.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
+                });
+
+            modelBuilder.Entity("WebBanHang.Models.BookCopy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CopyCode")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastInventoryVerifiedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QrImageRelativePath")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("QrPayload")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<string>("ShelfLocation")
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CopyCode")
+                        .IsUnique();
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("BookCopies");
+                });
+
+            modelBuilder.Entity("WebBanHang.Models.BookInventoryScan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookCopyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ObservedShelfLocation")
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
+
+                    b.Property<DateTime>("ScannedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SessionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookCopyId");
+
+                    b.HasIndex("SessionId", "BookCopyId")
+                        .IsUnique();
+
+                    b.ToTable("BookInventoryScans");
+                });
+
+            modelBuilder.Entity("WebBanHang.Models.BookInventorySession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CompletedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("StartedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StartedByUserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StartedByUserId");
+
+                    b.ToTable("BookInventorySessions");
                 });
 
             modelBuilder.Entity("WebBanHang.Models.BookPreview", b =>
@@ -302,6 +420,9 @@ namespace WebBanHang.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("BookCopyId")
+                        .HasColumnType("int");
+
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
@@ -339,6 +460,8 @@ namespace WebBanHang.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BookCopyId");
 
                     b.HasIndex("BookId");
 
@@ -910,6 +1033,47 @@ namespace WebBanHang.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebBanHang.Models.BookCopy", b =>
+                {
+                    b.HasOne("WebBanHang.Models.Product", "Book")
+                        .WithMany("BookCopies")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("WebBanHang.Models.BookInventoryScan", b =>
+                {
+                    b.HasOne("WebBanHang.Models.BookCopy", "BookCopy")
+                        .WithMany()
+                        .HasForeignKey("BookCopyId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WebBanHang.Models.BookInventorySession", "Session")
+                        .WithMany("Scans")
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BookCopy");
+
+                    b.Navigation("Session");
+                });
+
+            modelBuilder.Entity("WebBanHang.Models.BookInventorySession", b =>
+                {
+                    b.HasOne("WebBanHang.Models.ApplicationUser", "StartedBy")
+                        .WithMany()
+                        .HasForeignKey("StartedByUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("StartedBy");
+                });
+
             modelBuilder.Entity("WebBanHang.Models.BookPreview", b =>
                 {
                     b.HasOne("WebBanHang.Models.Product", "Book")
@@ -923,6 +1087,11 @@ namespace WebBanHang.Migrations
 
             modelBuilder.Entity("WebBanHang.Models.Borrow", b =>
                 {
+                    b.HasOne("WebBanHang.Models.BookCopy", "BookCopy")
+                        .WithMany()
+                        .HasForeignKey("BookCopyId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("WebBanHang.Models.Product", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
@@ -936,6 +1105,8 @@ namespace WebBanHang.Migrations
                         .IsRequired();
 
                     b.Navigation("Book");
+
+                    b.Navigation("BookCopy");
 
                     b.Navigation("User");
                 });
@@ -1104,6 +1275,11 @@ namespace WebBanHang.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("WebBanHang.Models.BookInventorySession", b =>
+                {
+                    b.Navigation("Scans");
+                });
+
             modelBuilder.Entity("WebBanHang.Models.Category", b =>
                 {
                     b.Navigation("Products");
@@ -1128,6 +1304,8 @@ namespace WebBanHang.Migrations
 
             modelBuilder.Entity("WebBanHang.Models.Product", b =>
                 {
+                    b.Navigation("BookCopies");
+
                     b.Navigation("Images");
 
                     b.Navigation("Reviews");

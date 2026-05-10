@@ -27,6 +27,9 @@ namespace WebBanHang.Models
         public DbSet<SystemSetting> SystemSettings { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PaymentTransaction> PaymentTransactions { get; set; }
+        public DbSet<BookCopy> BookCopies { get; set; }
+        public DbSet<BookInventorySession> BookInventorySessions { get; set; }
+        public DbSet<BookInventoryScan> BookInventoryScans { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -76,6 +79,58 @@ namespace WebBanHang.Models
                 .WithMany()
                 .HasForeignKey(x => x.BookId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Borrow>()
+                .HasIndex(x => x.BookCopyId);
+
+            builder.Entity<Borrow>()
+                .HasOne(x => x.BookCopy)
+                .WithMany()
+                .HasForeignKey(x => x.BookCopyId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<BookCopy>()
+                .HasIndex(x => x.CopyCode)
+                .IsUnique();
+
+            builder.Entity<BookCopy>()
+                .HasIndex(x => x.ProductId);
+
+            builder.Entity<BookCopy>()
+                .HasOne(x => x.Book)
+                .WithMany(x => x.BookCopies)
+                .HasForeignKey(x => x.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ApplicationUser>()
+                .HasIndex(x => x.LibraryMemberQrToken)
+                .IsUnique()
+                .HasFilter("[LibraryMemberQrToken] IS NOT NULL");
+
+            builder.Entity<BookInventorySession>()
+                .HasIndex(x => x.StartedByUserId);
+
+            builder.Entity<BookInventorySession>()
+                .HasOne(x => x.StartedBy)
+                .WithMany()
+                .HasForeignKey(x => x.StartedByUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<BookInventoryScan>()
+                .HasIndex(x => new { x.SessionId, x.BookCopyId })
+                .IsUnique();
+
+            builder.Entity<BookInventoryScan>()
+                .HasOne(x => x.Session)
+                .WithMany(x => x.Scans)
+                .HasForeignKey(x => x.SessionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<BookInventoryScan>()
+                .HasOne(x => x.BookCopy)
+                .WithMany()
+                .HasForeignKey(x => x.BookCopyId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Penalty>()
                 .HasIndex(x => x.UserId);
