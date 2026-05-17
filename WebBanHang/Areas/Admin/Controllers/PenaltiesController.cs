@@ -58,7 +58,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             ViewBag.IsPaid = isPaid;
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-            ViewBag.TotalAmount = await _db.Penalties.SumAsync(x => x.Amount);
+            ViewBag.TotalAmount = await _db.Penalties.SumAsync(x => (decimal?)x.Amount) ?? 0m;
+            ViewBag.UnpaidTotal = await _db.Penalties.Where(x => !x.IsPaid).SumAsync(x => (decimal?)x.Amount) ?? 0m;
 
             var model = penalties.Select(x => new PenaltyListItemViewModel
             {
@@ -90,7 +91,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                 penalty.IsPaid = true;
                 penalty.PaidAt = DateTime.UtcNow;
                 await _db.SaveChangesAsync();
-                TempData["Success"] = "Penalty marked as paid.";
+                TempData["Success"] = "Đã đánh dấu khoản phạt đã thu.";
             }
 
             return RedirectToAction(nameof(Index));

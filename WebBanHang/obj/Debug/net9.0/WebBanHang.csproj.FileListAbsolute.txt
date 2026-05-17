@@ -5018,7 +5018,6 @@ C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compress
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compressed\v0zgfp0y55-{0}-87fc7y1x7t-87fc7y1x7t.gz
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compressed\yfc7ypekbg-{0}-mlv21k5csn-mlv21k5csn.gz
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compressed\8tw9nxwlcu-{0}-ormcbe4gz6-ormcbe4gz6.gz
-C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compressed\nwr5eaew1q-{0}-jrv2th6rnf-jrv2th6rnf.gz
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compressed\nhpo0obamh-{0}-jiglrkqgtw-jiglrkqgtw.gz
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compressed\knnaw6s8rl-{0}-433zyvx11c-433zyvx11c.gz
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compressed\v7zt6fe845-{0}-61n19gt1b8-61n19gt1b8.gz
@@ -5136,3 +5135,4 @@ C:\Users\YangTV\AppData\Local\Temp\borrow-stat-fix\WebBanHang.dll
 C:\Users\YangTV\AppData\Local\Temp\borrow-stat-fix\WebBanHang.pdb
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\bin\Debug\net9.0\QRCoder.dll
 C:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compressed\2xxelxj4de-{0}-v2ftkdm5cp-v2ftkdm5cp.gz
+c:\Users\YangTV\OneDrive\Desktop\WebBanHang\WebBanHang\obj\Debug\net9.0\compressed\nwr5eaew1q-{0}-8vb0rrbf02-8vb0rrbf02.gz

@@ -7,7 +7,7 @@ namespace WebBanHang.Models
         public int Id { get; set; }
         [Required, StringLength(100)]
         public string Name { get; set; }
-        [Range(0.01, 10000.00)]
+        [Range(0, 100_000_000, ErrorMessage = "Giá phải từ 0 đến 100.000.000 đ.")]
         public decimal Price { get; set; }
         [Required]
         public string Description { get; set; }

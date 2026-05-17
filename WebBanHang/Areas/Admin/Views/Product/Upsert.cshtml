@@ -1,100 +1,130 @@
 @model WebBanHang.Models.Product
 @{
-    ViewData["Title"] = Model.Id != 0 ? "Edit Product" : "Add Product";
+    ViewData["Title"] = Model.Id != 0 ? "Sửa sách" : "Thêm sách";
+    var isEdit = Model.Id != 0;
+    string? previewSrc = null;
+    if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        var path = Model.ImageUrl.Trim().Replace("\\", "/").TrimStart('~', '/');
+        previewSrc = Url.Content("~/" + path);
+    }
 }
 
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="border p-3">
-                <div class="row pb-2">
-                    <h2 class="text-primary">@(Model.Id != 0 ? "Edit" : "Add") Product</h2>
-                    <hr />
-                </div>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <form method="post" enctype="multipart/form-data">
-                    <input asp-for="Id" hidden />
-                    <input asp-for="ImageUrl" hidden />
-                    
-                    <div class="form-group mb-3">
-                        <label asp-for="Name"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm dash-form-card">
+            <div class="card-body">
+                <h2 class="h5 mb-3">@(isEdit ? "Sửa thông tin sách" : "Thêm sách mới")</h2>
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small" role="alert"></div>
+                <form method="post" enctype="multipart/form-data" asp-area="Admin" asp-controller="Product" asp-action="Upsert">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="Id" type="hidden" />
+                    <input asp-for="ImageUrl" type="hidden" />
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Name" class="form-label">Tên sách <span class="text-danger">*</span></label>
+                            <input asp-for="Name" class="form-control" placeholder="Nhập tên sách" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="AuthorId" class="form-label">Tác giả</label>
+                            <select asp-for="AuthorId" asp-items="ViewBag.Authors" class="form-select"></select>
+                            <a class="small" asp-area="Admin" asp-controller="Authors" asp-action="Index" target="_blank">Quản lý tác giả</a>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PublisherId" class="form-label">Nhà xuất bản</label>
+                            <select asp-for="PublisherId" asp-items="ViewBag.Publishers" class="form-select"></select>
+                            <a class="small" asp-area="Admin" asp-controller="Publishers" asp-action="Index" target="_blank">Quản lý NXB</a>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="GenreId" class="form-label">Thể loại</label>
+                            <select asp-for="GenreId" asp-items="ViewBag.Genres" class="form-select"></select>
+                            <a class="small" asp-area="Admin" asp-controller="Genres" asp-action="Index" target="_blank">Quản lý thể loại</a>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="CategoryId" class="form-label">Danh mục <span class="text-danger">*</span></label>
+                            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
+                                <option value="">— Chọn danh mục —</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Isbn" class="form-label">ISBN</label>
+                            <input asp-for="Isbn" class="form-control" placeholder="978-..." />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Stock" class="form-label">Tồn kho (bản)</label>
+                            <input asp-for="Stock" class="form-control" type="number" min="0" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Price" class="form-label">Giá (VNĐ)</label>
+                            <input asp-for="Price" class="form-control" type="number" step="1" min="0" max="100000000" />
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PublicationDate" class="form-label">Ngày xuất bản</label>
+                            <input asp-for="PublicationDate" class="form-control" type="date" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PageCount" class="form-label">Số trang</label>
+                            <input asp-for="PageCount" class="form-control" type="number" min="1" />
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label">Mô tả <span class="text-danger">*</span></label>
+                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Ảnh bìa</label>
+                            <input type="file" name="file" class="form-control" id="imageInput" accept="image/*" />
+                            <small class="text-muted">JPG, PNG, GIF — tối đa 5MB</small>
+                        </div>
                     </div>
-                    <div class="form-group mb-3">
-                        <label asp-for="Price"></label>
-                        <input asp-for="Price" class="form-control" type="number" step="0.01" />
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label asp-for="Description"></label>
-                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label asp-for="CategoryId">Category</label>
-                        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
-                            <option disabled selected>--Select Category--</option>
-                        </select>
-                        <span asp-validation-for="CategoryId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label asp-for="ImageUrl">Product Image</label>
-                        <input type="file" name="file" class="form-control" id="imageInput" accept="image/*" />
-                        <small class="text-muted">Supported formats: JPG, PNG, GIF</small>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">@(Model.Id != 0 ? "Update" : "Add")</button>
-                        <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to List</a>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">@(isEdit ? "Lưu thay đổi" : "Thêm sách")</button>
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary">Hủy</a>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Product Preview</h5>
-                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
-                    {
-                        <img src="@Model.ImageUrl" alt="Product Image" style="max-width: 100%;" id="previewImage" class="img-fluid" />
-                    }
-                    else
-                    {
-                        <img src="/images/no-image.jpg" alt="No Image" style="max-width: 100%;" id="previewImage" class="img-fluid" />
-                    }
-                </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm dash-form-card">
+            <div class="card-body text-center">
+                <h3 class="h6 text-muted mb-3">Xem trước ảnh</h3>
+                <img src="@(previewSrc ?? Url.Content("~/images/no-image.jpg"))"
+                     alt="Ảnh sách"
+                     id="previewImage"
+                     class="img-fluid rounded border"
+                     style="max-height: 320px; object-fit: contain;" />
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
+    <partial name="_ValidationScriptsPartial" />
     <script>
-        document.getElementById('imageInput').addEventListener('change', function (event) {
+        document.getElementById('imageInput')?.addEventListener('change', function (event) {
             const file = event.target.files[0];
-            if (file) {
-                // Check file type
-                if (!file.type.startsWith('image/')) {
-                    alert('Please select an image file');
-                    this.value = '';
-                    return;
-                }
-                // Check file size (max 5MB)
-                if (file.size > 5 * 1024 * 1024) {
-                    alert('File size should be less than 5MB');
-                    this.value = '';
-                    return;
-                }
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const img = document.getElementById("previewImage");
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                alert('Vui lòng chọn file ảnh.');
+                this.value = '';
+                return;
             }
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Ảnh không được vượt quá 5MB.');
+                this.value = '';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('previewImage').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         });
     </script>
-} 
+}

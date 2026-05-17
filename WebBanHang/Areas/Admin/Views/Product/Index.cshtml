@@ -151,8 +151,18 @@
                         <td>@(item.Isbn?.ToString() ?? "N/A")</td>
                         <td class="text-end">@item.Quantity.ToString("N0")</td>
                         <td><span class="@pillClass">@item.StatusLabel</span></td>
-                        <td class="text-end">
-                            <a class="dash-link-detail" asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                        <td class="text-end text-nowrap">
+                            <a class="dash-link-detail me-2" asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id" target="_blank">Xem</a>
+                            <a class="btn btn-sm btn-outline-light" asp-area="Admin" asp-controller="Product" asp-action="Upsert" asp-route-id="@item.Id" title="Sửa">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger btn-delete-book"
+                                    data-id="@item.Id"
+                                    data-name="@item.Name"
+                                    title="Xóa">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </td>
                     </tr>
                 }
@@ -161,14 +171,44 @@
     </table>
 </div>
 
+<div class="modal fade" id="deleteBookModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-danger">
+                <h5 class="modal-title text-danger">Xóa sách</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Bạn có chắc muốn xóa sách <strong id="deleteBookName"></strong>? Không xóa được nếu còn phiếu mượn đang mở.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Hủy</button>
+                <form asp-area="Admin" asp-controller="Product" asp-action="Delete" method="post" class="d-inline" id="deleteBookForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" id="deleteBookId" value="" />
+                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         (function () {
             var all = document.getElementById('chkSelectAll');
-            if (!all) return;
-            all.addEventListener('change', function () {
-                document.querySelectorAll('.chk-row').forEach(function (c) {
-                    c.checked = all.checked;
+            if (all) {
+                all.addEventListener('change', function () {
+                    document.querySelectorAll('.chk-row').forEach(function (c) {
+                        c.checked = all.checked;
+                    });
+                });
+            }
+            document.querySelectorAll('.btn-delete-book').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    document.getElementById('deleteBookId').value = this.dataset.id || '';
+                    document.getElementById('deleteBookName').textContent = this.dataset.name || '';
+                    new bootstrap.Modal(document.getElementById('deleteBookModal')).show();
                 });
             });
         })();

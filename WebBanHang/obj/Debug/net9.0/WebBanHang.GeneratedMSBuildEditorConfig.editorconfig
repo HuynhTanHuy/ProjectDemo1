@@ -374,6 +374,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxVcGRhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Views/Shared/Components/AdminNotification/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQWRtaW5Ob3RpZmljYXRpb25cRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/YangTV/OneDrive/Desktop/WebBanHang/WebBanHang/Views/Shared/Components/UserMenu/Anonymous.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVXNlck1lbnVcQW5vbnltb3VzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

@@ -8,7 +8,55 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2ac3c1a-56e0-4392-b39f-02ff1356d2fd" name="Changes" comment="" />
+    <list default="true" id="d2ac3c1a-56e0-4392-b39f-02ff1356d2fd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.WebBanHang/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebBanHang/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/OverdueReportController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/OverdueReportController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/PenaltiesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/PenaltiesController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/ProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/ProductController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Borrows/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Borrows/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/OverdueReport/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/OverdueReport/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Penalties/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Penalties/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Product/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Product/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Product/Upsert.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Product/Upsert.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Shared/_AdminLayout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Shared/_AdminLayout.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Customer/Controllers/BorrowController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Customer/Controllers/BorrowController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Customer/Views/Borrow/MyBorrows.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Customer/Views/Borrow/MyBorrows.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Models/ApplicationUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Models/ApplicationUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Models/Product.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Models/Product.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Services/BorrowService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Services/BorrowService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Services/IBorrowService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Services/IBorrowService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Services/ProductBookCopyProvisioningService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Services/ProductBookCopyProvisioningService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/WebBanHang.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/WebBanHang.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.exe" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.staticwebassets.endpoints.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.staticwebassets.endpoints.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.staticwebassets.runtime.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.staticwebassets.runtime.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/compressed/nwr5eaew1q-{0}-jrv2th6rnf-jrv2th6rnf.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rbcswa.dswa.cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rbcswa.dswa.cache.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/ref/WebBanHang.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/ref/WebBanHang.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/refint/WebBanHang.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/refint/WebBanHang.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rjimswa.dswa.cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rjimswa.dswa.cache.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rjsmcshtml.dswa.cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rjsmcshtml.dswa.cache.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rjsmrazor.dswa.cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rjsmrazor.dswa.cache.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rpswa.dswa.cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rpswa.dswa.cache.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/staticwebassets.build.endpoints.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/staticwebassets.build.endpoints.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/staticwebassets.build.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/staticwebassets.build.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/staticwebassets.build.json.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/staticwebassets.build.json.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/staticwebassets.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/staticwebassets.development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/wwwroot/css/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/wwwroot/css/dashboard.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,10 +68,17 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 4
-}]]></component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/WebBanHang/wwwroot/lib/jquery/dist/jquery.min.map" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebBanHang/wwwroot/lib/jquery/dist/jquery.slim.min.map" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="Toolset" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="3DXVFe7UPyFkQoVQHNxFROVqLVe" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
@@ -32,17 +87,69 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    ".NET Launch Settings Profile.WebBanHang: http.executor": "Debug",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="WebBanHang: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/WebBanHang/WebBanHang.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="http" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue=".NET Launch Settings Profile.WebBanHang: http" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d2ac3c1a-56e0-4392-b39f-02ff1356d2fd" name="Changes" comment="" />
+      <created>1778670677319</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1778670677319</updated>
+      <workItem from="1778670683259" duration="2331000" />
+      <workItem from="1778747064458" duration="2152000" />
+      <workItem from="1779011214221" duration="3197000" />
+    </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.Identity.Client" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore.Abstractions" />
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore.Relational" />
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore" />
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

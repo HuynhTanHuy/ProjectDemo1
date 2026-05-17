@@ -529,3 +529,66 @@
     background: #2d2d2d;
     border-color: #404040;
 }
+
+/* Modal / form trên nền dashboard tối — tránh chữ sáng trên nền trắng modal */
+.dashboard-body .modal-content {
+    background: #fff;
+    color: #1a1a1a;
+    border: 1px solid var(--dash-border);
+}
+
+.dashboard-body .modal-content .modal-title,
+.dashboard-body .modal-content dt,
+.dashboard-body .modal-content dd,
+.dashboard-body .modal-content p {
+    color: #1a1a1a;
+}
+
+.dashboard-body .modal-content dt {
+    font-weight: 600;
+}
+
+.dashboard-body .borrow-detail-dl dd {
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-body .dash-form-card {
+    background: var(--dash-surface);
+    border: 1px solid var(--dash-border) !important;
+}
+
+.dashboard-body .dash-form-card .form-label {
+    color: var(--dash-text);
+}
+
+.dashboard-body .dash-form-card .form-control,
+.dashboard-body .dash-form-card .form-select {
+    background: var(--dash-surface-2);
+    border-color: var(--dash-border);
+    color: var(--dash-text);
+}
+
+.dashboard-body .dash-form-card .form-control:focus,
+.dashboard-body .dash-form-card .form-select:focus {
+    background: var(--dash-surface-2);
+    border-color: var(--dash-accent);
+    color: var(--dash-text);
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+.dashboard-body .dash-form-card .table {
+    color: var(--dash-text);
+}
+
+.dashboard-body .dash-form-card .table thead th {
+    color: var(--dash-muted);
+    border-color: var(--dash-border);
+}
+
+.dashboard-body .dash-form-card .table td {
+    border-color: var(--dash-border);
+}
+
+.dashboard-icon-btn {
+    text-decoration: none;
+}

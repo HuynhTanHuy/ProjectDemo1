@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models;
 using WebBanHang.Models.ViewModels;
+using WebBanHang.Services;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
@@ -11,10 +12,17 @@ namespace WebBanHang.Areas.Admin.Controllers
     public class OverdueReportController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly IOverdueProcessingService _overdueProcessing;
+        private readonly IBorrowService _borrowService;
 
-        public OverdueReportController(ApplicationDbContext db)
+        public OverdueReportController(
+            ApplicationDbContext db,
+            IOverdueProcessingService overdueProcessing,
+            IBorrowService borrowService)
         {
             _db = db;
+            _overdueProcessing = overdueProcessing;
+            _borrowService = borrowService;
         }
 
         [HttpGet]
@@ -70,6 +78,32 @@ namespace WebBanHang.Areas.Admin.Controllers
 
             ViewBag.TotalFine = totalFine;
             return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SyncOverdue()
+        {
+            await _overdueProcessing.RunDailyOverdueAndRemindersAsync();
+            TempData["Success"] = "Đã cập nhật trạng thái quá hạn và phạt ước tính cho các phiếu đang mở.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MarkReturned(int borrowId)
+        {
+            var result = await _borrowService.AdminMarkReturnedAsync(borrowId);
+            if (!result.Success)
+            {
+                TempData["Error"] = result.Message;
+            }
+            else
+            {
+                TempData["Success"] = "Đã ghi nhận trả sách. Nếu có phạt, khoản phạt sẽ xuất hiện tại Phạt & nợ.";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -3,7 +3,6 @@
     var nav = ViewData["AdminNavSection"] as string ?? "";
     var pageTitle = ViewData["AdminPageTitle"] as string ?? ViewData["Title"] as string ?? "Quản trị";
     var breadcrumb = ViewData["AdminBreadcrumb"] as string ?? "";
-    var notifCount = ViewData["AdminNotifCount"] as int?;
     var userName = User.Identity?.Name ?? "Admin";
     var initial = userName.Length > 0 ? userName.Substring(0, 1).ToUpperInvariant() : "?";
 }
@@ -87,13 +86,7 @@
                     }
                 </div>
                 <div class="dashboard-header-actions">
-                    <button type="button" class="dashboard-icon-btn" title="Thông báo" aria-label="Thông báo">
-                        <i class="bi bi-bell"></i>
-                        @if (notifCount is > 0)
-                        {
-                            <span class="badge text-bg-danger rounded-pill">@(notifCount > 99 ? "99+" : notifCount.ToString())</span>
-                        }
-                    </button>
+                    @await Component.InvokeAsync("AdminNotification")
                     <span class="dashboard-avatar" title="@userName">@initial</span>
                 </div>
             </header>

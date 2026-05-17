@@ -2,11 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using WebBanHang.Helpers;
 using WebBanHang.Models;
 using WebBanHang.Models.ViewModels;
@@ -38,8 +33,6 @@ namespace WebBanHang.Areas.Admin.Controllers
             ViewData["AdminNavSection"] = "books";
             ViewData["AdminPageTitle"] = "Danh sách sách";
             ViewData["AdminBreadcrumb"] = "Tổng quan / Sách";
-            ViewData["AdminNotifCount"] = await _db.Borrows.CountAsync(b =>
-                b.Status == BorrowStatus.Borrowing && b.DueDate.Date < DateTime.UtcNow.Date);
 
             var vm = await BookCatalogHelper.BuildAsync(_db, new BookCatalogQuery(
                 genreId,
@@ -54,122 +47,185 @@ namespace WebBanHang.Areas.Admin.Controllers
             return View(vm);
         }
 
-        public IActionResult Upsert(int? id)
+        public async Task<IActionResult> Upsert(int? id)
         {
-            ViewBag.Categories = _db.Categories.Select(i => new SelectListItem
-            {
-                Text = i.Name,
-                Value = i.Id.ToString()
-            });
+            SetAdminPageMeta(id.HasValue && id > 0 ? "Sửa sách" : "Thêm sách");
 
+            Product product;
             if (id == null || id == 0)
             {
-                // Create Product
-                return View(new Product());
+                product = new Product { Stock = 1 };
             }
             else
             {
-                // Update Product
-                var product = _db.Products.FirstOrDefault(u => u.Id == id);
-                return View(product);
+                product = await _db.Products.FirstOrDefaultAsync(u => u.Id == id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
             }
+
+            PopulateBookSelectLists(product);
+            return View(product);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(Product product, IFormFile? file)
         {
+            SetAdminPageMeta(product.Id == 0 ? "Thêm sách" : "Sửa sách");
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    var wwwRootPath = _hostEnvironment.WebRootPath;
                     if (file != null)
                     {
-                        string fileName = Guid.NewGuid().ToString();
+                        var fileName = Guid.NewGuid().ToString();
                         var uploads = Path.Combine(wwwRootPath, @"images\products");
                         var extension = Path.GetExtension(file.FileName);
 
-                        // Create directory if it doesn't exist
                         if (!Directory.Exists(uploads))
                         {
                             Directory.CreateDirectory(uploads);
                         }
 
-                        if (product.ImageUrl != null)
+                        if (!string.IsNullOrEmpty(product.ImageUrl))
                         {
-                            var oldImagePath = Path.Combine(wwwRootPath, product.ImageUrl.TrimStart('\\'));
+                            var oldImagePath = Path.Combine(wwwRootPath, product.ImageUrl.TrimStart('\\', '/'));
                             if (System.IO.File.Exists(oldImagePath))
                             {
                                 System.IO.File.Delete(oldImagePath);
                             }
                         }
 
-                        using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                        await using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
                         {
                             await file.CopyToAsync(fileStreams);
                         }
+
                         product.ImageUrl = @"\images\products\" + fileName + extension;
                     }
 
                     if (product.Id == 0)
                     {
                         _db.Products.Add(product);
-                        TempData["success"] = "Product created successfully";
+                        TempData["Success"] = "Đã thêm sách mới.";
                     }
                     else
                     {
                         _db.Products.Update(product);
-                        TempData["success"] = "Product updated successfully";
+                        TempData["Success"] = "Đã cập nhật sách.";
                     }
+
                     await _db.SaveChangesAsync();
                     await _bookCopyProvisioning.SyncProductCopiesAsync(product.Id);
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "Error saving product: " + ex.Message);
+                    ModelState.AddModelError("", "Lỗi khi lưu sách: " + ex.Message);
                 }
             }
-            else
-            {
-                // Reload Categories if validation fails
-                ViewBag.Categories = _db.Categories.Select(i => new SelectListItem
-                {
-                    Text = i.Name,
-                    Value = i.Id.ToString()
-                });
-            }
+
+            PopulateBookSelectLists(product);
             return View(product);
         }
 
-        #region API CALLS
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
         {
-            var productList = _db.Products.Include(p => p.Category);
-            return Json(new { data = productList });
-        }
+            var product = await _db.Products
+                .Include(p => p.BookCopies)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-        [HttpDelete]
-        public IActionResult Delete(int? id)
-        {
-            var obj = _db.Products.FirstOrDefault(u => u.Id == id);
-            if (obj == null)
+            if (product == null)
             {
-                return Json(new { success = false, message = "Error while deleting" });
+                TempData["Error"] = "Không tìm thấy sách.";
+                return RedirectToAction(nameof(Index));
             }
 
-            var oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
-            if (System.IO.File.Exists(oldImagePath))
+            var activeBorrows = await _db.Borrows.AnyAsync(b =>
+                b.BookId == id &&
+                (b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue));
+
+            if (activeBorrows)
             {
-                System.IO.File.Delete(oldImagePath);
+                TempData["Error"] = "Không thể xóa sách đang có phiếu mượn chưa trả.";
+                return RedirectToAction(nameof(Index));
             }
 
-            _db.Products.Remove(obj);
-            _db.SaveChanges();
-            return Json(new { success = true, message = "Delete Successful" });
+            if (!string.IsNullOrEmpty(product.ImageUrl))
+            {
+                var oldImagePath = Path.Combine(
+                    _hostEnvironment.WebRootPath,
+                    product.ImageUrl.TrimStart('\\', '/'));
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+
+            _db.Products.Remove(product);
+            await _db.SaveChangesAsync();
+            TempData["Success"] = "Đã xóa sách.";
+            return RedirectToAction(nameof(Index));
         }
-        #endregion
+
+        private void SetAdminPageMeta(string pageTitle)
+        {
+            ViewData["Title"] = pageTitle;
+            ViewData["AdminNavSection"] = "books";
+            ViewData["AdminPageTitle"] = pageTitle;
+            ViewData["AdminBreadcrumb"] = "Tổng quan / Sách / " + pageTitle;
+        }
+
+        private void PopulateBookSelectLists(Product product)
+        {
+            ViewBag.Categories = _db.Categories
+                .OrderBy(x => x.Name)
+                .Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString(),
+                    Selected = i.Id == product.CategoryId
+                })
+                .ToList();
+
+            ViewBag.Authors = _db.Authors
+                .OrderBy(x => x.Name)
+                .Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString(),
+                    Selected = product.AuthorId == i.Id
+                })
+                .ToList();
+            ViewBag.Authors.Insert(0, new SelectListItem { Value = "", Text = "— Chọn tác giả —" });
+
+            ViewBag.Genres = _db.Genres
+                .OrderBy(x => x.Name)
+                .Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString(),
+                    Selected = product.GenreId == i.Id
+                })
+                .ToList();
+            ViewBag.Genres.Insert(0, new SelectListItem { Value = "", Text = "— Chọn thể loại —" });
+
+            ViewBag.Publishers = _db.Publishers
+                .OrderBy(x => x.Name)
+                .Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString(),
+                    Selected = product.PublisherId == i.Id
+                })
+                .ToList();
+            ViewBag.Publishers.Insert(0, new SelectListItem { Value = "", Text = "— Chọn nhà xuất bản —" });
+        }
     }
-} 
+}

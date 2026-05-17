@@ -1,15 +1,45 @@
 @model WebBanHang.Models.ViewModels.BorrowIndexViewModel
+@using System.Globalization
 @{
-    Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
     var totalFine = (decimal)(ViewBag.TotalFine ?? 0m);
+    var culture = CultureInfo.GetCultureInfo("vi-VN");
 }
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="h4 mb-0">Báo cáo quá hạn</h2>
-    <div class="text-danger fw-semibold">Tổng phạt ước tính: @totalFine.ToString("N0") đ</div>
+
+<div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+    <div>
+        <p class="text-muted small mb-1">
+            Phạt ước tính trên phiếu chưa trả (cập nhật khi chạy đồng bộ quá hạn).
+        </p>
+        <div class="text-danger fw-semibold fs-5">Tổng phạt ước tính: @totalFine.ToString("N0", culture) đ</div>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        <form asp-action="SyncOverdue" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-warning btn-sm">
+                <i class="bi bi-arrow-repeat"></i> Cập nhật quá hạn &amp; phạt
+            </button>
+        </form>
+        <a asp-area="Admin" asp-controller="Penalties" asp-action="Index" asp-route-isPaid="false" class="btn btn-outline-danger btn-sm">
+            <i class="bi bi-cash-coin"></i> Phạt chưa thu
+        </a>
+        <a asp-area="Admin" asp-controller="Borrows" asp-action="Index" asp-route-Status="Overdue" class="btn btn-outline-light btn-sm">
+            Mượn &amp; trả (quá hạn)
+        </a>
+    </div>
 </div>
-<div class="table-responsive card">
-    <table class="table table-sm table-hover mb-0">
-        <thead><tr><th>Người mượn</th><th>Sách</th><th>Hạn trả</th><th>Ngày trễ</th><th class="text-end">Phạt</th></tr></thead>
+
+<div class="table-responsive card border-0 shadow-sm dash-form-card">
+    <table class="table table-sm table-hover mb-0 align-middle">
+        <thead>
+            <tr>
+                <th>Người mượn</th>
+                <th>Sách</th>
+                <th>Hạn trả</th>
+                <th>Ngày trễ</th>
+                <th class="text-end">Phạt ước tính</th>
+                <th class="text-end" style="min-width:200px">Thao tác</th>
+            </tr>
+        </thead>
         <tbody>
         @foreach (var x in Model.Items)
         {
@@ -18,16 +48,30 @@
                 <td>@x.BookTitle</td>
                 <td>@x.DueDate.ToLocalTime().ToString("dd/MM/yyyy")</td>
                 <td>@x.OverdueDays</td>
-                <td class="text-end">@x.FineAmount.ToString("N0") đ</td>
+                <td class="text-end text-danger fw-semibold">@x.FineAmount.ToString("N0", culture) đ</td>
+                <td class="text-end text-nowrap">
+                    <form asp-action="MarkReturned" method="post" class="d-inline"
+                          onsubmit="return confirm('Ghi nhận trả sách và tạo phạt (nếu có)?');">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="borrowId" value="@x.BorrowId" />
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="bi bi-check2-circle"></i> Ghi nhận trả
+                        </button>
+                    </form>
+                    <a asp-area="Admin" asp-controller="Borrows" asp-action="Index"
+                       asp-route-SearchQuery="@x.UserName"
+                       class="btn btn-sm btn-outline-secondary">Phiếu mượn</a>
+                </td>
             </tr>
         }
         @if (!Model.Items.Any())
         {
-            <tr><td colspan="5" class="text-center text-muted py-4">Không có phiếu quá hạn.</td></tr>
+            <tr><td colspan="6" class="text-center text-muted py-4">Không có phiếu quá hạn.</td></tr>
         }
         </tbody>
     </table>
 </div>
+
 @if (Model.TotalPages > 1)
 {
     <nav class="mt-3">
@@ -41,3 +85,5 @@
         </ul>
     </nav>
 }
+
+

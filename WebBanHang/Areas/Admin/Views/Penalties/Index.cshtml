@@ -1,110 +1,284 @@
 @using System.Globalization
+
 @model IEnumerable<WebBanHang.Models.ViewModels.PenaltyListItemViewModel>
+
 @{
-    ViewData["Title"] = "Penalty Management";
+
+    ViewData["Title"] = "Phạt & nợ";
+
+    var totalAmount = ViewBag.TotalAmount as decimal? ?? 0m;
+
+    var unpaidTotal = ViewBag.UnpaidTotal as decimal? ?? 0m;
+
+    var culture = CultureInfo.GetCultureInfo("vi-VN");
+
+    bool? paidFilter = ViewBag.IsPaid as bool?;
+
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0">Penalties</h4>
-    <div class="text-muted">Total: <strong class="text-danger">@((decimal)ViewBag.TotalAmount).ToString("c", new CultureInfo("vi-VN"))</strong></div>
+
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+
+    <div>
+
+        <p class="text-muted small mb-1">Tổng phạt (tất cả): <strong class="text-danger">@totalAmount.ToString("N0", culture) đ</strong></p>
+
+        <p class="text-muted small mb-0">Chưa thanh toán: <strong class="text-warning">@unpaidTotal.ToString("N0", culture) đ</strong></p>
+    </div>
 </div>
 
-<form method="get" class="card border-0 shadow-sm mb-3">
+<form method="get" class="card border-0 shadow-sm mb-3 dash-form-card">
+
     <div class="card-body row g-2 align-items-center">
+
         <div class="col-md-6">
-            <input type="text" name="q" value="@ViewBag.Query" class="form-control" placeholder="Search user, book, reason..." />
+
+            <input type="text" name="q" value="@ViewBag.Query" class="form-control" placeholder="Tìm theo tài khoản, sách, lý do..." />
+
         </div>
+
         <div class="col-md-2">
+
             <select name="isPaid" class="form-select">
-                <option value="">All status</option>
-                <option value="false" selected="@(ViewBag.IsPaid is bool b1 && b1 == false)">Unpaid</option>
-                <option value="true" selected="@(ViewBag.IsPaid is bool b2 && b2 == true)">Paid</option>
+
+                @if (!paidFilter.HasValue)
+
+                {
+
+                    <option value="" selected>Tất cả trạng thái</option>
+
+                }
+
+                else
+
+                {
+
+                    <option value="">Tất cả trạng thái</option>
+
+                }
+
+                @if (paidFilter == false)
+
+                {
+
+                    <option value="false" selected>Chưa thanh toán</option>
+
+                }
+
+                else
+
+                {
+
+                    <option value="false">Chưa thanh toán</option>
+
+                }
+
+                @if (paidFilter == true)
+
+                {
+
+                    <option value="true" selected>Đã thanh toán</option>
+
+                }
+
+                else
+
+                {
+
+                    <option value="true">Đã thanh toán</option>
+
+                }
+
             </select>
+
         </div>
+
         <div class="col-md-2">
-            <button class="btn btn-primary w-100" type="submit">Search</button>
+
+            <button class="btn btn-primary w-100" type="submit">Tìm</button>
+
         </div>
+
         <div class="col-md-2">
-            <a asp-action="Index" class="btn btn-outline-secondary w-100">Reset</a>
+
+            <a asp-action="Index" class="btn btn-outline-secondary w-100">Xóa lọc</a>
+
         </div>
+
     </div>
+
 </form>
 
-<div class="card border-0 shadow-sm">
+
+
+<p class="small text-muted mb-2">
+
+    Khoản phạt được tạo khi <strong>trả sách trễ hạn</strong>. Chạy job quá hạn hoặc ghi nhận trả từ màn Mượn &amp; trả / Báo cáo quá hạn.
+
+</p>
+
+
+
+<div class="card border-0 shadow-sm dash-form-card">
+
     <div class="table-responsive">
+
         <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
+
+            <thead>
+
                 <tr>
+
                     <th>#</th>
-                    <th>User</th>
-                    <th>Book</th>
-                    <th>Reason</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th class="text-end">Action</th>
+
+                    <th>Thành viên</th>
+
+                    <th>Sách</th>
+
+                    <th>Lý do</th>
+
+                    <th>Số tiền</th>
+
+                    <th>Trạng thái</th>
+
+                    <th>Ngày tạo</th>
+
+                    <th class="text-end">Thao tác</th>
+
                 </tr>
+
             </thead>
+
             <tbody>
+
                 @if (!Model.Any())
+
                 {
+
                     <tr>
-                        <td colspan="8" class="text-center text-muted py-4">No penalties found.</td>
+
+                        <td colspan="8" class="text-center text-muted py-4">Chưa có khoản phạt nào.</td>
+
                     </tr>
+
                 }
+
                 else
+
                 {
+
                     foreach (var item in Model)
+
                     {
+
                         <tr>
+
                             <td>@item.Id</td>
+
                             <td>@item.UserName</td>
+
                             <td>@item.BookTitle</td>
+
                             <td><span class="badge bg-warning text-dark">@item.Reason</span></td>
-                            <td class="text-danger fw-semibold">@item.Amount.ToString("c", new CultureInfo("vi-VN"))</td>
+
+                            <td class="text-danger fw-semibold">@item.Amount.ToString("N0", culture) đ</td>
+
                             <td>
+
                                 @if (item.IsPaid)
+
                                 {
-                                    <span class="badge bg-success">Paid</span>
+
+                                    <span class="badge bg-success">Đã thanh toán</span>
+
                                 }
+
                                 else
+
                                 {
-                                    <span class="badge bg-danger">Unpaid</span>
+
+                                    <span class="badge bg-danger">Chưa thanh toán</span>
+
                                 }
+
                             </td>
+
                             <td>@item.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+
                             <td class="text-end">
+
                                 @if (!item.IsPaid)
+
                                 {
+
                                     <form asp-action="MarkAsPaid" method="post" class="d-inline">
+
                                         @Html.AntiForgeryToken()
+
                                         <input type="hidden" name="id" value="@item.Id" />
-                                        <button class="btn btn-sm btn-outline-success rounded-pill">Mark as Paid</button>
+
+                                        <button class="btn btn-sm btn-outline-success rounded-pill" type="submit"
+
+                                                onclick="return confirm('Xác nhận đã thu tiền phạt?');">
+
+                                            Đánh dấu đã thu
+
+                                        </button>
+
                                     </form>
+
                                 }
+
                                 else if (item.PaidAt.HasValue)
+
                                 {
-                                    <span class="text-muted small">Paid at @item.PaidAt.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</span>
+
+                                    <span class="small text-muted">Thu lúc @item.PaidAt.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</span>
+
                                 }
+
                             </td>
+
                         </tr>
+
                     }
+
                 }
+
             </tbody>
+
         </table>
+
     </div>
+
 </div>
 
+
+
 @if ((int)ViewBag.TotalPages > 1)
+
 {
+
     <nav class="mt-3">
-        <ul class="pagination">
+
+        <ul class="pagination pagination-sm">
+
             @for (var i = 1; i <= (int)ViewBag.TotalPages; i++)
+
             {
+
                 <li class="page-item @(i == (int)ViewBag.CurrentPage ? "active" : "")">
+
                     <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-q="@ViewBag.Query" asp-route-isPaid="@ViewBag.IsPaid">@i</a>
+
                 </li>
+
             }
+
         </ul>
+
     </nav>
+
 }
+

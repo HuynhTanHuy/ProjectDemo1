@@ -42,7 +42,8 @@ namespace WebBanHang.Services
 
             while (current < target)
             {
-                var pending = $"PEND-{Guid.NewGuid():N}";
+                // Placeholder tối đa 32 ký tự (khớp CopyCode/QrPayload); sau đó Finalize gán COPY-000001.
+                var pending = ("P" + Guid.NewGuid().ToString("N"))[..32];
                 var copy = new BookCopy
                 {
                     ProductId = productId,
