@@ -1,4 +1,5 @@
 @model WebBanHang.Models.ViewModels.ProductBooksPageViewModel
+@using WebBanHang.Models.ViewModels
 @{
     var st = Model.Status ?? "";
 }
@@ -152,17 +153,22 @@
                         <td class="text-end">@item.Quantity.ToString("N0")</td>
                         <td><span class="@pillClass">@item.StatusLabel</span></td>
                         <td class="text-end text-nowrap">
-                            <a class="dash-link-detail me-2" asp-area="Customer" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id" target="_blank">Xem</a>
-                            <a class="btn btn-sm btn-outline-light" asp-area="Admin" asp-controller="Product" asp-action="Upsert" asp-route-id="@item.Id" title="Sửa">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <button type="button"
-                                    class="btn btn-sm btn-outline-danger btn-delete-book"
-                                    data-id="@item.Id"
-                                    data-name="@item.Name"
-                                    title="Xóa">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                            @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_AdminActionButtons.cshtml", new AdminActionButtonsViewModel
+                            {
+                                Controller = "Product",
+                                Id = item.Id,
+                                DetailUrl = Url.Action("Details", "Product", new { area = "Customer", id = item.Id }),
+                                DetailOpenInNewTab = true,
+                                EditAction = "Upsert",
+                                DeleteUsesModal = true,
+                                DeleteModalTarget = "#deleteBookModal",
+                                DeleteTriggerClass = "btn-delete-book",
+                                DeleteModalData = new Dictionary<string, string>
+                                {
+                                    ["data-id"] = item.Id.ToString(),
+                                    ["data-name"] = item.Name
+                                }
+                            })
                         </td>
                     </tr>
                 }

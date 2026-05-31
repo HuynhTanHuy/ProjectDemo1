@@ -1,14 +1,13 @@
 @model WebBanHang.Models.ViewModels.BorrowIndexViewModel
 @using WebBanHang.Models
+@using WebBanHang.Models.ViewModels
 @{
     ViewData["Title"] = "Quản lý mượn sách";
     Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 <style>
     .borrow-page .breadcrumb { font-size: 0.875rem; }
-    .borrow-stat-card { border-radius: 0.5rem; border: 1px solid #e9ecef; }
+    .borrow-stat-card { border-radius: 0.5rem; border: 1px solid var(--dash-border); }
     .borrow-filter-card { border-radius: 0.5rem; }
 </style>
 
@@ -22,11 +21,11 @@
     </nav>
 
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
-        <h1 class="h3 mb-0 fw-semibold text-dark">
-            <i class="fa-solid fa-book-journal-whills me-2 text-primary"></i>Quản lý mượn sách
+        <h1 class="h3 mb-0 fw-semibold">
+            <i class="bi bi-journal-bookmark me-2 text-primary"></i>Quản lý mượn sách
         </h1>
         <a href="@Url.Action("Index", "Home", new { area = "Customer", tab = "products" })" class="btn btn-outline-primary btn-sm">
-            <i class="fa-solid fa-store me-1"></i>Xem kho sách
+            <i class="bi bi-shop-window me-1"></i>Xem kho sách
         </a>
     </div>
 
@@ -35,14 +34,14 @@
             <div class="card borrow-stat-card shadow-sm h-100 border-0">
                 <div class="card-body">
                     <div class="text-muted small">Tổng phiếu mượn</div>
-                    <div class="fs-4 fw-bold text-dark">@Model.StatTotalBorrows.ToString("N0")</div>
+                    <div class="fs-4 fw-bold">@Model.StatTotalBorrows.ToString("N0")</div>
                 </div>
             </div>
         </div>
         <div class="col-6 col-xl-3">
             <div class="card borrow-stat-card shadow-sm h-100 border-0">
                 <div class="card-body">
-                    <div class="text-muted small">Đang mượn (trong hạn)</div>
+                    <div class="text-muted small">Đang mượn</div>
                     <div class="fs-4 fw-bold text-primary">@Model.StatActiveBorrowing.ToString("N0")</div>
                 </div>
             </div>
@@ -124,7 +123,7 @@
                 <div class="col-6 col-md-2 col-lg-2 d-flex gap-2">
                     <input type="hidden" name="PageNumber" value="1" />
                     <button type="submit" class="btn btn-primary btn-sm flex-grow-1">
-                        <i class="fa-solid fa-magnifying-glass me-1"></i>Lọc
+                        <i class="bi bi-search me-1"></i>Lọc
                     </button>
                     <a asp-area="Admin" asp-controller="Borrows" asp-action="Index" class="btn btn-outline-secondary btn-sm">Xóa lọc</a>
                 </div>
@@ -136,7 +135,7 @@
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover table-bordered table-sm align-middle mb-0">
-                    <thead class="table-light">
+                    <thead>
                         <tr>
                             <th scope="col">Người mượn</th>
                             <th scope="col">Tên sách</th>
@@ -152,7 +151,7 @@
                         {
                             <tr>
                                 <td colspan="7" class="text-center text-muted py-5">
-                                    <i class="fa-regular fa-folder-open fa-2x mb-2 d-block opacity-50"></i>
+                                    <i class="bi bi-inbox fs-2 mb-2 d-block opacity-50"></i>
                                     Không có phiếu mượn phù hợp bộ lọc.
                                 </td>
                             </tr>
@@ -214,41 +213,37 @@
                                         }
                                     </td>
                                     <td class="text-end text-nowrap">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" title="Chi tiết"
-                                                data-bs-toggle="modal" data-bs-target="#detailModal">
-                                            <i class="fa-solid fa-circle-info"></i> Chi tiết
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-outline-warning" disabled title="Chưa hỗ trợ chỉnh sửa">
-                                            <i class="fa-solid fa-pen"></i>
-                                        </button>
+                                        <div class="d-inline-flex flex-wrap gap-1 justify-content-end align-items-center">
+                                        @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_AdminActionButtons.cshtml", new AdminActionButtonsViewModel
+                                        {
+                                            Controller = "Borrows",
+                                            Id = item.BorrowId,
+                                            ShowDetail = true,
+                                            DetailModalTarget = "#detailModal",
+                                            ShowEdit = true,
+                                            EditDisabled = true,
+                                            ShowDelete = true,
+                                            DeleteDisabled = item.Status == BorrowStatus.Borrowing || item.Status == BorrowStatus.Overdue,
+                                            DeleteUsesModal = item.Status != BorrowStatus.Borrowing && item.Status != BorrowStatus.Overdue,
+                                            DeleteTriggerClass = "btn-borrow-delete",
+                                            DeleteModalTarget = "#deleteModal",
+                                            DeleteModalData = new Dictionary<string, string>
+                                            {
+                                                ["data-id"] = item.BorrowId.ToString(),
+                                                ["data-book"] = item.BookTitle ?? "N/A"
+                                            }
+                                        })
                                         @if (item.Status == BorrowStatus.Borrowing || item.Status == BorrowStatus.Overdue)
                                         {
                                             <form asp-area="Admin" asp-controller="Borrows" asp-action="MarkReturned" method="post" class="d-inline">
                                                 @Html.AntiForgeryToken()
                                                 <input type="hidden" name="borrowId" value="@item.BorrowId" />
                                                 <button type="submit" class="btn btn-sm btn-outline-primary" title="Ghi nhận trả sách">
-                                                    <i class="fa-solid fa-rotate-left"></i> Trả sách
+                                                    <i class="bi bi-arrow-return-left"></i> Trả sách
                                                 </button>
                                             </form>
                                         }
-                                        @if (item.Status != BorrowStatus.Borrowing && item.Status != BorrowStatus.Overdue)
-                                        {
-                                            <button type="button"
-                                                    class="btn btn-sm btn-outline-danger btn-borrow-delete"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal"
-                                                    data-id="@item.BorrowId"
-                                                    data-book="@(item.BookTitle ?? "N/A")"
-                                                    title="Xóa phiếu">
-                                                <i class="fa-solid fa-trash-can"></i>
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" disabled title="Chỉ xóa khi đã trả sách">
-                                                <i class="fa-solid fa-trash-can"></i>
-                                            </button>
-                                        }
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -259,7 +254,7 @@
         </div>
         @if (Model.TotalPages > 0 && Model.TotalCount > 0)
         {
-            <div class="card-footer bg-white d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
+            <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
                 <div class="small text-muted">
                     Hiển thị @((Model.PageNumber - 1) * Model.PageSize + 1)–@(Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount)) / @Model.TotalCount.ToString("N0") phiếu
                 </div>
@@ -308,7 +303,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="detailModalLabel"><i class="fa-solid fa-book me-2"></i>Chi tiết phiếu mượn</h5>
+                <h5 class="modal-title" id="detailModalLabel"><i class="bi bi-journal-text me-2"></i>Chi tiết phiếu mượn</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
             <div class="modal-body borrow-detail-body">
@@ -339,7 +334,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header border-danger text-danger">
-                <h5 class="modal-title" id="deleteModalLabel"><i class="fa-solid fa-triangle-exclamation me-2"></i>Xác nhận xóa</h5>
+                <h5 class="modal-title" id="deleteModalLabel"><i class="bi bi-exclamation-triangle me-2"></i>Xác nhận xóa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
             <div class="modal-body">

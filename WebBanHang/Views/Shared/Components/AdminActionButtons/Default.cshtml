@@ -1,0 +1,108 @@
+@model WebBanHang.Models.ViewModels.AdminActionButtonsViewModel
+@{
+    var detailAction = Model.DetailAction ?? "Details";
+    var editAction = Model.EditAction ?? "Edit";
+    var deleteAction = Model.DeleteAction ?? "Delete";
+    var deleteData = Model.DeleteModalData ?? new Dictionary<string, string>();
+}
+<div class="admin-action-buttons d-inline-flex flex-wrap gap-1 justify-content-end" role="group">
+    @if (Model.ShowDetail)
+    {
+        if (Model.DetailDisabled)
+        {
+            <button type="button" class="btn btn-sm btn-info" disabled title="@Model.DetailTitle" aria-label="@Model.DetailTitle">
+                <i class="bi bi-eye"></i> Chi tiết
+            </button>
+        }
+        else if (!string.IsNullOrEmpty(Model.DetailModalTarget))
+        {
+            <button type="button"
+                    class="btn btn-sm btn-info"
+                    data-bs-toggle="modal"
+                    data-bs-target="@Model.DetailModalTarget"
+                    title="@Model.DetailTitle"
+                    aria-label="@Model.DetailTitle">
+                <i class="bi bi-eye"></i> Chi tiết
+            </button>
+        }
+        else if (!string.IsNullOrEmpty(Model.DetailUrl))
+        {
+            <a href="@Model.DetailUrl"
+               class="btn btn-sm btn-info"
+               title="@Model.DetailTitle"
+               aria-label="@Model.DetailTitle"
+               @(Model.DetailOpenInNewTab ? "target=\"_blank\" rel=\"noopener noreferrer\"" : null)>
+                <i class="bi bi-eye"></i> Chi tiết
+            </a>
+        }
+        else
+        {
+            <a asp-area="@Model.Area"
+               asp-controller="@Model.Controller"
+               asp-action="@detailAction"
+               asp-route-id="@Model.Id"
+               class="btn btn-sm btn-info"
+               title="@Model.DetailTitle"
+               aria-label="@Model.DetailTitle">
+                <i class="bi bi-eye"></i> Chi tiết
+            </a>
+        }
+    }
+    @if (Model.ShowEdit)
+    {
+        if (Model.EditDisabled)
+        {
+            <button type="button" class="btn btn-sm btn-warning" disabled title="@Model.EditTitle" aria-label="@Model.EditTitle">
+                <i class="bi bi-pencil-square"></i> Sửa
+            </button>
+        }
+        else
+        {
+            <a asp-area="@Model.Area"
+               asp-controller="@Model.Controller"
+               asp-action="@editAction"
+               asp-route-id="@Model.Id"
+               class="btn btn-sm btn-warning"
+               title="@Model.EditTitle"
+               aria-label="@Model.EditTitle">
+                <i class="bi bi-pencil-square"></i> Sửa
+            </a>
+        }
+    }
+    @if (Model.ShowDelete)
+    {
+        if (Model.DeleteDisabled)
+        {
+            <button type="button" class="btn btn-sm btn-danger" disabled title="@Model.DeleteTitle" aria-label="@Model.DeleteTitle">
+                <i class="bi bi-trash-fill"></i> Xóa
+            </button>
+        }
+        else if (Model.DeleteUsesModal)
+        {
+            var extraAttrs = deleteData.Count > 0
+                ? " " + string.Join(" ", deleteData.Select(kv =>
+                    $"{kv.Key}=\"{System.Net.WebUtility.HtmlEncode(kv.Value)}\""))
+                : string.Empty;
+            <button type="button"
+                    class="btn btn-sm btn-danger @(Model.DeleteTriggerClass)"
+                    data-bs-toggle="modal"
+                    data-bs-target="@Model.DeleteModalTarget"
+                    title="@Model.DeleteTitle"
+                    aria-label="@Model.DeleteTitle"@Html.Raw(extraAttrs)>
+                <i class="bi bi-trash-fill"></i> Xóa
+            </button>
+        }
+        else
+        {
+            <a asp-area="@Model.Area"
+               asp-controller="@Model.Controller"
+               asp-action="@deleteAction"
+               asp-route-id="@Model.Id"
+               class="btn btn-sm btn-danger"
+               title="@Model.DeleteTitle"
+               aria-label="@Model.DeleteTitle">
+                <i class="bi bi-trash-fill"></i> Xóa
+            </a>
+        }
+    }
+</div>

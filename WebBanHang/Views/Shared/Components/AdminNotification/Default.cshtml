@@ -1,13 +1,66 @@
-@model int
-<a class="dashboard-icon-btn"
-   asp-area="Admin"
-   asp-controller="OverdueReport"
-   asp-action="Index"
-   title="Phiếu mượn quá hạn"
-   aria-label="Thông báo quá hạn (@Model)">
-    <i class="bi bi-bell"></i>
-    @if (Model > 0)
-    {
-        <span class="badge text-bg-danger rounded-pill">@(Model > 99 ? "99+" : Model.ToString())</span>
-    }
-</a>
+@model WebBanHang.Models.DTOs.AdminNotificationsDto
+@using WebBanHang.Models.DTOs
+<div class="dropdown c-user-dropdown dashboard-notif-dropdown">
+    <button class="c-icon-btn"
+            type="button"
+            data-bs-toggle="dropdown"
+            data-bs-auto-close="outside"
+            aria-expanded="false"
+            title="Thông báo (@Model.TotalUnreadCount)"
+            aria-label="Thông báo (@Model.TotalUnreadCount)">
+        <i class="bi bi-bell"></i>
+        @if (Model.TotalUnreadCount > 0)
+        {
+            <span class="c-badge">@(Model.TotalUnreadCount > 99 ? "99+" : Model.TotalUnreadCount.ToString())</span>
+        }
+    </button>
+    <div class="dropdown-menu dropdown-menu-end dashboard-notif-menu shadow">
+        <div class="dashboard-notif-menu__header">
+            <span class="fw-semibold">Thông báo</span>
+            @if (Model.TotalUnreadCount > 0)
+            {
+                <span class="badge text-bg-danger">@Model.TotalUnreadCount</span>
+            }
+        </div>
+        <div class="dashboard-notif-menu__list">
+            @if (!Model.Items.Any())
+            {
+                <div class="dashboard-notif-empty">
+                    <i class="bi bi-check-circle text-success"></i>
+                    <span>Không có thông báo mới.</span>
+                </div>
+            }
+            else
+            {
+                @foreach (var item in Model.Items)
+                {
+                    <a class="dashboard-notif-item" href="@item.Url">
+                        <i class="@item.IconClass"></i>
+                        <div class="flex-grow-1 min-w-0">
+                            <div class="dashboard-notif-item__title">@item.Title</div>
+                            <div class="dashboard-notif-item__msg">@item.Message</div>
+                            @if (item.OccurredAt.HasValue)
+                            {
+                                <div class="dashboard-notif-item__time">@item.OccurredAt.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</div>
+                            }
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+        <div class="dashboard-notif-menu__footer">
+            <a class="btn btn-sm btn-outline-secondary"
+               asp-area="Admin"
+               asp-controller="OverdueReport"
+               asp-action="Index">
+                <i class="bi bi-exclamation-triangle me-1"></i>Báo cáo quá hạn
+            </a>
+            <a class="btn btn-sm btn-primary"
+               asp-area="Admin"
+               asp-controller="Home"
+               asp-action="Index">
+                <i class="bi bi-grid me-1"></i>Tổng quan
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,97 @@
+@model WebBanHang.Models.ViewModels.UserDetailViewModel
+@{
+    ViewData["Title"] = "Chi tiết tài khoản";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <h2 class="h4 mb-0"><i class="bi bi-person-badge me-2"></i>@Model.FullName</h2>
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">
+            <i class="bi bi-pencil-square me-1"></i>Sửa
+        </a>
+        <a asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-outline-warning btn-sm">
+            <i class="bi bi-key me-1"></i>Đổi mật khẩu
+        </a>
+        @if (Model.IsLockedOut)
+        {
+            <form asp-action="Unlock" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-success btn-sm">
+                    <i class="bi bi-unlock me-1"></i>Mở khóa
+                </button>
+            </form>
+        }
+        else
+        {
+            <form asp-action="Lock" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-outline-danger btn-sm">
+                    <i class="bi bi-lock me-1"></i>Khóa
+                </button>
+            </form>
+        }
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-sm">
+            <i class="bi bi-trash-fill me-1"></i>Xóa
+        </a>
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Quay lại</a>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-6">
+        <div class="dash-form-card card border-0 h-100">
+            <div class="card-body">
+                <h3 class="h6 mb-3">Thông tin cơ bản</h3>
+                <dl class="row mb-0 small">
+                    <dt class="col-sm-4">Tên đăng nhập</dt>
+                    <dd class="col-sm-8">@Model.UserName</dd>
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8">@Model.Email</dd>
+                    <dt class="col-sm-4">Họ tên</dt>
+                    <dd class="col-sm-8">@Model.FullName</dd>
+                    <dt class="col-sm-4">Điện thoại</dt>
+                    <dd class="col-sm-8">@(Model.PhoneNumber ?? "—")</dd>
+                    <dt class="col-sm-4">Địa chỉ</dt>
+                    <dd class="col-sm-8">@(Model.Address ?? "—")</dd>
+                    <dt class="col-sm-4">Tuổi</dt>
+                    <dd class="col-sm-8">@(Model.Age ?? "—")</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="dash-form-card card border-0 h-100">
+            <div class="card-body">
+                <h3 class="h6 mb-3">Trạng thái &amp; vai trò</h3>
+                <dl class="row mb-0 small">
+                    <dt class="col-sm-4">Vai trò</dt>
+                    <dd class="col-sm-8">
+                        @foreach (var role in Model.Roles)
+                        {
+                            <span class="badge bg-primary me-1">@role</span>
+                        }
+                    </dd>
+                    <dt class="col-sm-4">Trạng thái</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.IsLockedOut)
+                        {
+                            <span class="badge bg-danger">Đã khóa</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Hoạt động</span>
+                        }
+                    </dd>
+                    <dt class="col-sm-4">Email xác nhận</dt>
+                    <dd class="col-sm-8">@(Model.EmailConfirmed ? "Đã xác nhận" : "Chưa xác nhận")</dd>
+                    <dt class="col-sm-4">Phiếu mượn đang mở</dt>
+                    <dd class="col-sm-8">@Model.ActiveBorrows</dd>
+                    <dt class="col-sm-4">Tổng đơn hàng</dt>
+                    <dd class="col-sm-8">@Model.TotalOrders</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

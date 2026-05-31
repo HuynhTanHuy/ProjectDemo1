@@ -1,0 +1,18 @@
+@{
+    var defaultTheme = ViewData["ThemeDefault"] as string ?? "light";
+}
+<script>
+    (function () {
+        try {
+            var stored = localStorage.getItem("theme");
+            var theme = stored === "dark" || stored === "light" ? stored : "@defaultTheme";
+            document.documentElement.setAttribute("data-theme", theme);
+            if (theme === "dark") {
+                document.body.classList.add("dark-mode");
+            } else {
+                document.body.classList.remove("dark-mode");
+            }
+        } catch (e) { }
+        document.documentElement.classList.remove("theme-pending-dark");
+    })();
+</script>

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models;
 using WebBanHang.Models.ViewModels;
+using WebBanHang.Services;
 
 namespace WebBanHang.Helpers
 {
@@ -28,6 +29,7 @@ namespace WebBanHang.Helpers
         public static async Task<ProductBooksPageViewModel> BuildAsync(
             ApplicationDbContext db,
             BookCatalogQuery query,
+            IBorrowStatisticsService borrowStats,
             string? currentUserId = null)
         {
             var page = Math.Max(1, query.Page);
@@ -229,8 +231,7 @@ namespace WebBanHang.Helpers
                 .ToList();
 
             vm.StatTotalBooks = await db.Products.CountAsync();
-            vm.StatActiveLoansSystemWide = await db.Borrows.CountAsync(b =>
-                b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue);
+            vm.StatActiveLoansSystemWide = await borrowStats.GetCurrentBorrowingCountAsync();
             vm.StatMyActiveLoans = string.IsNullOrWhiteSpace(currentUserId)
                 ? 0
                 : await db.Borrows.CountAsync(b =>
@@ -238,9 +239,7 @@ namespace WebBanHang.Helpers
                     (b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue));
             vm.StatBorrowing = vm.StatActiveLoansSystemWide;
             vm.StatAvailableTitles = await db.Products.CountAsync(p => p.Stock > 0);
-            vm.StatOverdueLoans = await db.Borrows.CountAsync(b =>
-                (b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue) &&
-                b.DueDate.Date < utcToday);
+            vm.StatOverdueLoans = await borrowStats.GetOverdueCountAsync();
 
             foreach (var o in vm.GenreOptions)
             {

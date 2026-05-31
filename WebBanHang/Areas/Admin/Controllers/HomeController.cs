@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models;
 using WebBanHang.Models.ViewModels;
+using WebBanHang.Services;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
@@ -11,21 +12,20 @@ namespace WebBanHang.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly IBorrowStatisticsService _borrowStats;
 
-        public HomeController(ApplicationDbContext db)
+        public HomeController(ApplicationDbContext db, IBorrowStatisticsService borrowStats)
         {
             _db = db;
+            _borrowStats = borrowStats;
         }
 
         public async Task<IActionResult> Index()
         {
             var totalBooks = await _db.Products.CountAsync();
             var availableBooks = await _db.Products.CountAsync(p => p.Stock > 0);
-            var borrowedBooks = await _db.Borrows.CountAsync(x =>
-                x.Status == BorrowStatus.Borrowing || x.Status == BorrowStatus.Overdue);
-            var overdueBooks = await _db.Borrows.CountAsync(x =>
-                x.Status == BorrowStatus.Overdue ||
-                (x.Status == BorrowStatus.Borrowing && x.DueDate.Date < DateTime.UtcNow.Date));
+            var borrowedBooks = await _borrowStats.GetCurrentBorrowingCountAsync();
+            var overdueBooks = await _borrowStats.GetOverdueCountAsync();
             var totalUsers = await _db.Users.CountAsync();
             var totalPenalties = await _db.Penalties.CountAsync();
             var unpaidPenalties = await _db.Penalties.CountAsync(x => !x.IsPaid);
@@ -71,7 +71,6 @@ namespace WebBanHang.Areas.Admin.Controllers
             ViewData["AdminNavSection"] = "overview";
             ViewData["AdminPageTitle"] = "Tổng quan";
             ViewData["AdminBreadcrumb"] = "Tổng quan";
-            ViewData["AdminNotifCount"] = overdueBooks;
 
             var model = new DashboardViewModel
             {
@@ -95,4 +94,3 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
     }
 }
-

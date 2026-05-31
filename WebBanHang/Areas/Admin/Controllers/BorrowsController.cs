@@ -14,11 +14,16 @@ namespace WebBanHang.Areas.Admin.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly IBorrowService _borrowService;
+        private readonly IBorrowStatisticsService _borrowStats;
 
-        public BorrowsController(ApplicationDbContext db, IBorrowService borrowService)
+        public BorrowsController(
+            ApplicationDbContext db,
+            IBorrowService borrowService,
+            IBorrowStatisticsService borrowStats)
         {
             _db = db;
             _borrowService = borrowService;
+            _borrowStats = borrowStats;
         }
 
         public async Task<IActionResult> Index([FromQuery] BorrowIndexViewModel? vm)
@@ -27,9 +32,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             ViewData["AdminNavSection"] = "borrows";
             ViewData["AdminPageTitle"] = "Mượn & trả";
             ViewData["AdminBreadcrumb"] = "Tổng quan / Sách / Mượn trả";
-            ViewData["AdminNotifCount"] = await _db.Borrows.CountAsync(b =>
-                b.Status == BorrowStatus.Overdue ||
-                (b.Status == BorrowStatus.Borrowing && b.DueDate.Date < DateTime.UtcNow.Date));
+            ViewData["AdminNotifCount"] = await _borrowStats.GetOverdueCountAsync();
 
             vm ??= new BorrowIndexViewModel();
             if (vm.PageNumber < 1) vm.PageNumber = 1;
@@ -42,13 +45,10 @@ namespace WebBanHang.Areas.Admin.Controllers
                 .ToListAsync();
             vm.CategoryOptions.Insert(0, new SelectListItem { Value = "", Text = "Tất cả danh mục" });
 
-            vm.StatTotalBorrows = await _db.Borrows.CountAsync();
-            vm.StatActiveBorrowing = await _db.Borrows.CountAsync(x =>
-                x.Status == BorrowStatus.Borrowing && x.DueDate.Date >= DateTime.UtcNow.Date);
-            vm.StatOverdue = await _db.Borrows.CountAsync(x =>
-                x.Status == BorrowStatus.Overdue ||
-                (x.Status == BorrowStatus.Borrowing && x.DueDate.Date < DateTime.UtcNow.Date));
-            vm.StatReturned = await _db.Borrows.CountAsync(x => x.Status == BorrowStatus.Returned);
+            vm.StatTotalBorrows = await _borrowStats.GetTotalBorrowCountAsync();
+            vm.StatActiveBorrowing = await _borrowStats.GetCurrentBorrowingCountAsync();
+            vm.StatOverdue = await _borrowStats.GetOverdueCountAsync();
+            vm.StatReturned = await _borrowStats.GetReturnedCountAsync();
 
             var query = _db.Borrows
                 .AsNoTracking()

@@ -1,25 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebBanHang.Models;
+using WebBanHang.Services;
 
 namespace WebBanHang.ViewComponents
 {
     public class AdminNotificationViewComponent : ViewComponent
     {
-        private readonly ApplicationDbContext _db;
+        private readonly INotificationService _notificationService;
 
-        public AdminNotificationViewComponent(ApplicationDbContext db)
+        public AdminNotificationViewComponent(INotificationService notificationService)
         {
-            _db = db;
+            _notificationService = notificationService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var utc = DateTime.UtcNow;
-            var count = await _db.Borrows.CountAsync(b =>
-                b.Status == BorrowStatus.Overdue ||
-                (b.Status == BorrowStatus.Borrowing && b.DueDate.Date < utc.Date));
-            return View(count);
+            var model = await _notificationService.GetAdminNotificationsAsync();
+            return View(model);
         }
     }
 }

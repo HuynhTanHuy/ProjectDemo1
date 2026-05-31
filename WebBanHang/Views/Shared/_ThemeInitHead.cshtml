@@ -1,0 +1,21 @@
+@{
+    var defaultTheme = ViewData["ThemeDefault"] as string ?? "light";
+    var usePendingDark = ViewData["ThemePendingDark"] as bool? ?? defaultTheme == "dark";
+}
+<script>
+    (function () {
+        try {
+            var stored = localStorage.getItem("theme");
+            var theme = stored === "dark" || stored === "light" ? stored : "@defaultTheme";
+            document.documentElement.setAttribute("data-theme", theme);
+            @if (usePendingDark)
+            {
+                <text>
+            if (theme === "dark") {
+                document.documentElement.classList.add("theme-pending-dark");
+            }
+                </text>
+            }
+        } catch (e) { }
+    })();
+</script>

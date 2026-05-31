@@ -51,6 +51,9 @@ builder.Services.Configure<SimulatedPaymentOptions>(
 builder.Services.Configure<OrderCheckoutOptions>(
     builder.Configuration.GetSection(OrderCheckoutOptions.SectionName));
 
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IBorrowStatisticsService, BorrowStatisticsService>();
+builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<ISystemSettingsService, SystemSettingsService>();
 builder.Services.AddScoped<IBorrowService, BorrowService>();
 builder.Services.AddScoped<IBookCopyQrService, BookCopyQrService>();

@@ -10,6 +10,7 @@ using WebBanHang.Areas.Customer;
 using WebBanHang.Helpers;
 using WebBanHang.Models;
 using WebBanHang.Models.ViewModels;
+using WebBanHang.Services;
 
 namespace WebBanHang.Areas.Customer.Controllers
 {
@@ -22,12 +23,18 @@ namespace WebBanHang.Areas.Customer.Controllers
         private readonly ApplicationDbContext _db;
         private readonly ILogger<HomeController> _logger;
         private readonly IHostEnvironment _env;
+        private readonly IBorrowStatisticsService _borrowStats;
 
-        public HomeController(ApplicationDbContext db, ILogger<HomeController> logger, IHostEnvironment env)
+        public HomeController(
+            ApplicationDbContext db,
+            ILogger<HomeController> logger,
+            IHostEnvironment env,
+            IBorrowStatisticsService borrowStats)
         {
             _db = db;
             _logger = logger;
             _env = env;
+            _borrowStats = borrowStats;
         }
 
         private static int NormalizePageSize(int? pageSize)
@@ -278,6 +285,7 @@ namespace WebBanHang.Areas.Customer.Controllers
                         YearTo: model.YearTo,
                         Lang: model.Lang,
                         Sort: model.Sort),
+                        _borrowStats,
                         catalogUserId);
                     model.TotalItems = model.Catalog.TotalFilteredCount;
                     model.TotalPages = Math.Max(1, (int)Math.Ceiling(model.TotalItems / (double)model.PageSize));

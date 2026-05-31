@@ -1,0 +1,125 @@
+/* Shared UI chrome — Customer design system (theme toggle, icon buttons, avatar) */
+
+/* Token bridge for Admin dashboard */
+.dashboard-body {
+    --border: var(--border-color);
+    --card: var(--bg-tertiary);
+    --bg: var(--bg-secondary);
+    --text: var(--text-primary);
+    --muted: var(--text-secondary);
+    --accent: var(--accent);
+    --accent-hover: var(--accent-hover);
+}
+
+.ui-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+}
+
+.c-icon-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid var(--border, #e5e7eb);
+    background: var(--card, #f8f9fa);
+    color: var(--text, #111827);
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
+}
+
+.c-icon-btn:hover {
+    background: var(--bg, #ffffff);
+    border-color: var(--accent, #2563eb);
+    transform: translateY(-1px);
+}
+
+.c-icon-btn:active {
+    transform: translateY(0);
+}
+
+.c-icon-btn:focus-visible {
+    outline: 2px solid var(--accent, #2563eb);
+    outline-offset: 2px;
+}
+
+.c-theme-toggle .c-theme-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.c-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 999px;
+    background: var(--accent, #2563eb);
+    color: #fff;
+}
+
+.c-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, var(--accent, #2563eb), #7c3aed);
+    color: #fff;
+    flex-shrink: 0;
+    border: none;
+}
+
+.c-avatar--btn {
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.c-avatar--btn:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
+.c-user-dropdown .dropdown-toggle::after {
+    display: none;
+}
+
+.dashboard-body .c-dropdown-menu {
+    min-width: 240px;
+    background: var(--bg-secondary);
+    border-color: var(--border-color) !important;
+}
+
+.dashboard-body .c-dropdown-menu .dropdown-item {
+    color: var(--text-primary);
+}
+
+.dashboard-body .c-dropdown-menu .dropdown-item:hover,
+.dashboard-body .c-dropdown-menu .dropdown-item:focus {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+html.theme-pending-dark body.dashboard-body {
+    background: var(--bg-primary, #121212);
+}

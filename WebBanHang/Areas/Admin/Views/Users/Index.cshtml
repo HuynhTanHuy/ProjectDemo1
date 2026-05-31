@@ -1,0 +1,140 @@
+@model WebBanHang.Models.ViewModels.UserIndexViewModel
+@using WebBanHang.Models.ViewModels
+@{
+    ViewData["Title"] = "Quản lý tài khoản";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <h2 class="h4 mb-0"><i class="bi bi-people me-2"></i>Quản lý tài khoản</h2>
+    <a asp-action="Create" class="btn btn-primary btn-sm">
+        <i class="bi bi-plus-circle me-1"></i>Thêm tài khoản
+    </a>
+</div>
+
+<div class="dash-form-card card border-0 mb-3">
+    <div class="card-body">
+        <form method="get" asp-action="Index" class="row g-2 align-items-end">
+            <div class="col-12 col-md-5">
+                <label class="form-label small mb-1" for="q">Tìm kiếm</label>
+                <input type="text" class="form-control form-control-sm" id="q" name="SearchQuery"
+                       value="@Model.SearchQuery" placeholder="Tên, email, họ tên..." />
+            </div>
+            <div class="col-12 col-md-3">
+                <label class="form-label small mb-1" for="role">Vai trò</label>
+                <select class="form-select form-select-sm" id="role" name="RoleFilter" asp-items="Model.RoleOptions"></select>
+            </div>
+            <div class="col-6 col-md-2">
+                <label class="form-label small mb-1" for="ps">/ trang</label>
+                <select class="form-select form-select-sm" id="ps" name="PageSize" asp-for="PageSize">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+            <div class="col-6 col-md-2 d-flex gap-2">
+                <input type="hidden" name="PageNumber" value="1" />
+                <button type="submit" class="btn btn-primary btn-sm flex-grow-1">
+                    <i class="bi bi-search me-1"></i>Lọc
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Xóa</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="dash-form-card card border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th>Tên đăng nhập</th>
+                        <th>Họ tên</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                        <th>Trạng thái</th>
+                        <th class="text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Items.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">Không có tài khoản phù hợp.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>@item.UserName</td>
+                                <td>@item.FullName</td>
+                                <td>@item.Email</td>
+                                <td>
+                                    @foreach (var role in item.Roles)
+                                    {
+                                        <span class="badge bg-secondary me-1">@role</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.IsLockedOut)
+                                    {
+                                        <span class="badge bg-danger">Đã khóa</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Hoạt động</span>
+                                    }
+                                </td>
+                                <td class="text-end text-nowrap">
+                                    @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_AdminActionButtons.cshtml", new AdminActionButtonsViewModel
+                                    {
+                                        Controller = "Users",
+                                        Id = item.Id
+                                    })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @if (Model.TotalPages > 1)
+    {
+        <div class="card-footer d-flex justify-content-between align-items-center">
+            <span class="small text-muted">
+                @((Model.PageNumber - 1) * Model.PageSize + 1)–@(Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount)) / @Model.TotalCount
+            </span>
+            <nav>
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : null)">
+                        <a class="page-link" asp-action="Index"
+                           asp-route-PageNumber="@(Model.PageNumber - 1)"
+                           asp-route-PageSize="@Model.PageSize"
+                           asp-route-SearchQuery="@Model.SearchQuery"
+                           asp-route-RoleFilter="@Model.RoleFilter">Trước</a>
+                    </li>
+                    @for (var p = Math.Max(1, Model.PageNumber - 2); p <= Math.Min(Model.TotalPages, Model.PageNumber + 2); p++)
+                    {
+                        <li class="page-item @(p == Model.PageNumber ? "active" : null)">
+                            <a class="page-link" asp-action="Index"
+                               asp-route-PageNumber="@p"
+                               asp-route-PageSize="@Model.PageSize"
+                               asp-route-SearchQuery="@Model.SearchQuery"
+                               asp-route-RoleFilter="@Model.RoleFilter">@p</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : null)">
+                        <a class="page-link" asp-action="Index"
+                           asp-route-PageNumber="@(Model.PageNumber + 1)"
+                           asp-route-PageSize="@Model.PageSize"
+                           asp-route-SearchQuery="@Model.SearchQuery"
+                           asp-route-RoleFilter="@Model.RoleFilter">Sau</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    }
+</div>

@@ -15,9 +15,13 @@
     <title>@ViewData["Title"] - Thư viện</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/shared-ui.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    @{ ViewData["ThemeDefault"] = "light"; }
+    @await Html.PartialAsync("_ThemeInitHead")
 </head>
 <body class="dashboard-body customer-dashboard">
+    @await Html.PartialAsync("_ThemeInitBody")
     <div class="dashboard-shell">
         <aside class="dashboard-sidebar">
             <a class="dashboard-brand" href="@Url.Action("Index", "Home", new { area = "Customer", tab = "products" })">Thư viện</a>
@@ -86,15 +90,23 @@
                         <p class="dashboard-breadcrumb">@breadcrumb</p>
                     }
                 </div>
-                <div class="dashboard-header-actions">
-                    <button type="button" class="dashboard-icon-btn" title="Thông báo" aria-label="Thông báo">
+                <div class="dashboard-header-actions ui-header-actions">
+                    <button type="button" class="c-icon-btn" title="Thông báo" aria-label="Thông báo" disabled>
                         <i class="bi bi-bell"></i>
                         @if (notifCount is > 0)
                         {
-                            <span class="badge text-bg-danger rounded-pill">@(notifCount > 99 ? "99+" : notifCount.ToString())</span>
+                            <span class="c-badge">@(notifCount > 99 ? "99+" : notifCount.ToString())</span>
                         }
                     </button>
-                    <span class="dashboard-avatar" title="@userName">@initial</span>
+                    @await Html.PartialAsync("_ThemeToggle")
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        @await Component.InvokeAsync("UserMenu")
+                    }
+                    else
+                    {
+                        <span class="c-avatar" title="@userName">@initial</span>
+                    }
                 </div>
             </header>
 
@@ -113,6 +125,7 @@
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/theme.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

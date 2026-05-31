@@ -129,65 +129,6 @@ a:hover {
 
 .c-topbar__actions {
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-}
-
-.c-icon-btn {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    color: var(--text);
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
-}
-
-.c-icon-btn:hover {
-    background: var(--bg);
-    border-color: var(--accent);
-}
-
-.c-theme-toggle .c-theme-icon {
-    font-size: 1.1rem;
-    line-height: 1;
-}
-
-.c-badge {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    min-width: 18px;
-    height: 18px;
-    padding: 0 5px;
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 18px;
-    text-align: center;
-    border-radius: 999px;
-    background: var(--accent);
-    color: #fff;
-}
-
-.c-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-    background: linear-gradient(135deg, var(--accent), #7c3aed);
-    color: #fff;
-    flex-shrink: 0;
 }
 
 /* —— Category nav —— */
@@ -860,13 +801,6 @@ body.customer-store .breadcrumb-item a {
 /* —— Account dropdown —— */
 .c-user-dropdown .dropdown-toggle::after {
     display: none;
-}
-
-.c-avatar--btn {
-    border: 0;
-    padding: 0;
-    cursor: pointer;
-    font: inherit;
 }
 
 .c-dropdown-menu {

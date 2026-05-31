@@ -16,15 +16,18 @@ namespace WebBanHang.Areas.Admin.Controllers
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IProductBookCopyProvisioningService _bookCopyProvisioning;
+        private readonly IBorrowStatisticsService _borrowStats;
 
         public ProductController(
             ApplicationDbContext db,
             IWebHostEnvironment hostEnvironment,
-            IProductBookCopyProvisioningService bookCopyProvisioning)
+            IProductBookCopyProvisioningService bookCopyProvisioning,
+            IBorrowStatisticsService borrowStats)
         {
             _db = db;
             _hostEnvironment = hostEnvironment;
             _bookCopyProvisioning = bookCopyProvisioning;
+            _borrowStats = borrowStats;
         }
 
         public async Task<IActionResult> Index([FromQuery] int? genreId, [FromQuery] string? status)
@@ -42,7 +45,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                 null,
                 null,
                 1,
-                50_000));
+                50_000), _borrowStats);
 
             return View(vm);
         }
