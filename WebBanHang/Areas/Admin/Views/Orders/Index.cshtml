@@ -29,7 +29,7 @@
                     <tr>
                         <td>@obj.Id</td>
                         <td>@obj.ApplicationUser?.UserName</td>
-                        <td>@obj.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@obj.OrderDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
                         <td>@obj.TotalPrice.ToString("c", new CultureInfo("vi-VN"))</td>
                         <td>
                             @if (obj.OrderStatus == OrderStatus.Pending)

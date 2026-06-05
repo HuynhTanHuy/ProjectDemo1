@@ -10,23 +10,11 @@
   <component name="ChangeListManager">
     <list default="true" id="d2ac3c1a-56e0-4392-b39f-02ff1356d2fd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebBanHang/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebBanHang/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/OverdueReportController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/OverdueReportController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/PenaltiesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/PenaltiesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/ProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Controllers/ProductController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Borrows/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Borrows/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/OverdueReport/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/OverdueReport/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Penalties/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Penalties/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Product/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Product/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Product/Upsert.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Product/Upsert.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Shared/_AdminLayout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Shared/_AdminLayout.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Customer/Controllers/BorrowController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Customer/Controllers/BorrowController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Customer/Views/Borrow/MyBorrows.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Customer/Views/Borrow/MyBorrows.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Models/ApplicationUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Models/ApplicationUser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Models/Product.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Models/Product.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Services/BorrowService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Services/BorrowService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Services/IBorrowService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Services/IBorrowService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/Services/ProductBookCopyProvisioningService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Services/ProductBookCopyProvisioningService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/WebBanHang.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/WebBanHang.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Orders/Delete.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Orders/Delete.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Orders/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Orders/Details.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Orders/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Areas/Admin/Views/Orders/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/Validation/QrPayloadNormalizer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/Validation/QrPayloadNormalizer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.exe" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.pdb" afterDir="false" />
@@ -34,14 +22,10 @@
       <change beforePath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.staticwebassets.runtime.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/bin/Debug/net9.0/WebBanHang.staticwebassets.runtime.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/WebBanHang.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/apphost.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/compressed/nwr5eaew1q-{0}-jrv2th6rnf-jrv2th6rnf.gz" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rbcswa.dswa.cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/rbcswa.dswa.cache.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/ref/WebBanHang.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/ref/WebBanHang.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/refint/WebBanHang.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/refint/WebBanHang.dll" afterDir="false" />
@@ -55,7 +39,8 @@
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/staticwebassets.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/Debug/net9.0/staticwebassets.development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebBanHang/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBanHang/wwwroot/css/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebBanHang/wwwroot/css/dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/wwwroot/images/qrcodes/bookcopies/bookcopy-139.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBanHang/wwwroot/images/qrcodes/bookcopies/bookcopy-79.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +58,7 @@
     <setting file="file://$PROJECT_DIR$/WebBanHang/wwwroot/lib/jquery/dist/jquery.slim.min.map" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="Toolset" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -134,7 +119,14 @@
       <updated>1778670677319</updated>
       <workItem from="1778670683259" duration="2331000" />
       <workItem from="1778747064458" duration="2152000" />
-      <workItem from="1779011214221" duration="3197000" />
+      <workItem from="1779011214221" duration="3504000" />
+      <workItem from="1779954798795" duration="1515000" />
+      <workItem from="1780212517724" duration="4094000" />
+      <workItem from="1780295839271" duration="1720000" />
+      <workItem from="1780299172104" duration="699000" />
+      <workItem from="1780658383186" duration="434000" />
+      <workItem from="1780658848626" duration="1602000" />
+      <workItem from="1780673242672" duration="4217000" />
     </task>
     <servers />
   </component>

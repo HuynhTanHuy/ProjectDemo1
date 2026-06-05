@@ -9,6 +9,7 @@ namespace WebBanHang.Validation
         private const int MaxPayloadLength = 64;
 
         [GeneratedRegex(@"^COPY-\d{1,20}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase)]
+        
         private static partial Regex CopyCodePattern();
 
         /// <summary>Trả về true nếu là BookCopyId thuần số hoặc mã COPY-&lt;số&gt;.</summary>
