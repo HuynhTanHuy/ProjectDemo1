@@ -40,6 +40,9 @@
                     <a class="dashboard-nav-link @(nav == "borrows" ? "is-active" : null)" asp-area="Admin" asp-controller="Borrows" asp-action="Index">
                         <i class="bi bi-arrow-left-right"></i> Mượn &amp; trả
                     </a>
+                    <a class="dashboard-nav-link @(nav == "book_copies" ? "is-active" : null)" asp-area="Admin" asp-controller="BookCopies" asp-action="Index">
+                        <i class="bi bi-journals"></i> Bản sao sách
+                    </a>
                     <a class="dashboard-nav-link @(nav == "library_settings" ? "is-active" : null)" asp-area="Admin" asp-controller="LibrarySettings" asp-action="Index">
                         <i class="bi bi-sliders"></i> Cấu hình mượn
                     </a>

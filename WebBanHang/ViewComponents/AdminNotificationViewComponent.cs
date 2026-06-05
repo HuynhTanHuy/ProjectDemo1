@@ -14,7 +14,15 @@ namespace WebBanHang.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var model = await _notificationService.GetAdminNotificationsAsync();
+            DateTime? readAt = null;
+            var raw = HttpContext.Session.GetString("AdminNotifReadAtUtc");
+            if (!string.IsNullOrEmpty(raw) &&
+                DateTime.TryParse(raw, null, System.Globalization.DateTimeStyles.RoundtripKind, out var parsed))
+            {
+                readAt = parsed;
+            }
+
+            var model = await _notificationService.GetAdminNotificationsAsync(readAtUtc: readAt);
             return View(model);
         }
     }

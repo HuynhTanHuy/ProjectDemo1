@@ -61,6 +61,9 @@
                 stopScanner();
                 const inst = bootstrap.Modal.getInstance(document.getElementById('qrScanModal'));
                 if (inst) inst.hide();
+                if (scanTargetId === 'lookupInput') {
+                    document.getElementById('btnLookup').click();
+                }
             },
             () => { }
         );
@@ -92,14 +95,20 @@
         document.getElementById('btnLookup').addEventListener('click', async () => {
             const payload = document.getElementById('lookupInput').value.trim();
             const res = await postForm(cfg.urls.lookup, { payload });
+            const actions = document.getElementById('lookupActions');
             if (!res.success) {
                 show('lookupResult', res.message || 'Lỗi', true);
                 document.getElementById('lookupQrPreview').classList.add('d-none');
+                if (actions) actions.classList.add('d-none');
                 return;
             }
             const d = res.data;
             const lines = [
+                d.bookImageUrl
+                    ? '<img src="' + escapeHtml(d.bookImageUrl) + '" alt="" class="border rounded mb-2" style="max-width:100px;max-height:130px;object-fit:cover" />'
+                    : '',
                 '<strong>' + escapeHtml(d.bookTitle) + '</strong>',
+                d.categoryName ? ('Danh mục: ' + escapeHtml(d.categoryName)) : '',
                 'Mã bản sao: ' + escapeHtml(d.copyCode),
                 'Tác giả: ' + escapeHtml(d.authorName || '—'),
                 'Trạng thái: ' + escapeHtml(d.copyStatus),
@@ -121,7 +130,58 @@
             } else {
                 prev.classList.add('d-none');
             }
+            if (actions) {
+                actions.classList.remove('d-none');
+                document.getElementById('lookupBookCopyId').value = d.bookCopyId;
+                document.getElementById('lookupShelfCurrent').value = d.shelfLocation || '—';
+                document.getElementById('lookupShelfNew').value = '';
+                document.getElementById('shelfMsg').textContent = '';
+                document.getElementById('lifecycleMsg').textContent = '';
+                const isActive = d.physicalStatus === 0;
+                document.getElementById('btnMarkLost').disabled = !isActive;
+                document.getElementById('btnMarkDisposed').disabled = !isActive;
+                document.getElementById('lookupShelfNew').disabled = !isActive;
+                document.getElementById('btnSaveShelf').disabled = !isActive;
+            }
         });
+
+        document.getElementById('btnSaveShelf').addEventListener('click', async () => {
+            const bookCopyId = document.getElementById('lookupBookCopyId').value;
+            const shelfLocation = document.getElementById('lookupShelfNew').value.trim();
+            const res = await postForm(cfg.urls.updateShelf, { bookCopyId, shelfLocation });
+            const el = document.getElementById('shelfMsg');
+            el.className = 'small mb-3 ' + (res.success ? 'text-success' : 'text-danger');
+            el.textContent = res.success ? 'Đã lưu vị trí kệ.' : (res.message || res.code || 'Lỗi');
+            if (res.success) {
+                document.getElementById('lookupShelfCurrent').value = shelfLocation.toUpperCase();
+                document.getElementById('lookupShelfNew').value = '';
+            }
+        });
+
+        document.getElementById('btnMarkLost').addEventListener('click', async () => {
+            if (!confirm('Xác nhận đánh dấu bản sao này là mất?')) return;
+            await runLifecycleAction('markLost', 'lifecycleMsg', 'Đã đánh dấu mất.');
+        });
+
+        document.getElementById('btnMarkDisposed').addEventListener('click', async () => {
+            if (!confirm('Xác nhận thanh lý bản sao này? Dữ liệu lịch sử vẫn được giữ.')) return;
+            await runLifecycleAction('markDisposed', 'lifecycleMsg', 'Đã thanh lý bản sao.');
+        });
+
+        async function runLifecycleAction(urlKey, msgId, okText) {
+            const bookCopyId = document.getElementById('lookupBookCopyId').value;
+            const res = await postForm(cfg.urls[urlKey], { bookCopyId });
+            const el = document.getElementById(msgId);
+            el.className = 'small mt-2 ' + (res.success ? 'text-success' : 'text-danger');
+            el.textContent = res.success ? okText : (res.message || res.code || 'Lỗi');
+            if (res.success) {
+                document.getElementById('btnMarkLost').disabled = true;
+                document.getElementById('btnMarkDisposed').disabled = true;
+                document.getElementById('lookupShelfNew').disabled = true;
+                document.getElementById('btnSaveShelf').disabled = true;
+                document.getElementById('btnLookup').click();
+            }
+        }
 
         document.getElementById('btnBorrowQr').addEventListener('click', async () => {
             const memberPayload = document.getElementById('borrowMemberInput').value.trim();

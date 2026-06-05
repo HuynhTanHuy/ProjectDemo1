@@ -17,9 +17,15 @@ namespace WebBanHang.Models.ViewModels
 
         public string? AuthorName { get; set; }
 
+        public string? CategoryName { get; set; }
+
+        public string? BookImageUrl { get; set; }
+
         public string CopyStatus { get; set; } = string.Empty;
 
         public string? ShelfLocation { get; set; }
+
+        public string? BorrowedByUserId { get; set; }
 
         public string? BorrowedByUserName { get; set; }
 
@@ -28,5 +34,7 @@ namespace WebBanHang.Models.ViewModels
         public DateTime? DueDateUtc { get; set; }
 
         public BorrowStatus? ActiveBorrowStatus { get; set; }
+
+        public BookCopyStatus PhysicalStatus { get; set; }
     }
 }

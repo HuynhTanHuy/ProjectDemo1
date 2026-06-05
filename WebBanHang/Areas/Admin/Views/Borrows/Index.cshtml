@@ -139,6 +139,7 @@
                         <tr>
                             <th scope="col">Người mượn</th>
                             <th scope="col">Tên sách</th>
+                            <th scope="col">Mã bản sao</th>
                             <th scope="col">Ngày mượn</th>
                             <th scope="col">Hạn trả</th>
                             <th scope="col" class="text-center">Trạng thái</th>
@@ -150,7 +151,7 @@
                         @if (!Model.Items.Any())
                         {
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-5">
+                                <td colspan="8" class="text-center text-muted py-5">
                                     <i class="bi bi-inbox fs-2 mb-2 d-block opacity-50"></i>
                                     Không có phiếu mượn phù hợp bộ lọc.
                                 </td>
@@ -166,12 +167,14 @@
                                 <tr data-borrow-id="@item.BorrowId"
                                     data-user="@item.UserName"
                                     data-book="@item.BookTitle"
+                                    data-copy-code="@(item.CopyCode ?? "—")"
                                     data-borrow-date="@borrowLocal"
                                     data-due-date="@dueLocal"
                                     data-return-date="@returnLocal"
                                     data-raw-status="@((int)item.Status)">
                                     <td>@Html.DisplayFor(_ => item.UserName)</td>
                                     <td>@(item.BookTitle ?? "N/A")</td>
+                                    <td><code class="small">@(string.IsNullOrEmpty(item.CopyCode) ? "—" : item.CopyCode)</code></td>
                                     <td>@item.BorrowDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
                                     <td>@item.DueDate.ToLocalTime().ToString("dd/MM/yyyy")</td>
                                     <td class="text-center">
@@ -312,6 +315,8 @@
                     <dd class="col-sm-8" id="detailUser">—</dd>
                     <dt class="col-sm-4">Sách</dt>
                     <dd class="col-sm-8" id="detailBook">—</dd>
+                    <dt class="col-sm-4">Mã bản sao</dt>
+                    <dd class="col-sm-8" id="detailCopyCode">—</dd>
                     <dt class="col-sm-4">Ngày mượn</dt>
                     <dd class="col-sm-8" id="detailBorrow">—</dd>
                     <dt class="col-sm-4">Hạn trả</dt>
@@ -364,6 +369,7 @@
                     if (!tr) return;
                     document.getElementById('detailUser').textContent = tr.dataset.user || 'N/A';
                     document.getElementById('detailBook').textContent = tr.dataset.book || 'N/A';
+                    document.getElementById('detailCopyCode').textContent = tr.dataset.copyCode || '—';
                     document.getElementById('detailBorrow').textContent = tr.dataset.borrowDate || 'N/A';
                     document.getElementById('detailDue').textContent = tr.dataset.dueDate || 'N/A';
                     document.getElementById('detailReturn').textContent = tr.dataset.returnDate || 'N/A';

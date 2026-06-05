@@ -1,7 +1,14 @@
 @model WebBanHang.Models.DTOs.AdminNotificationsDto
 @using WebBanHang.Models.DTOs
-<div class="dropdown c-user-dropdown dashboard-notif-dropdown">
-    <button class="c-icon-btn"
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    var tokens = Antiforgery.GetAndStoreTokens(Context);
+    var markReadUrl = Url.Action("MarkRead", "Notifications", new { area = "Admin" })!;
+}
+<div class="dropdown c-user-dropdown dashboard-notif-dropdown"
+     data-mark-read-url="@markReadUrl"
+     data-af-token="@tokens.RequestToken">
+    <button class="c-icon-btn dashboard-notif-trigger"
             type="button"
             data-bs-toggle="dropdown"
             data-bs-auto-close="outside"
@@ -11,7 +18,7 @@
         <i class="bi bi-bell"></i>
         @if (Model.TotalUnreadCount > 0)
         {
-            <span class="c-badge">@(Model.TotalUnreadCount > 99 ? "99+" : Model.TotalUnreadCount.ToString())</span>
+            <span class="c-badge dashboard-notif-badge">@(Model.TotalUnreadCount > 99 ? "99+" : Model.TotalUnreadCount.ToString())</span>
         }
     </button>
     <div class="dropdown-menu dropdown-menu-end dashboard-notif-menu shadow">
@@ -19,7 +26,7 @@
             <span class="fw-semibold">Thông báo</span>
             @if (Model.TotalUnreadCount > 0)
             {
-                <span class="badge text-bg-danger">@Model.TotalUnreadCount</span>
+                <span class="badge text-bg-danger dashboard-notif-header-badge">@Model.TotalUnreadCount</span>
             }
         </div>
         <div class="dashboard-notif-menu__list">
@@ -64,3 +71,33 @@
         </div>
     </div>
 </div>
+<script>
+    (function () {
+        var root = document.currentScript && document.currentScript.previousElementSibling;
+        if (!root || !root.classList.contains('dashboard-notif-dropdown')) {
+            root = document.querySelector('.dashboard-notif-dropdown');
+        }
+        if (!root) return;
+
+        root.addEventListener('shown.bs.dropdown', function () {
+            root.querySelectorAll('.dashboard-notif-badge, .dashboard-notif-header-badge').forEach(function (el) {
+                el.remove();
+            });
+            var trigger = root.querySelector('.dashboard-notif-trigger');
+            if (trigger) {
+                trigger.setAttribute('title', 'Thông báo (0)');
+                trigger.setAttribute('aria-label', 'Thông báo (0)');
+            }
+
+            var url = root.getAttribute('data-mark-read-url');
+            var token = root.getAttribute('data-af-token');
+            if (!url || !token) return;
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                body: '__RequestVerificationToken=' + encodeURIComponent(token)
+            }).catch(function () { /* ignore */ });
+        });
+    })();
+</script>

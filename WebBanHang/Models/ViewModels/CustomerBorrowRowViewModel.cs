@@ -6,6 +6,8 @@ namespace WebBanHang.Models.ViewModels
     {
         public int BorrowId { get; set; }
         public int BookId { get; set; }
+        public int? BookCopyId { get; set; }
+        public string? CopyCode { get; set; }
         public string BookTitle { get; set; } = string.Empty;
         public DateTime BorrowDateUtc { get; set; }
         public DateTime DueDateUtc { get; set; }

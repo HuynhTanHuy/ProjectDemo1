@@ -185,6 +185,12 @@ namespace WebBanHang.Services
                     return ServiceResult<int>.Fail("copy_not_found", "Không tìm thấy bản sao sách.");
                 }
 
+                if (copy.Status != BookCopyStatus.Active)
+                {
+                    await tx.RollbackAsync(cancellationToken);
+                    return ServiceResult<int>.Fail("copy_unavailable", "Bản sao không khả dụng (mất hoặc đã thanh lý).");
+                }
+
                 await _copyProvisioning.SyncProductCopiesAsync(copy.ProductId, cancellationToken);
 
                 var book = await _db.Products.FirstOrDefaultAsync(x => x.Id == copy.ProductId, cancellationToken);
@@ -429,6 +435,7 @@ namespace WebBanHang.Services
             var list = await _db.Borrows
                 .AsNoTracking()
                 .Include(x => x.Book)
+                .Include(x => x.BookCopy)
                 .Where(x => x.UserId == userId &&
                             (x.Status == BorrowStatus.Borrowing || x.Status == BorrowStatus.Overdue))
                 .OrderByDescending(x => x.BorrowDate)
@@ -450,6 +457,7 @@ namespace WebBanHang.Services
             var query = _db.Borrows
                 .AsNoTracking()
                 .Include(x => x.Book)
+                .Include(x => x.BookCopy)
                 .Where(x => x.UserId == userId)
                 .OrderByDescending(x => x.BorrowDate);
 
@@ -478,6 +486,7 @@ namespace WebBanHang.Services
                 .AsNoTracking()
                 .Include(x => x.Book)
                 .ThenInclude(b => b!.Category)
+                .Include(x => x.BookCopy)
                 .FirstOrDefaultAsync(x => x.Id == borrowId && x.UserId == userId, cancellationToken);
 
             if (borrow == null)
@@ -490,6 +499,8 @@ namespace WebBanHang.Services
             {
                 BorrowId = row.BorrowId,
                 BookId = row.BookId,
+                BookCopyId = row.BookCopyId,
+                CopyCode = row.CopyCode,
                 BookTitle = row.BookTitle,
                 BorrowDateUtc = row.BorrowDateUtc,
                 DueDateUtc = row.DueDateUtc,
@@ -510,6 +521,8 @@ namespace WebBanHang.Services
             {
                 BorrowId = b.Id,
                 BookId = b.BookId,
+                BookCopyId = b.BookCopyId,
+                CopyCode = b.BookCopy?.CopyCode,
                 BookTitle = b.Book?.Name ?? "—",
                 BorrowDateUtc = b.BorrowDate,
                 DueDateUtc = b.DueDate,

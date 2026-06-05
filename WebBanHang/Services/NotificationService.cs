@@ -24,7 +24,9 @@ namespace WebBanHang.Services
             _userManager = userManager;
         }
 
-        public async Task<AdminNotificationsDto> GetAdminNotificationsAsync(int maxItems = 12)
+        public async Task<AdminNotificationsDto> GetAdminNotificationsAsync(
+            int maxItems = 12,
+            DateTime? readAtUtc = null)
         {
             var utcNow = DateTime.UtcNow;
             var since = utcNow.AddDays(-RecentDays);
@@ -163,11 +165,116 @@ namespace WebBanHang.Services
                 .Take(maxItems)
                 .ToList();
 
+            var totalUnread = await ResolveUnreadCountAsync(items, readAtUtc, utcNow);
+
             return new AdminNotificationsDto
             {
-                TotalUnreadCount = items.Sum(i => i.Count),
+                TotalUnreadCount = totalUnread,
                 Items = ordered
             };
+        }
+
+        private async Task<int> ResolveUnreadCountAsync(
+            List<NotificationItemDto> items,
+            DateTime? readAtUtc,
+            DateTime utcNow)
+        {
+            if (items.Count == 0)
+            {
+                return 0;
+            }
+
+            if (!readAtUtc.HasValue)
+            {
+                return items.Count;
+            }
+
+            var readAt = readAtUtc.Value;
+            if (!await HasNewActivitySinceAsync(readAt, utcNow))
+            {
+                return 0;
+            }
+
+            return await CountUnreadCategoriesSinceAsync(readAt, utcNow);
+        }
+
+        private async Task<bool> HasNewActivitySinceAsync(DateTime readAt, DateTime utcNow)
+        {
+            return await CountUnreadCategoriesSinceAsync(readAt, utcNow) > 0;
+        }
+
+        private async Task<int> CountUnreadCategoriesSinceAsync(DateTime readAt, DateTime utcNow)
+        {
+            var count = 0;
+            var today = utcNow.Date;
+
+            if (await _db.Borrows.AnyAsync(b =>
+                    (b.Status == BorrowStatus.Borrowing || b.Status == BorrowStatus.Overdue) &&
+                    b.DueDate.Date < today &&
+                    b.DueDate >= readAt))
+            {
+                count++;
+            }
+
+            if (await _db.Penalties.AnyAsync(p => !p.IsPaid && p.CreatedAt >= readAt))
+            {
+                count++;
+            }
+
+            if (await CountFirstTimeBorrowersSinceAsync(readAt) > 0)
+            {
+                count++;
+            }
+
+            if (await _db.Borrows.AnyAsync(b => b.BorrowDate >= readAt))
+            {
+                count++;
+            }
+
+            if (await _db.Borrows.AnyAsync(b =>
+                    b.Status == BorrowStatus.Returned &&
+                    b.ReturnDate != null &&
+                    b.ReturnDate >= readAt))
+            {
+                count++;
+            }
+
+            if (await _db.Orders.AnyAsync(o =>
+                    o.OrderDate >= readAt &&
+                    (o.OrderStatus == OrderStatus.Pending || o.OrderStatus == OrderStatus.Paid)))
+            {
+                count++;
+            }
+
+            return count;
+        }
+
+        private async Task<int> CountFirstTimeBorrowersSinceAsync(DateTime readAt)
+        {
+            var recentBorrowers = await _db.Borrows
+                .AsNoTracking()
+                .Where(b => b.BorrowDate >= readAt)
+                .Select(b => b.UserId)
+                .Distinct()
+                .ToListAsync();
+
+            if (recentBorrowers.Count == 0)
+            {
+                return 0;
+            }
+
+            var count = 0;
+            foreach (var userId in recentBorrowers)
+            {
+                var hadPrior = await _db.Borrows.AnyAsync(b =>
+                    b.UserId == userId && b.BorrowDate < readAt);
+                if (!hadPrior)
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
 
         private static NotificationItemDto Make(

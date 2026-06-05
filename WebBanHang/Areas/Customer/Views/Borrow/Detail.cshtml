@@ -2,10 +2,21 @@
 @using WebBanHang.Models
 @{
     ViewData["Title"] = "Chi tiết phiếu mượn";
+    var showQrReturn = Model.Status is BorrowStatus.Borrowing or BorrowStatus.Overdue;
+    if (showQrReturn)
+    {
+        ViewData["QrReturnTitle"] = "Hoặc trả bằng QR";
+        ViewData["QrReturnDescription"] = "Quét mã trên bản sao " + (string.IsNullOrEmpty(Model.CopyCode) ? "sách" : Model.CopyCode) + ".";
+        ViewData["QrReturnReloadOnSuccess"] = true;
+    }
 }
 <div class="container mt-4" style="max-width: 720px;">
     <a asp-area="Customer" asp-controller="Borrow" asp-action="BorrowHistory" class="small">&larr; Lịch sử</a>
     <h3 class="mt-2">@Model.BookTitle</h3>
+    <p class="mb-2">
+        <span class="text-muted small">Mã bản sao:</span>
+        <code>@(string.IsNullOrEmpty(Model.CopyCode) ? "—" : Model.CopyCode)</code>
+    </p>
     @if (!string.IsNullOrEmpty(Model.CategoryName))
     {
         <p class="text-muted small mb-2">@Model.CategoryName</p>
@@ -30,12 +41,24 @@
             <dd class="col-sm-8 text-danger">@Model.FineAmount.ToString("N0") đ (@Model.OverdueDays ngày)</dd>
         }
     </dl>
-    @if (Model.Status is BorrowStatus.Borrowing or BorrowStatus.Overdue)
+    @if (showQrReturn)
     {
-        <form asp-area="Customer" asp-controller="Borrow" asp-action="ReturnBook" method="post" class="mt-3">
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="borrowId" value="@Model.BorrowId" />
-            <button type="submit" class="btn btn-primary">Trả sách</button>
-        </form>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+            <form asp-area="Customer" asp-controller="Borrow" asp-action="ReturnBook" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="borrowId" value="@Model.BorrowId" />
+                <button type="submit" class="btn btn-primary">Trả sách</button>
+            </form>
+        </div>
+        @await Html.PartialAsync("~/Areas/Customer/Views/Shared/_BookCopyQrReturnPanel.cshtml")
     }
 </div>
+
+@section Scripts {
+    @if (showQrReturn)
+    {
+        <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+        <script src="~/js/book-copy-qr-return.js" asp-append-version="true"></script>
+        <script>window.bookCopyQrReturn.initAll();</script>
+    }
+}

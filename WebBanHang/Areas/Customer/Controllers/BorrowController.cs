@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebBanHang.Areas.Customer;
+using WebBanHang.Models;
 using WebBanHang.Models.ViewModels;
 using WebBanHang.Services;
 
@@ -15,10 +16,12 @@ namespace WebBanHang.Controllers
     public class BorrowController : CustomerAreaControllerBase
     {
         private readonly IBorrowService _borrowService;
+        private readonly ILibraryQrWorkflowService _qrWorkflow;
 
-        public BorrowController(IBorrowService borrowService)
+        public BorrowController(IBorrowService borrowService, ILibraryQrWorkflowService qrWorkflow)
         {
             _borrowService = borrowService;
+            _qrWorkflow = qrWorkflow;
         }
 
         private string? CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -42,6 +45,50 @@ namespace WebBanHang.Controllers
 
             TempData["Success"] = "Đã tạo phiếu mượn thành công.";
             return RedirectToAction(nameof(MyBorrows));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LookupBookCopyByQr([FromForm] string copyPayload)
+        {
+            var userId = CurrentUserId;
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return Json(new { success = false, code = "auth", message = "Chưa đăng nhập." });
+            }
+
+            var result = await _qrWorkflow.LookupCopyAsync(copyPayload);
+            if (!result.Success || result.Data == null)
+            {
+                return Json(new { success = false, code = result.ErrorCode, message = result.Message });
+            }
+
+            var d = result.Data;
+            var isBorrowedByMe = d.BorrowedByUserId == userId;
+            var canReturn = isBorrowedByMe &&
+                            d.ActiveBorrowStatus is BorrowStatus.Borrowing or BorrowStatus.Overdue;
+
+            return Json(new
+            {
+                success = true,
+                data = new
+                {
+                    d.BookCopyId,
+                    d.BookId,
+                    d.BookTitle,
+                    d.AuthorName,
+                    d.CategoryName,
+                    d.BookImageUrl,
+                    d.CopyCode,
+                    d.ShelfLocation,
+                    d.CopyStatus,
+                    physicalStatus = (int)d.PhysicalStatus,
+                    isBorrowedByMe,
+                    canReturn,
+                    dueDateUtc = isBorrowedByMe ? d.DueDateUtc : null,
+                    productUrl = Url.Action("Details", "Product", new { area = "Customer", id = d.BookId })
+                }
+            });
         }
 
         [HttpPost]

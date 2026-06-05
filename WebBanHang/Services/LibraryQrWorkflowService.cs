@@ -40,6 +40,7 @@ namespace WebBanHang.Services
             var book = await _db.Products
                 .AsNoTracking()
                 .Include(x => x.Author)
+                .Include(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == copy.ProductId, cancellationToken);
 
             var active = await _db.Borrows
@@ -59,16 +60,16 @@ namespace WebBanHang.Services
                 BookId = copy.ProductId,
                 BookTitle = book?.Name ?? "—",
                 AuthorName = book?.Author?.Name,
+                CategoryName = book?.Category?.Name,
+                BookImageUrl = book?.ImageUrl,
                 ShelfLocation = copy.ShelfLocation,
+                BorrowedByUserId = active?.UserId,
                 BorrowedByUserName = active?.User?.UserName,
                 BorrowedByFullName = active?.User?.FullName,
                 DueDateUtc = active?.DueDate,
                 ActiveBorrowStatus = active?.Status,
-                CopyStatus = active == null
-                    ? "Trong kho"
-                    : active.Status == BorrowStatus.Overdue
-                        ? "Đang mượn (quá hạn)"
-                        : "Đang mượn"
+                PhysicalStatus = copy.Status,
+                CopyStatus = BookCopyManagementService.BuildBorrowStatusText(copy.Status, active)
             };
 
             return ServiceResult<BookCopyLookupViewModel>.Ok(vm);

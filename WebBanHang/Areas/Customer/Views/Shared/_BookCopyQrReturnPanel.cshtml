@@ -1,0 +1,53 @@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    var tokens = Antiforgery.GetAndStoreTokens(Context);
+    var returnUrl = Url.Action("ReturnBookByQr", "Borrow", new { area = "Customer" })!;
+    var lookupUrl = Url.Action("LookupBookCopyByQr", "Borrow", new { area = "Customer" })!;
+    var reloadOnSuccess = ViewData["QrReturnReloadOnSuccess"] as bool? ?? false;
+    var title = ViewData["QrReturnTitle"] as string ?? "Trả sách bằng QR";
+    var description = ViewData["QrReturnDescription"] as string
+        ?? "Quét mã trên bản sao sách — hệ thống sẽ hiển thị thông tin cuốn sách trước khi trả.";
+}
+
+<div class="book-copy-qr-return card shadow-sm mt-3"
+     data-return-url="@returnUrl"
+     data-lookup-url="@lookupUrl"
+     data-af-token="@tokens.RequestToken"
+     data-reload-on-success="@reloadOnSuccess.ToString().ToLowerInvariant()">
+    <div class="card-body">
+        <h2 class="h6 mb-1">@title</h2>
+        <p class="small text-muted mb-2">@description</p>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control form-control-sm qr-return-input" placeholder="Nội dung QR sách (COPY-000123)" autocomplete="off" />
+            <button type="button" class="btn btn-outline-secondary btn-sm qr-return-scan" title="Quét QR">
+                <i class="bi bi-camera"></i>
+            </button>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <button type="button" class="btn btn-outline-secondary btn-sm qr-return-lookup">Xem thông tin sách</button>
+            <button type="button" class="btn btn-outline-primary btn-sm qr-return-submit">Trả bằng QR</button>
+        </div>
+        <div class="qr-return-cam-host d-none my-2" style="min-height:200px"></div>
+        <div class="qr-copy-detail d-none mt-3 border rounded p-3 bg-light">
+            <div class="d-flex gap-3 align-items-start">
+                <img class="qr-detail-cover border rounded d-none" alt="" style="width:72px;height:96px;object-fit:cover" />
+                <div class="flex-grow-1 small">
+                    <div class="fw-semibold qr-detail-title mb-1"></div>
+                    <div class="text-muted qr-detail-meta mb-2"></div>
+                    <dl class="row mb-0 g-1">
+                        <dt class="col-5 col-sm-4 text-muted mb-0">Mã bản sao</dt>
+                        <dd class="col-7 col-sm-8 mb-0"><code class="qr-detail-code"></code></dd>
+                        <dt class="col-5 col-sm-4 text-muted mb-0">Vị trí kệ</dt>
+                        <dd class="col-7 col-sm-8 mb-0 qr-detail-shelf"></dd>
+                        <dt class="col-5 col-sm-4 text-muted mb-0">Trạng thái</dt>
+                        <dd class="col-7 col-sm-8 mb-0 qr-detail-status"></dd>
+                        <dt class="col-5 col-sm-4 text-muted mb-0 qr-detail-due-label d-none">Hạn trả</dt>
+                        <dd class="col-7 col-sm-8 mb-0 qr-detail-due d-none"></dd>
+                    </dl>
+                    <a class="btn btn-link btn-sm px-0 qr-detail-product-link d-none" target="_blank">Xem đầu sách trong thư viện</a>
+                </div>
+            </div>
+        </div>
+        <div class="qr-return-msg small mt-2"></div>
+    </div>
+</div>

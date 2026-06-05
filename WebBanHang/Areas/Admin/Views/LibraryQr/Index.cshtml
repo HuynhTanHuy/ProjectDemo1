@@ -20,6 +20,28 @@
                 </div>
                 <button type="button" class="btn btn-primary" id="btnLookup">Xem thông tin</button>
                 <div id="lookupResult" class="mt-3 small"></div>
+                <div id="lookupActions" class="mt-3 d-none border-top pt-3">
+                    <input type="hidden" id="lookupBookCopyId" />
+                    <h3 class="h6">Gán vị trí kệ</h3>
+                    <p class="small text-muted mb-2">Quét QR xong, nhập vị trí vật lý (ví dụ A01, B02).</p>
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text">Kệ hiện tại</span>
+                        <input type="text" id="lookupShelfCurrent" class="form-control" readonly />
+                    </div>
+                    <div class="input-group input-group-sm mb-2">
+                        <span class="input-group-text">Vị trí mới</span>
+                        <input type="text" id="lookupShelfNew" class="form-control" placeholder="A01" maxlength="120" autocomplete="off" />
+                        <button type="button" class="btn btn-outline-primary" id="btnSaveShelf">Lưu vị trí</button>
+                    </div>
+                    <div id="shelfMsg" class="small mb-3"></div>
+                    <h3 class="h6">Trạng thái vật lý</h3>
+                    <p class="small text-muted mb-2">Chỉ áp dụng khi sách không đang được mượn.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="btn btn-sm btn-outline-danger" id="btnMarkLost">Đánh dấu mất</button>
+                        <button type="button" class="btn btn-sm btn-outline-dark" id="btnMarkDisposed">Thanh lý</button>
+                    </div>
+                    <div id="lifecycleMsg" class="small mt-2"></div>
+                </div>
                 <div id="lookupQrPreview" class="mt-2 text-center d-none">
                     <img id="lookupQrImg" alt="QR preview" class="img-fluid border rounded" style="max-width:220px" />
                 </div>
@@ -145,7 +167,10 @@
                 invComplete: '@Url.Action("CompleteInventory", "LibraryQr", new { area = "Admin" })',
                 syncAll: '@Url.Action("SyncAllCopies", "LibraryQr", new { area = "Admin" })',
                 regenQr: '@Url.Action("RegenerateCopyQr", "LibraryQr", new { area = "Admin" })',
-                downloadQr: '@Url.Action("DownloadCopyQr", "LibraryQr", new { area = "Admin" })'
+                downloadQr: '@Url.Action("DownloadCopyQr", "LibraryQr", new { area = "Admin" })',
+                updateShelf: '@Url.Action("UpdateShelfLocation", "LibraryQr", new { area = "Admin" })',
+                markLost: '@Url.Action("MarkCopyLost", "LibraryQr", new { area = "Admin" })',
+                markDisposed: '@Url.Action("MarkCopyDisposed", "LibraryQr", new { area = "Admin" })'
             }
         });
     </script>

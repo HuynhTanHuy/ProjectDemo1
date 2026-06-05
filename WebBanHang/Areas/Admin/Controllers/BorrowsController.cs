@@ -55,6 +55,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                 .Include(x => x.User)
                 .Include(x => x.Book)
                     .ThenInclude(b => b!.Category)
+                .Include(x => x.BookCopy)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(vm.SearchQuery))
@@ -102,6 +103,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             vm.Items = page.Select(x => new BorrowListItemViewModel
             {
                 BorrowId = x.Id,
+                BookCopyId = x.BookCopyId,
+                CopyCode = x.BookCopy?.CopyCode,
                 UserName = x.User?.UserName ?? "N/A",
                 BookTitle = x.Book?.Name ?? "N/A",
                 BorrowDate = x.BorrowDate,

@@ -25,6 +25,8 @@ namespace WebBanHang.Models
         [MaxLength(120)]
         public string? ShelfLocation { get; set; }
 
+        public BookCopyStatus Status { get; set; } = BookCopyStatus.Active;
+
         public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 
         public DateTime? LastInventoryVerifiedAtUtc { get; set; }

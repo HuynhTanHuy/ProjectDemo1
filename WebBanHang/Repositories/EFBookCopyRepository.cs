@@ -53,7 +53,10 @@ namespace WebBanHang.Repositories
                 .ToListAsync(cancellationToken);
 
             return await _db.BookCopies
-                .Where(x => x.ProductId == productId && !borrowedIds.Contains(x.Id))
+                .Where(x =>
+                    x.ProductId == productId &&
+                    x.Status == BookCopyStatus.Active &&
+                    !borrowedIds.Contains(x.Id))
                 .OrderByDescending(x => x.Id)
                 .Take(take)
                 .ToListAsync(cancellationToken);
@@ -71,7 +74,10 @@ namespace WebBanHang.Repositories
                 .ToListAsync(cancellationToken);
 
             return await _db.BookCopies
-                .Where(x => x.ProductId == productId && !borrowedIds.Contains(x.Id))
+                .Where(x =>
+                    x.ProductId == productId &&
+                    x.Status == BookCopyStatus.Active &&
+                    !borrowedIds.Contains(x.Id))
                 .OrderBy(x => x.Id)
                 .FirstOrDefaultAsync(cancellationToken);
         }

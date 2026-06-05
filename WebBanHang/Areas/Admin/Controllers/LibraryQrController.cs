@@ -17,6 +17,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         private readonly IBookInventoryService _inventory;
         private readonly IProductBookCopyProvisioningService _provisioning;
         private readonly IBookCopyQrService _copyQr;
+        private readonly IBookCopyManagementService _copyManagement;
         private readonly IWebHostEnvironment _host;
 
         public LibraryQrController(
@@ -25,6 +26,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             IBookInventoryService inventory,
             IProductBookCopyProvisioningService provisioning,
             IBookCopyQrService copyQr,
+            IBookCopyManagementService copyManagement,
             IWebHostEnvironment host)
         {
             _db = db;
@@ -32,6 +34,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             _inventory = inventory;
             _provisioning = provisioning;
             _copyQr = copyQr;
+            _copyManagement = copyManagement;
             _host = host;
         }
 
@@ -151,6 +154,30 @@ namespace WebBanHang.Areas.Admin.Controllers
             }
 
             return PhysicalFile(physical, "image/png", $"{copy.CopyCode}.png");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateShelfLocation([FromForm] int bookCopyId, [FromForm] string shelfLocation)
+        {
+            var result = await _copyManagement.UpdateShelfLocationAsync(bookCopyId, shelfLocation);
+            return Json(ToClient(result));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MarkCopyLost([FromForm] int bookCopyId)
+        {
+            var result = await _copyManagement.MarkLostAsync(bookCopyId);
+            return Json(ToClient(result));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MarkCopyDisposed([FromForm] int bookCopyId)
+        {
+            var result = await _copyManagement.MarkDisposedAsync(bookCopyId);
+            return Json(ToClient(result));
         }
 
         private static object ToClient(ServiceResult r) =>

@@ -55,6 +55,7 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IBorrowStatisticsService, BorrowStatisticsService>();
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<ISystemSettingsService, SystemSettingsService>();
+builder.Services.AddScoped<IBookCopyManagementService, BookCopyManagementService>();
 builder.Services.AddScoped<IBorrowService, BorrowService>();
 builder.Services.AddScoped<IBookCopyQrService, BookCopyQrService>();
 builder.Services.AddScoped<IProductBookCopyProvisioningService, ProductBookCopyProvisioningService>();
